@@ -18,16 +18,16 @@
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
 
-1. **[Entidad 1]**: [Ej: Usuario]
-2. **[Entidad 2]**: [Ej: Producto]
-3. **[Entidad 3]**: [Ej: Pedido]
-4. **[Entidad 4]**: [Ej: Categoría]
+1. **[Entidad 1]**: Usuario -> entran los clientes, entrenadores y el administrador
+2. **[Entidad 2]**: Actividad -> el conjunto de las clases ofertadas (crossfit, yoga, pilates, maquinas)
+3. **[Entidad 3]**: Reserva -> la inscripcion de un cliente a una actividad
+4. **[Entidad 4]**: Reseña -> valoracion de un cliente sobre una actividad
 
 **Relaciones entre entidades:**
-- [Ej: Usuario - Pedido: Un usuario puede tener múltiples pedidos (1:N)]
-- [Ej: Pedido - Producto: Un pedido puede contener múltiples productos y un producto puede estar en múltiples pedidos (N:M)]
-- [Ej: Producto - Categoría: Un producto pertenece a una categoría (N:1)]
-- [Descripción de otras relaciones relevantes]
+- Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
+- Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
+- Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
+- Actividad - Reseña: Una actividad puede recibir muhas reseñas por parte de un usuario (1:N) 
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
