@@ -18,10 +18,10 @@
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
 
-1. **[Entidad 1]**: Usuario -> entran los clientes, entrenadores y el administrador
-2. **[Entidad 2]**: Actividad -> el conjunto de las clases ofertadas (crossfit, yoga, pilates, maquinas)
-3. **[Entidad 3]**: Reserva -> la inscripcion de un cliente a una actividad
-4. **[Entidad 4]**: Reseña -> valoracion de un cliente sobre una actividad
+1. **Usuario**: Entran los clientes, entrenadores y el administrador
+2. **Actividad**: El conjunto de las clases ofertadas (crossfit, yoga, pilates, maquinas)
+3. **Reserva**: La inscripcion de un cliente a una actividad
+4. **Reseña**: Valoracion de un cliente sobre una actividad
 
 **Relaciones entre entidades:**
 - Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
