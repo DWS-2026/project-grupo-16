@@ -5,7 +5,7 @@
 |:--- |:--- |:--- |
 | Roberto Acebes Morán | r.acebes.2024@alumnos.urjc.es | [User1] |
 | Luis Estirado Revuelta | l.estirado.2024@alumnos.urjc.es | koldoest26 |
-| Elena González Rodríguez | e.gonzalezro.2024@alumnos.urjc.es | [User3] |
+| Elena González Rodríguez | e.gonzalezro.2024@alumnos.urjc.es | [egonzalezro] |
 | Jaime Salgado Carballeda | j.salgado.2024@alumnos.urjc.es | [User4] |
 
 ---
