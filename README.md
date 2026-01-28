@@ -13,7 +13,8 @@
 ## 🎭 **Preparación: Definición del Proyecto**
 
 ### **Descripción del Tema**
-[Escribe aquí una descripción breve y concisa de qué trata tu aplicación, el sector al que pertenece y qué valor aporta al usuario].
+Nuestra aplicación web es una plataforma de gestión para un gimnasio que permite a los usuarios consultar horarios, reservar clases colectivas y valorar su experiencia.
+El sector es el de la salud y biniesetar, aportando valor al usuario al organizar su planificación deportiva y permitir al administrador controlar el aforo y las actividades de forma eficiente.
 
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
