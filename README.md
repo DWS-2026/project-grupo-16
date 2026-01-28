@@ -3,7 +3,7 @@
 ## 👥 Miembros del Equipo
 | Nombre y Apellidos | Correo URJC | Usuario GitHub |
 |:--- |:--- |:--- |
-| Roberto Acebes Morán | r.acebes.2024@alumnos.urjc.es | [User1] |
+| Roberto Acebes Morán | r.acebes.2024@alumnos.urjc.es | robertoacebes |
 | Luis Estirado Revuelta | l.estirado.2024@alumnos.urjc.es | koldoest26 |
 | Elena González Rodríguez | e.gonzalezro.2024@alumnos.urjc.es | egonzalezro |
 | Jaime Salgado Carballeda | j.salgado.2024@alumnos.urjc.es | [User4] |
