@@ -28,7 +28,7 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 - Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
 - Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
 - Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
-- Actividad - Reseña: Una actividad puede recibir muhas reseñas por parte de un usuario (1:N) 
+- Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N) 
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
@@ -38,12 +38,12 @@ Describir los permisos de cada tipo de usuario e indicar de qué entidades es du
   - No es dueño de ninguna entidad
 
 * **Usuario Registrado**: 
-  - Permisos: [Ej: Gestión de perfil, realizar pedidos, crear valoraciones]
-  - Es dueño de: [Ej: Sus propios Pedidos, su Perfil de Usuario, sus Valoraciones]
+  - Permisos: Gestión de su perfil personal, posibilidad de realizar reservas en las actividades disponibles, cancelación de sus propias reservas y redacción de reseñas sobre las actividades realizadas.
+  - Es dueño de: Entidad Usuario (su propio perfil); Entidad Reserva (consulta de las reservas que ha realizado); Entidad Reseña (Las valoraciones que ha escrito (solo él puede editarlas o borrarlas).
 
 * **Administrador**: 
-  - Permisos: [Ej: Gestión completa de productos (CRUD), visualización de estadísticas, moderación de contenido]
-  - Es dueño de: [Ej: Productos, Categorías, puede gestionar todos los Pedidos y Usuarios]
+  - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios.
+  - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
