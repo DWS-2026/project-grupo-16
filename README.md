@@ -32,7 +32,6 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
-Definimos tres niveles de acceso según el tipo de usuario:
 
 * **Usuario Anónimo**: 
   - Permisos: Visualización del catálogo de actividades, consulta de horarios generales, búsqueda de clases y acceso al formulario de registro
