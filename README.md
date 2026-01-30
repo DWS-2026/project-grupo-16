@@ -54,7 +54,7 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 
 - ### **Funcionalidad**
 Almacenamiento de ficheros: 
-- **PDF**: En cada actividad estará alojado un PDF con la información de la actividad.
+- **PDF**: En cada actividad estará alojado un PDF con la información de la actividad. Este fichero podrá ser subido por el administrador y descargado por cualquier usuario (registrado o anónimo).
 
 ---
 
