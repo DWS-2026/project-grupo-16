@@ -34,8 +34,8 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
 * **Usuario Anónimo**: 
-  - Permisos: Visualización del catálogo de actividades, consulta de horarios generales, búsqueda de clases y acceso al formulario de registro
-  - No es dueño de ninguna entidad
+  - Permisos: Visualización del listado de actividades y horarios, lectura de reseñas públicas, acceso a la página de login y registro.
+  - No es dueño de ninguna entidad.
 
 * **Usuario Registrado**: 
   - Permisos: Gestión de su perfil personal, posibilidad de realizar reservas en las actividades disponibles, cancelación de sus propias reservas y redacción de reseñas sobre las actividades realizadas.
