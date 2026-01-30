@@ -50,7 +50,11 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 
 - **Entidad Usuario**: Cada usuario podrá subir una imagen de perfil (avatar) para personalizar su cuenta. 
 - **Entidad Actividad**: Cada actividad ofertada tendrá asociada una imagen representativa.
-- **Entidad Reseña**: Los usuarios podrán adjuntar una fotografía a su reseña. 
+- **Entidad Reseña**: Los usuarios podrán adjuntar una fotografía a su reseña.
+
+- ### **Funcionalidad**
+Almacenamiento de ficheros: 
+- **PDF**: En cada actividad estará alojado un PDF con la información de la actividad.
 
 ---
 
