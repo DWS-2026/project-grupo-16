@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Edit User Profile - Ferrum Gym" />
+        <meta name="author" content="Team Ferrum" />
+        <title>Edit Profile - Ferrum Gym</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">Ferrum Gym</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Activities</a></li>
+                        <li class="nav-item"><a class="nav-link" href="user-profile.html">My Profile (Demo)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="admin-dashboard.html" style="color: red;">Admin (Profe)</a></li>
+                    </ul>
+                    <form class="d-flex" action="login.html"> 
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-person-fill me-1"></i> Client Area
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Edit Your Profile</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Update your personal information</p>
+                </div>
+            </div>
+        </header>
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-5">
+                                <form action="user-profile.html" method="GET" enctype="multipart/form-data">
+                                    <div class="row mb-4">
+                                        <div class="col-md-4 text-center border-end">
+                                            <label class="form-label d-block fw-bold mb-3">Profile Picture</label>
+                                            <img src="/assets/foto.avif" alt="Current Avatar" class="rounded-circle img-fluid mb-3" style="width: 120px;">
+                                            <input type="file" class="form-control form-control-sm" id="userAvatarInput" name="userAvatar">
+                                            <div class="form-text small">Upload a new JPG or PNG file.</div>
+                                        </div>
+                                        
+                                        <div class="col-md-8 ps-md-4">
+                                            <div class="mb-3">
+                                                <label for="inputFullName" class="form-label fw-bold">Full Name</label>
+                                                <input type="text" class="form-control" id="inputFullName" name="fullName" value="Juan Pérez" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputEmail" class="form-label fw-bold">Email Address</label>
+                                                <input type="email" class="form-control" id="inputEmail" name="userEmail" value="j.perez@alumnos.urjc.es" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputLocation" class="form-label fw-bold">Location</label>
+                                                <input type="text" class="form-control" id="inputLocation" name="userLocation" value="Móstoles, Madrid">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputBio" class="form-label fw-bold">Personal Biography</label>
+                                                <textarea class="form-control" id="inputBio" name="userBio" rows="3" placeholder="Tell us about your fitness goals..."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end border-top pt-4">
+                                        <a href="user-profile.html" class="btn btn-outline-secondary me-2">Cancel</a>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Ferrum Gym 2026</p></div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
