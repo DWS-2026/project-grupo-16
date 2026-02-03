@@ -78,7 +78,15 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página principal que muestra las actividades ofertadas con los horarios disponibles. Incluye acceso a registro/login para usuarios no autenticados y una opcion para ver el perfil de los usuarios registrados.
 
-#### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
+#### **2. Página de Acceso de Usuario (Login)**
+![Página Principal](images/Login.png)
+
+> Página de inicio de sesión para usuarios del gimnasio. Muestra un formulario con campos para introducir el correo electrónico y la contraseña, una opción para recordar la contraseña y un enlace para recuperarla si se ha olvidado. Incluye un botón azul de "Enter" y un enlace para registrarse si no se dispone de cuenta.
+
+#### **3. Página de Creación de Cuenta (Register)**
+![Página Principal](images/Register.png)
+
+> Página de registro para nuevos usuarios del gimnasio. Muestra un formulario para introducir el nombre, apellidos, correo electrónico, contraseña y confirmación de la misma. También permite subir una foto de perfil. Cuenta con un botón azul de "Register" y un enlace para iniciar sesión si ya se tiene una cuenta.
 
 ### **Participación de Miembros en la Práctica 1**
 
