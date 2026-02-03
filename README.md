@@ -74,7 +74,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Home**
-![Página Principal](images/FotoIndexhtml2)
+![Página Principal](images/FotoIndexhtml2.png)
 
 > [Descripción breve: Ej: "Página de inicio que muestra los productos destacados, categorías principales y un banner promocional. Incluye barra de navegación y acceso a registro/login para usuarios no autenticados."]
 
