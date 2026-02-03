@@ -74,11 +74,24 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Home**
-![Página Principal](images/home-page.png)
+![Página Principal](images/FotoIndexhtml2.png)
 
-> [Descripción breve: Ej: "Página de inicio que muestra los productos destacados, categorías principales y un banner promocional. Incluye barra de navegación y acceso a registro/login para usuarios no autenticados."]
+> Página principal que muestra las actividades ofertadas con los horarios disponibles. Incluye acceso a registro/login para usuarios no autenticados y una opcion para ver el perfil de los usuarios registrados.
 
-#### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
+#### **2. Página de Acceso de Usuario (Login)**
+![Página Principal](images/Login.png)
+
+> Página de inicio de sesión para usuarios del gimnasio. Muestra un formulario con campos para introducir el correo electrónico y la contraseña, una opción para recordar la contraseña y un enlace para recuperarla si se ha olvidado. Incluye un botón azul de "Enter" y un enlace para registrarse si no se dispone de cuenta.
+
+#### **3. Página de Recuperación de Contraseña**
+![Página Principal](images/ForgotPassword.png)
+
+> Página diseñada para restablecer el acceso a la cuenta. Muestra un campo para ingresar la dirección de correo electrónico y recibir un enlace de recuperación. Incluye un botón azul de "Reset Password", un enlace para volver al inicio de sesión (Return to login) y una opción inferior para registrarse (Sign up!) si el usuario aún no posee una cuenta.
+
+#### **4. Página de Creación de Cuenta (Register)**
+![Página Principal](images/Register.png)
+
+> Página de registro para nuevos usuarios del gimnasio. Muestra un formulario para introducir el nombre, apellidos, correo electrónico, contraseña y confirmación de la misma. También permite subir una foto de perfil. Cuenta con un botón azul de "Register" y un enlace para iniciar sesión si ya se tiene una cuenta.
 
 ### **Participación de Miembros en la Práctica 1**
 
