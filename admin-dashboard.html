@@ -56,7 +56,7 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="activity-form.html?id=1" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirm('¿Borrar?')">Borrar</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('CrossFit', 1)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -68,7 +68,7 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="activity-form.html?id=2" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger">Borrar</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Yoga', 2)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -106,7 +106,8 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
-                                            <button class="btn btn-sm btn-outline-dark">Bloquear</button>
+                                            <button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Juan Pérez', 1)">Bloquear</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarBloqueo('Juan Pérez', 1)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -120,7 +121,8 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
-                                            <button class="btn btn-sm btn-outline-dark">Bloquear</button>
+											<button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Alicia García', 2)">Bloquear</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarBloqueo('Alicia García', 2)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -160,5 +162,25 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmarEliminacion(nombreActividad, idActividad) {
+            const mensaje = `¿Estás seguro de que deseas eliminar la actividad "${nombreActividad}"?\n\nEsta acción no se puede deshacer.`;
+
+            if (confirm(mensaje)) {
+
+                alert(`La actividad "${nombreActividad}" ha sido eliminada correctamente.`);
+            }
+        }
+    </script>
+	    <script>
+        function confirmarBloqueo(nombreUsuario, idUsuario) {
+            const mensaje = `¿Estás seguro de que deseas bloquear al usuario "${nombreUsuario}"?\n\nEsta acción no se puede deshacer.`;
+
+            if (confirm(mensaje)) {
+
+                alert(`El usuario "${nombreUsuario}" ha sido bloqueado correctamente.`);
+            }
+        }
+    </script>
 </body>
 </html>
