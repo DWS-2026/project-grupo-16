@@ -56,19 +56,19 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="activity-form.html?id=1" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirm('¿Borrar?')">Borrar</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('CrossFit', 1)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Yoga</td>
                                     <td>Nombre A.</td>
-                                    <td>Mar 09:00</td>
+                                    <td>Mar 19:00</td>
                                     <td><span class="badge bg-danger">20/20</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="activity-form.html?id=2" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger">Borrar</button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Yoga', 2)">Borrar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -78,9 +78,11 @@
                 </div>
             </div>
         </section>
-
         <section class="mb-5">
-            <h2 class="h4 mb-3">Usuarios</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h4">Gestión de usuarios</h2>
+                <a href="register.html" class="btn btn-primary">Nuevo usuario</a>
+            </div>
             <div class="card shadow-sm border-0">
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -96,7 +98,7 @@
                             <tbody class="align-middle">
                                 <tr>
                                     <td class="ps-4">
-                                        <img src="https://dummyimage.com/30x30/dee2e6/6c757d.jpg" class="rounded-circle me-2" alt="Img">
+                                        <img src="assets/foto.avif" class="rounded-circle me-2" alt="Img" style="width: 30px; height: 30px; object-fit: cover;">
                                         Juan Pérez
                                     </td>
                                     <td>juan@alumnos.urjc.es</td>
@@ -104,7 +106,21 @@
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
                                             <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
-                                            <button class="btn btn-sm btn-outline-dark">Bloquear</button>
+                                            <button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Juan Pérez', 1)">Bloquear</button>
+                                        </div>
+                                    </td>
+                                </tr>
+								                                <tr>
+                                    <td class="ps-4">
+                                        <img src="assets/foto.avif" class="rounded-circle me-2" alt="Img" style="width: 30px; height: 30px; object-fit: cover;">
+                                        Alicia García
+                                    </td>
+                                    <td>alicia@alumnos.urjc.es</td>
+                                    <td>Profesor</td>
+                                    <td class="text-end pe-4">
+                                        <div class="btn-group" role="group">
+                                            <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
+											<button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Alicia García', 2)">Bloquear</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -123,12 +139,29 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
                                 <h6 class="fw-bold text-primary">Clase de Hiit</h6>
-                                <span class="text-warning">★★★★★</span>
+                                <span class="text-warning">★★★★</span>
                             </div>
-                            <p class="small fst-italic text-muted">Reseñaaaaaaaa</p>
+                            <p class="small fst-italic text-muted">Buena clase pero un poco saturada, podrían hacer más grupos. ¡Nos vemos en la próxima!</p>
+							<img src="assets/resena.jpg" class="img-fluid" alt="Img">
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <small>Por: Nombre Apellido</small>
-                                <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Hiit', 1)">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <h6 class="fw-bold text-primary">Clase de Crossfit</h6>
+                                <span class="text-warning">★★★★★</span>
+                            </div>
+                            <p class="small fst-italic text-muted">Ha sido la mejor clase de mi vida. ¡Gracias!</p>
+							<img src="assets/resena1.jpg" class="img-fluid" alt="Img">
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small>Por: Nombre Apellido</small>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Crossfit', 2)">Eliminar</button>
                             </div>
                         </div>
                     </div>
@@ -143,5 +176,36 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmarEliminacion(nombreActividad, idActividad) {
+            const mensaje = `¿Estás seguro de que deseas eliminar la actividad "${nombreActividad}"?\n\nEsta acción no se puede deshacer.`;
+
+            if (confirm(mensaje)) {
+
+                alert(`La actividad "${nombreActividad}" ha sido eliminada correctamente.`);
+            }
+        }
+    </script>
+	    <script>
+        function confirmarBloqueo(nombreUsuario, idUsuario) {
+            const mensaje = `¿Estás seguro de que deseas bloquear al usuario "${nombreUsuario}"?\n\nEsta acción no se puede deshacer.`;
+
+            if (confirm(mensaje)) {
+
+                alert(`El usuario "${nombreUsuario}" ha sido bloqueado correctamente.`);
+            }
+        }
+    </script>
+		<script>
+        function confirmarEliminacionResena(nombreClase, idResena) {
+            const mensaje = `¿Estás seguro de que deseas eliminar la reseña de "${nombreClase}"?\n\nEsta acción no se puede deshacer.`;
+
+            if (confirm(mensaje)) {
+
+                alert(`La reseña de "${nombreClase}" ha sido eliminada correctamente.`);
+            }
+        }
+    </script>
+
 </body>
 </html>
