@@ -52,25 +52,60 @@
                         </p>
                         <div class="card bg-light mb-4">
                             <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-clock"></i> Horario de la Clase</h5>
-                                <p class="card-text">Martes y Jueves: <strong>19:00 - 20:00</strong></p>
+                                <h5 class="card-title"><i class="bi bi-clock"></i> Class Schedule</h5>
+                                <p class="card-text text-muted">
+                                    Capacity per class: <strong>15 people</strong>.
+                                </p>
                                 <hr>
                                 <a href="/docs/Boxing.pdf" class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-file-earmark-pdf"></i> Descargar Información (PDF)
                                 </a>
+
+                                <form action="booking-success.html">
+                                    <div class="mb-3">
+                                        <label for="sessionSelect" class="form-label fw-bold">Select your session:</label>
+
+                                        <select class="form-select" id="sessionSelect" required>
+                                            <option value="" selected disabled>Choose a day...</option>
+
+                                            <option value="tuesday" disabled class="text-danger">
+                                                Tuesday: 19:00 - (FULL - 12/12)
+                                            </option>
+
+                                            <option value="thursday">
+                                                Thursday: 19:00 - (Available - 5 spots left)
+                                            </option>
+                                        </select>
+
+                                        <div class="form-text text-muted">
+                                            * Some sessions are already full.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <a href="/docs/Information.pdf" class="text-danger small text-decoration-none">
+                                            <i class="bi bi-file-earmark-pdf"></i> Download Information (PDF)
+                                        </a>
+                                    </div>
+
+                                    <div class="d-grid gap-2 d-md-block">
+                                        <button class="btn btn-dark" type="submit">
+                                            <i class="bi-calendar-plus me-1"></i> Book Now
+                                        </button>
+                                        <a href="index.html" class="btn btn-outline-dark">Back</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <button class="btn btn-dark flex-shrink-0 me-2" type="button"><i class="bi-calendar-plus me-1"></i> Reservar Plaza</button>
-                            <a href="index.html" class="btn btn-outline-dark">Volver</a>
                         </div>
-                    </div>
                 </div>
             </div>
         </section>
+
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Ferrum Gym 2026</p></div>
         </footer>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/scripts.js"></script>
     </body>
