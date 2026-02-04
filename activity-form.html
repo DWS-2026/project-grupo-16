@@ -25,7 +25,7 @@
                         <li class="nav-item"><a class="nav-link" href="user-profile.html">My Profile (Demo)</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin-dashboard.html" style="color: red;">Admin (Profe)</a></li>
                     </ul>
-                    <form class="d-flex" action="login.html"> 
+                    <form class="d-flex" action="login.html">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-person-fill me-1"></i> Login/Register
                         </button>
@@ -46,33 +46,45 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
-                <img class="card-img-top mb-5 mb-md-0" src="/assets/actividad.avif" alt="Clase de Nombre_actividad" />
+                <img class="card-img-top mb-5 mb-md-0" src="/assets/actividad.avif" alt="Class: Activity_name" />
             </div>
             <div class="col-md-6">
-                <div class="small mb-1 text-uppercase fw-bold text-primary">Categoría: categoría de la actividad</div>
-                <h1 class="display-5 fw-bolder">Nombre de la actividad</h1>
+                <div class="small mb-1 text-uppercase fw-bold text-primary">Category: activity category</div>
+                <h1 class="display-5 fw-bolder">Activity name</h1>
                 <div class="fs-5 mb-5">
-                    <span class="text-decoration-line-through text-muted">55.00€</span>
-                    <span class="fw-bold">Precio€ / mes</span>
+                    <span class="text-decoration-line-through text-muted">XX.00€</span>
+                    <span class="fw-bold">Price € / month</span>
                 </div>
                 <p class="lead mb-4">
-                    Nuestra clase de <strong>Nombre de la actividad</strong> Descripción de la actividad en cuestión.
+                    Our <strong>Activity name</strong> class. Activity description goes here.
                 </p>
                 <div class="card bg-light mb-4">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-clock"></i> Horario de la actividad</h5>
-                        <p class="card-text">Días de actividad: <strong>Hora_inicio - Hora_fin</strong></p>
+                        <h5 class="card-title"><i class="bi bi-clock"></i> Class schedule</h5>
+                        <p class="card-text">Activity days: <strong>Start_time - End_time</strong></p>
                         <hr>
-                        <a href="/docs/planificacion-crossfit.pdf" class="btn btn-sm btn-outline-danger">
-                            <i class="bi bi-file-earmark-pdf"></i> Descargar Planificación (PDF)
+                        <a href="/docs/Information.pdf" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-file-earmark-pdf"></i> Download Schedule (PDF)
                         </a>
+
+                        <form action="booking-success.html" class="mt-3">
+                            <div class="mb-3">
+                                <label for="sessionSelect" class="form-label fw-bold">Select your session:</label>
+                                <select class="form-select" id="sessionSelect" required>
+                                    <option value="" selected disabled>Choose a day...</option>
+                                    <option value="monday">Day: Start_time - End_Time (Available)</option>
+                                    <option value="wednesday">Day: Start_time - End_Time (Available)</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-dark" type="submit">
+                                    <i class="bi-calendar-plus me-1"></i> Book spot
+                                </button>
+                                <a href="index.html" class="btn btn-outline-dark">Back</a>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                <div class="d-flex">
-                    <button class="btn btn-dark flex-shrink-0 me-2" type="button">
-                        <i class="bi-calendar-plus me-1"></i> Reservar Plaza
-                    </button>
-                    <a href="index.html" class="btn btn-outline-dark">Volver</a>
                 </div>
             </div>
         </div>
