@@ -93,16 +93,15 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página de registro para nuevos usuarios del gimnasio. Muestra un formulario para introducir el nombre, apellidos, correo electrónico, contraseña y confirmación de la misma. También permite subir una foto de perfil. Cuenta con un botón azul de "Register" y un enlace para iniciar sesión si ya se tiene una cuenta.
 
-> #### **5. Página de Usuario Registrado (User-profile)**
+#### **5. Página de Usuario Registrado (User-profile)**
 ![Página Principal](images/FotoUserProfile.png)
 
-Página donde se puede ver el perfil del usuario registrado (area privada del usuario), donde se pueden ver sus datos personales como nombre, apellidos y correo, posibilidad de cargar un avatar y su historial de reservas actual. También hay una opcion de editar los datos del usuario.
+> Página que muestra el perfil del usuario registrado (area privada del usuario), donde se pueden ver sus datos personales como nombre, apellidos y correo, posibilidad de cargar un avatar y su historial de reservas actual. Cuenta con un boton azul que permite cambiar los datos personales del ususario registrado.
 
-> #### **6. Página de Edicion de Usuario (Edit-profile)**
+#### **6. Página de Edicion de Usuario (Edit-profile)**
 ![Página Principal](images/FotoEditProfile.png)
 
-Página donde se puede ver el perfil del usuario registrado (area privada del usuario), donde se pueden ver sus datos personales como nombre, apellidos y correo, posibilidad de cargar un avatar y su historial de reservas actual. También hay una opcion de editar los datos del usuario.
-
+> Página que permite al usuario registrado cambiar sus datos, desde el nombre, correo y ubicación hasta cargar una nueva imagen de perfil o poner una biografía. Cuenta con un boton de guardar cambios y otro para cancelar la operación.
 
 ### **Participación de Miembros en la Práctica 1**
 
