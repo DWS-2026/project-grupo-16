@@ -78,20 +78,20 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página principal que muestra las actividades ofertadas con los horarios disponibles. Incluye acceso a registro/login para usuarios no autenticados y una opcion para ver el perfil de los usuarios registrados.
 
-#### **2. Página de Acceso de Usuario (Login)**
+#### **2. Página de Creación de Cuenta (Register)**
+![Página Principal](images/Register.png)
+
+> Página de registro para nuevos usuarios del gimnasio. Muestra un formulario para introducir el nombre, apellidos, correo electrónico, contraseña y confirmación de la misma. También permite subir una foto de perfil. Cuenta con un botón azul de "Register" y un enlace para iniciar sesión si ya se tiene una cuenta.
+
+#### **3. Página de Acceso de Usuario (Login)**
 ![Página Principal](images/Login.png)
 
 > Página de inicio de sesión para usuarios del gimnasio. Muestra un formulario con campos para introducir el correo electrónico y la contraseña, una opción para recordar la contraseña y un enlace para recuperarla si se ha olvidado. Incluye un botón azul de "Enter" y un enlace para registrarse si no se dispone de cuenta.
 
-#### **3. Página de Recuperación de Contraseña**
+#### **4. Página de Recuperación de Contraseña**
 ![Página Principal](images/ForgotPassword.png)
 
 > Página diseñada para restablecer el acceso a la cuenta. Muestra un campo para ingresar la dirección de correo electrónico y recibir un enlace de recuperación. Incluye un botón azul de "Reset Password", un enlace para volver al inicio de sesión (Return to login) y una opción inferior para registrarse (Sign up!) si el usuario aún no posee una cuenta.
-
-#### **4. Página de Creación de Cuenta (Register)**
-![Página Principal](images/Register.png)
-
-> Página de registro para nuevos usuarios del gimnasio. Muestra un formulario para introducir el nombre, apellidos, correo electrónico, contraseña y confirmación de la misma. También permite subir una foto de perfil. Cuenta con un botón azul de "Register" y un enlace para iniciar sesión si ya se tiene una cuenta.
 
 #### **5. Página de Usuario Registrado (User-profile)**
 ![Página Principal](images/FotoUserProfile.png)
@@ -102,6 +102,11 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ![Página Principal](images/FotoEditProfile.png)
 
 > Página que permite al usuario registrado cambiar sus datos, desde el nombre, correo y ubicación hasta cargar una nueva imagen de perfil o poner una biografía. Cuenta con un boton de guardar cambios y otro para cancelar la operación.
+
+#### **7. Página de Confirmación de Reserva Exitosa**
+![Página Principal](images/BookingSuccess.png)
+
+> Página que uestra un mensaje de validación con un icono de verificación verde indicando que la plaza ha sido asegurada. Incluye un cuadro informativo con recordatorios útiles sobre la asistencia y la política de cancelación (hasta 2 horas antes). Cuenta con un botón azul de "Go to My Profile" para gestionar las reservas y otro botón secundario para regresar al listado de actividades.
 
 ### **Participación de Miembros en la Práctica 1**
 
