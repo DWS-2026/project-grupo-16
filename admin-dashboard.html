@@ -10,28 +10,28 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand fw-bold" href="index.html">Ferrum Gym | Administración</a>
+            <a class="navbar-brand fw-bold" href="index.html">Ferrum Gym | Administration</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Ver web pública</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">View public site</a></li>
                 </ul>
                 <div class="d-flex">
-                    <a href="login.html" class="btn btn-outline-danger">Cerrar sesión</a>
+                    <a href="login.html" class="btn btn-outline-danger">Log out</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <main class="container py-5">
-        <h1 class="mb-4">Administración del Gimnasio</h1>
+        <h1 class="mb-4">Gym Administration</h1>
 
         <section class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4">Gestión de clases</h2>
-                <a href="activity-form.html" class="btn btn-primary">Nueva actividad</a>
+                <h2 class="h4">Class management</h2>
+                <a href="activity-form.html" class="btn btn-primary">New activity</a>
             </div>
 
             <div class="card shadow-sm border-0">
@@ -40,107 +40,107 @@
                         <table class="table table-hover mb-0">
                             <thead class="bg-light">
                                 <tr>
-                                    <th class="ps-4">Actividad</th>
-                                    <th>Entrenador</th>
-                                    <th>Horario</th>
-                                    <th>Aforo</th>
-                                    <th class="text-end pe-4">Acciones</th>
+                                    <th class="ps-4">Activity</th>
+                                    <th>Trainer</th>
+                                    <th>Schedule</th>
+                                    <th>Capacity</th>
+                                    <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="align-middle">
                                 <tr>
                                     <td class="ps-4 fw-bold">Crossfit</td>
-                                    <td>Entrenador 1</td>
-                                    <td>Lun y Mié 17:00-18:00</td>
+                                    <td>Trainer 1</td>
+                                    <td>Mon & Wed 17:00-18:00</td>
                                     <td><span class="badge bg-success">15/25</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-crossfit.html?id=1" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Crossfit', 1)">Borrar</button>
+                                            <a href="activity-detail-crossfit.html?id=1" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Crossfit', 1)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Body Pump</td>
-                                    <td>Entrenador 2</td>
-                                    <td>Lun y Mié 18:00-19:00</td>
+                                    <td>Trainer 2</td>
+                                    <td>Mon & Wed 18:00-19:00</td>
                                     <td><span class="badge bg-success">18/30</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-bodypump.html?id=2" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Body Pump', 2)">Borrar</button>
+                                            <a href="activity-detail-bodypump.html?id=2" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Body Pump', 2)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Yoga</td>
-                                    <td>Entrenador 3</td>
-                                    <td>Lun y Mié 19:00-20:00</td>
+                                    <td>Trainer 3</td>
+                                    <td>Mon & Wed 19:00-20:00</td>
                                     <td><span class="badge bg-danger">20/20</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-yoga.html?id=3" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Yoga', 3)">Borrar</button>
+                                            <a href="activity-detail-yoga.html?id=3" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Yoga', 3)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Spinning</td>
-                                    <td>Entrenador 4</td>
-                                    <td>Lun y Mié 20:00-21:00</td>
+                                    <td>Trainer 4</td>
+                                    <td>Mon & Wed 20:00-21:00</td>
                                     <td><span class="badge bg-warning">22/25</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-spinning.html?id=4" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Spinning', 4)">Borrar</button>
+                                            <a href="activity-detail-spinning.html?id=4" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Spinning', 4)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">HIIT</td>
-                                    <td>Entrenador 5</td>
-                                    <td>Mar y Jue 17:00-18:00</td>
+                                    <td>Trainer 5</td>
+                                    <td>Tue & Thu 17:00-18:00</td>
                                     <td><span class="badge bg-success">14/20</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-hiit.html?id=5" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('HIIT', 5)">Borrar</button>
+                                            <a href="activity-detail-hiit.html?id=5" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('HIIT', 5)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Pilates</td>
-                                    <td>Entrenador 6</td>
-                                    <td>Mar y Jue 18:00-19:00</td>
+                                    <td>Trainer 6</td>
+                                    <td>Tue & Thu 18:00-19:00</td>
                                     <td><span class="badge bg-success">16/28</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-pilates.html?id=6" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Pilates', 6)">Borrar</button>
+                                            <a href="activity-detail-pilates.html?id=6" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Pilates', 6)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Boxing</td>
-                                    <td>Entrenador 7</td>
-                                    <td>Mar y Jue 19:00-20:00</td>
+                                    <td>Trainer 7</td>
+                                    <td>Tue & Thu 19:00-20:00</td>
                                     <td><span class="badge bg-warning">24/30</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-boxing.html?id=7" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Boxing', 7)">Borrar</button>
+                                            <a href="activity-detail-boxing.html?id=7" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Boxing', 7)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="ps-4 fw-bold">Zumba</td>
-                                    <td>Entrenador 8</td>
-                                    <td>Mar y Jue 20:00-21:00</td>
+                                    <td>Trainer 8</td>
+                                    <td>Tue & Thu 20:00-21:00</td>
                                     <td><span class="badge bg-success">19/32</span></td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="activity-detail-zumba.html?id=8" class="btn btn-sm btn-outline-primary">Editar</a>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Zumba', 8)">Borrar</button>
+                                            <a href="activity-detail-zumba.html?id=8" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacion('Zumba', 8)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -152,8 +152,8 @@
         </section>
         <section class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4">Gestión de usuarios</h2>
-                <a href="register.html" class="btn btn-primary">Nuevo usuario</a>
+                <h2 class="h4">User management</h2>
+                <a href="register.html" class="btn btn-primary">New user</a>
             </div>
             <div class="card shadow-sm border-0">
                 <div class="card-body p-0">
@@ -161,10 +161,10 @@
                         <table class="table table-hover mb-0">
                             <thead class="bg-light">
                                 <tr>
-                                    <th class="ps-4">Usuario</th>
+                                    <th class="ps-4">User</th>
                                     <th>Email</th>
-                                    <th>Rol</th>
-                                    <th class="text-end pe-4">Acciones</th>
+                                    <th>Role</th>
+                                    <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="align-middle">
@@ -174,11 +174,11 @@
                                         Juan Pérez
                                     </td>
                                     <td>juan@alumnos.urjc.es</td>
-                                    <td>Cliente</td>
+                                    <td>Member</td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
-                                            <button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Juan Pérez', 1)">Bloquear</button>
+                                            <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">View profile</a>
+                                            <button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Juan Pérez', 1)">Block</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -188,11 +188,11 @@
                                         Alicia García
                                     </td>
                                     <td>alicia@alumnos.urjc.es</td>
-                                    <td>Profesor</td>
+                                    <td>Trainer</td>
                                     <td class="text-end pe-4">
                                         <div class="btn-group" role="group">
-                                            <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">Ver perfil</a>
-						<button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Alicia García', 2)">Bloquear</button>
+                                            <a href="user-profile.html" class="btn btn-sm btn-outline-secondary">View profile</a>
+						<button class="btn btn-sm btn-outline-dark" onclick="confirmarBloqueo('Alicia García', 2)">Block</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -204,20 +204,20 @@
         </section>
 
         <section class="mb-5">
-            <h2 class="h4 mb-3">Últimas reseñas recibidas</h2>
+            <h2 class="h4 mb-3">Latest reviews received</h2>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
-                                <h6 class="fw-bold text-primary">Clase de Hiit</h6>
+                                <h6 class="fw-bold text-primary">HIIT class</h6>
                                 <span class="text-warning">★★★★</span>
                             </div>
-                            <p class="small fst-italic text-muted">Buena clase pero un poco saturada, podrían hacer más grupos. ¡Nos vemos en la próxima!</p>
+                            <p class="small fst-italic text-muted">Great class but a bit crowded, they could run more groups. See you next time!</p>
 							<img src="assets/resena.jpg" class="img-fluid" alt="Img">
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <small>Por: Nombre Apellido</small>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Hiit', 1)">Eliminar</button>
+                                <small>By: Nombre Apellido</small>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Hiit', 1)">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -226,14 +226,14 @@
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
-                                <h6 class="fw-bold text-primary">Clase de Crossfit</h6>
+                                <h6 class="fw-bold text-primary">Crossfit class</h6>
                                 <span class="text-warning">★★★★★</span>
                             </div>
-                            <p class="small fst-italic text-muted">Ha sido la mejor clase de mi vida. ¡Gracias!</p>
+                            <p class="small fst-italic text-muted">It was the best class of my life. Thank you!</p>
 							<img src="assets/resena1.jpg" class="img-fluid" alt="Img">
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <small>Por: Nombre Apellido</small>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Crossfit', 2)">Eliminar</button>
+                                <small>By: Nombre Apellido</small>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('Clase de Crossfit', 2)">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -250,31 +250,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function confirmarEliminacion(nombreActividad, idActividad) {
-            const mensaje = `¿Estás seguro de que deseas eliminar la actividad "${nombreActividad}"?\n\nEsta acción no se puede deshacer.`;
+            const mensaje = `Are you sure you want to delete the activity "${nombreActividad}"?\n\nThis action cannot be undone.`;
 
             if (confirm(mensaje)) {
 
-                alert(`La actividad "${nombreActividad}" ha sido eliminada correctamente.`);
+                alert(`The activity "${nombreActividad}" has been deleted successfully.`);
             }
         }
     </script>
 	    <script>
         function confirmarBloqueo(nombreUsuario, idUsuario) {
-            const mensaje = `¿Estás seguro de que deseas bloquear al usuario "${nombreUsuario}"?\n\nEsta acción no se puede deshacer.`;
+            const mensaje = `Are you sure you want to block the user "${nombreUsuario}"?\n\nThis action cannot be undone.`;
 
             if (confirm(mensaje)) {
 
-                alert(`El usuario "${nombreUsuario}" ha sido bloqueado correctamente.`);
+                alert(`The user "${nombreUsuario}" has been blocked successfully.`);
             }
         }
     </script>
 		<script>
         function confirmarEliminacionResena(nombreClase, idResena) {
-            const mensaje = `¿Estás seguro de que deseas eliminar la reseña de "${nombreClase}"?\n\nEsta acción no se puede deshacer.`;
+            const mensaje = `Are you sure you want to delete the review for "${nombreClase}"?\n\nThis action cannot be undone.`;
 
             if (confirm(mensaje)) {
 
-                alert(`La reseña de "${nombreClase}" ha sido eliminada correctamente.`);
+                alert(`The review for "${nombreClase}" has been deleted successfully.`);
             }
         }
     </script>
