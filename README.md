@@ -103,10 +103,15 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página que permite al usuario registrado cambiar sus datos, desde el nombre, correo y ubicación hasta cargar una nueva imagen de perfil o poner una biografía. Cuenta con un boton de guardar cambios y otro para cancelar la operación.
 
-#### **7. Página de Confirmación de Reserva Exitosa**
+#### **7. Página de tarifas**
+![Página Principal](images/Tariffs.png)
+
+> Página estructurada en dos secciones claras: Planes Mensuales y Packs Flexibles.Presenta tres niveles de suscripción (Iron Basic, Standard Hybrid y Ultimate Pro destacada en azul) junto con opciones de pago único como bonos de clases o pases diarios, detallando el precio y el tipo de acceso de cada tarifa.
+
+#### **8. Página de Confirmación de Reserva Exitosa**
 ![Página Principal](images/BookingSuccess.png)
 
-> Página que uestra un mensaje de validación con un icono de verificación verde indicando que la plaza ha sido asegurada. Incluye un cuadro informativo con recordatorios útiles sobre la asistencia y la política de cancelación (hasta 2 horas antes). Cuenta con un botón azul de "Go to My Profile" para gestionar las reservas y otro botón secundario para regresar al listado de actividades.
+> Página que muestra un mensaje de validación con un icono de verificación verde indicando que la plaza ha sido asegurada. Incluye un cuadro informativo con recordatorios útiles sobre la asistencia y la política de cancelación (hasta 2 horas antes). Cuenta con un botón azul de "Go to My Profile" para gestionar las reservas y otro botón secundario para regresar al listado de actividades.
 
 ### **Participación de Miembros en la Práctica 1**
 
