@@ -74,7 +74,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Home**
-![Página Principal](images/FotoIndexhtml2.png)
+![Página Principal](images/FotoIndexHTML.png)
 
 > Página principal que muestra las actividades ofertadas con los horarios disponibles. Incluye acceso a registro/login para usuarios no autenticados y una opcion para ver el perfil de los usuarios registrados.
 
