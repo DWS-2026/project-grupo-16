@@ -151,7 +151,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 #### **Alumno 2 - Elena González Rodríguez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrollo de las páginas de inicio de sesión y registro (incluyendo la página de olvido de contraseña de la cuenta del usuario), la página de confirmación de reserva exitosa y la página de las diferentes tarifas del gimnasio.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
