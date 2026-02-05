@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Attendees - Ferrum Gym</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand fw-bold" href="admin-dashboard.html">Ferrum Gym | Administration</a>
+            <div class="d-flex">
+                <a href="admin-dashboard.html" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+
+        <div class="row mb-4 align-items-end">
+            <div class="col-md-8">
+                <label for="classSelector" class="form-label text-muted fw-bold text-uppercase small">Select Class to Manage</label>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-white"><i class="bi bi-calendar3"></i></span>
+                    <select class="form-select fw-bold" id="classSelector">
+                        <option selected>CrossFit - Mon 17:00 (Trainer 1)</option>
+                        <option>BodyPump - Mon 18:00 (Trainer 2)</option>
+                        <option>Yoga - Mon 19:00 (Trainer 3)</option>
+                        <option>Spinning - Mon 20:00 (Trainer 4)</option>
+                        <option>HIIT - Tue 17:00 (Trainer 5)</option>
+                    </select>
+                    <button class="btn btn-primary">Load List</button>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div class="card bg-light border-0">
+                    <div class="card-body py-2">
+                        <div class="small text-muted text-uppercase fw-bold">Occupancy</div>
+                        <div class="fs-2 fw-bold text-success">15 / 25</div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <div class="d-flex justify-content-between mb-3">
+            <div class="input-group w-50">
+                <input type="text" class="form-control" placeholder="Search user in this list...">
+                <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+            </div>
+            <div>
+                <button class="btn btn-success" onclick="alert('Attendance saved successfully!')"><i class="bi bi-save"></i> Save Changes</button>
+                <button class="btn btn-outline-dark"><i class="bi bi-printer"></i> Print</button>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">#</th>
+                                <th>User</th>
+                                <th>Membership Level</th> <th>Status</th>
+                                <th class="text-end pe-4">Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ps-4 text-muted">1</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/foto.avif" class="rounded-circle me-2" style="width: 35px; height: 35px; object-fit: cover;">
+                                        <div>
+                                            <div class="fw-bold">Juan Pérez</div>
+                                            <div class="small text-muted">juan@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning text-dark"><i class="bi bi-trophy-fill"></i> Ultimate Pro</span></td>
+                                <td><span class="text-success small"><i class="bi bi-check-circle-fill"></i> Active</span></td>
+                                <td class="text-end pe-4">
+                                    <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
+                                    <label class="btn btn-outline-success btn-sm" for="btn-check-1">Present</label>
+                                    <button class="btn btn-sm btn-outline-danger ms-2" title="Expel"><i class="bi bi-x-lg"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="ps-4 text-muted">2</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://dummyimage.com/35x35/dee2e6/6c757d.jpg" class="rounded-circle me-2">
+                                        <div>
+                                            <div class="fw-bold">Maria García</div>
+                                            <div class="small text-muted">maria@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-secondary"><i class="bi bi-shield"></i> Iron Basic</span></td>
+                                <td><span class="text-danger small"><i class="bi bi-exclamation-circle-fill"></i> Payment Due</span></td>
+                                <td class="text-end pe-4">
+                                    <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off" checked>
+                                    <label class="btn btn-outline-success btn-sm active" for="btn-check-2">Present</label>
+                                    <button class="btn btn-sm btn-outline-danger ms-2"><i class="bi bi-x-lg"></i></button>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td class="ps-4 text-muted">3</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://dummyimage.com/35x35/dee2e6/6c757d.jpg" class="rounded-circle me-2">
+                                        <div>
+                                            <div class="fw-bold">Carlos Ruiz</div>
+                                            <div class="small text-muted">carlos@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-primary"><i class="bi bi-gem"></i> Standard Hybrid</span></td>
+                                <td><span class="text-success small"><i class="bi bi-check-circle-fill"></i> Active</span></td>
+                                <td class="text-end pe-4">
+                                    <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+                                    <label class="btn btn-outline-success btn-sm" for="btn-check-3">Present</label>
+                                    <button class="btn btn-sm btn-outline-danger ms-2"><i class="bi bi-x-lg"></i></button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="ps-4 text-muted">4</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://dummyimage.com/35x35/dee2e6/6c757d.jpg" class="rounded-circle me-2">
+                                        <div>
+                                            <div class="fw-bold">Laura M.</div>
+                                            <div class="small text-muted">laura@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning text-dark"><i class="bi bi-trophy-fill"></i> Ultimate Pro</span></td>
+                                <td><span class="text-success small"><i class="bi bi-check-circle-fill"></i> Active</span></td>
+                                <td class="text-end pe-4">
+                                    <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off">
+                                    <label class="btn btn-outline-success btn-sm" for="btn-check-4">Present</label>
+                                    <button class="btn btn-sm btn-outline-danger ms-2"><i class="bi bi-x-lg"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light text-muted small">
+                Showing 4 of 15 attendees
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
