@@ -136,13 +136,13 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Roberto Acebes Moran**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|1| [User Profile](https://github.com/DWS-2026/project-grupo-16/commit/890e631407d9daf9cdca7009320f40037eee88e9)  | [user-profile.html](https://github.com/DWS-2026/project-grupo-16/blob/main/user-profile.html)   |
 |2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
@@ -156,7 +156,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [User Profile](https://github.com/DWS-2026/project-grupo-16/commit/890e631407d9daf9cdca7009320f40037eee88e9)  | [Archivo1](URL_archivo_1)   |
+|1| [User Profile]()  | [Archivo1](URL_archivo_1)   |
 |2| [Descripción commit 2](URL_commit_2)  | [Archivo2](user-profile.html)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
