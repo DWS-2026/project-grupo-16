@@ -163,21 +163,21 @@ Creación y desarrollo de las páginas de inicio de sesión y registro (incluyen
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - [Luis Estirado Revuelta]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrollo de las páginas del panel de administración, tales como la página principal, la página de gestión de las clases como también la página de gestión del sitio web. Así mismo, la creación del fichero admin.css para los estilos CSS del panel y así separar los estilos de la parte pública.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|1| [Create dashboard](https://github.com/DWS-2026/project-grupo-16/commit/31166d51900f57da8c3d0dda32101382682a5dd8)  | [admin-dashboard.html](https://github.com/DWS-2026/project-grupo-16/blob/main/admin-dashboard.html)   |
+|2| [Create site settings](https://github.com/DWS-2026/project-grupo-16/commit/5410f4b1b68239bd0f5d80e949a602029e589d4a)  | [site-settings.html](https://github.com/DWS-2026/project-grupo-16/blob/main/site-settings.html)   |
+|3| [Create classes management](https://github.com/DWS-2026/project-grupo-16/commit/d21593a7c8bc36c62f450d21e9aebc2fa952e7c6)  | [admin-class.html](https://github.com/DWS-2026/project-grupo-16/blob/main/admin-class.html)   |
+|4| [Create admin.css](https://github.com/DWS-2026/project-grupo-16/commit/1502495ea90c1cc170404201821b8fde00218e62)  | [admin.css](https://github.com/DWS-2026/project-grupo-16/blob/main/css/admin.css)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - [Jaime Salgado Carballeda]**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
