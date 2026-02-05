@@ -138,7 +138,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 #### **Alumno 1 - Roberto Acebes Moran**
 
-Creación y desarrolllo de las páginas de perfil de usuarios registrados y edición del mismo. También, cargar las imágenes de las actividades asi como establecer el horario y días de impartición. Además, he supervisado el formato de los ficheros (contenido y forma) .html de todo el proyecto.
+Creación y desarrolllo de las páginas de perfil de usuarios registrados y edición del mismo. También, cargar las imágenes de las actividades asi como establecer el horario y días de impartición. Además, he supervisado (realizando modificaciones) el formato de los ficheros (contenido y forma) .html de todo el proyecto.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
