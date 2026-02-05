@@ -113,6 +113,30 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página que muestra un mensaje de validación con un icono de verificación verde indicando que la plaza ha sido asegurada. Incluye un cuadro informativo con recordatorios útiles sobre la asistencia y la política de cancelación (hasta 2 horas antes). Cuenta con un botón azul de "Go to My Profile" para gestionar las reservas y otro botón secundario para regresar al listado de actividades.
 
+
+
+
+
+
+
+
+#### **17. Página de principal del Administrador**
+![Página Principal](images/admin.png)
+> Página principal de gestión del Gimnasio. Muestra tablas resumen para la gestión de Clases (con indicadores visuales de aforo), Usuarios (con estados y roles) y moderación de Reseñas. Incluye botones de acción rápida para editar, borrar o bloquear elementos. Así mismo, dispone de un menú para moverse por las distintas páginas del panel de administración.
+
+#### **18. Página de Configuración del Gimnasio**
+![Página Principal](images/admin-settings.png)
+> Panel de configuración global que permite modificar la información del negocio (horarios, contacto) y activar el "Modo Mantenimiento" mediante interruptores (toggles).
+
+#### **19. Página de Gestión de recursos multimedia**
+![Página Principal](images/admin-media.png)
+> Galería visual para la administración de archivos subidos al servidor. Permite al administrador previsualizar, filtrar y eliminar imágenes de actividades o avatares de usuarios para mantener el servidor limpio.
+
+#### **20. Página de Gestión de Clases**
+![Página Principal](images/admin-classes.png)
+> Herramienta avanzada para entrenadores y administradores. Permite seleccionar una sesión específica mediante un desplegable y visualizar el listado de alumnos inscritos. Muestra el estado de pago de cada socio y permite pasar lista mediante checkboxes interactivos.
+
+
 ### **Participación de Miembros en la Práctica 1**
 
 #### **Alumno 1 - [Nombre Completo]**
