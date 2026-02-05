@@ -182,11 +182,10 @@ Creación y desarrollo de las páginas del panel de administración, tales como 
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Updates in activity form](https://github.com/DWS-2026/dws-2026-project-base/commit/54599807a3e265a9b63129bf2b61bbe3b5a5334c)  | [activity-form.html](https://github.com/DWS-2026/project-grupo-16/blob/main/activity-form.html)   |
+|2| [Create activity details in all activities](https://github.com/DWS-2026/dws-2026-project-base/commit/d700f3aa38dcb915b0b816fa0c7bf961189f1e14)  | [activity-detail-zumba.html](https://github.com/DWS-2026/project-grupo-16/blob/main/activity-detail-zumba.html)   |
+|3| [Creating the routes to activity details](https://github.com/DWS-2026/dws-2026-project-base/commit/85a1b409cb9592f8d6023e9d0dd3aca0fc8010a3)  | [index.html](https://github.com/DWS-2026/project-grupo-16/blob/main/index.html)   |
+|4| [Create the video](https://github.com/DWS-2026/dws-2026-project-base/commit/8505fe75b5d0a0680535dacbd4f0b0519867f254)  | [README.md](https://github.com/DWS-2026/project-grupo-16/blob/main/README.md)   |
 
 ---
 
