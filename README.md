@@ -138,7 +138,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 #### **Alumno 1 - Roberto Acebes Moran**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrolllo de las páginas de perfil de usuarios registrados y edición del mismo. También, cargar las imágenes de las actividades asi como establecer el horario y días de impartición. Además, he supervisado el formato de los ficheros (contenido y forma) .html de todo el proyecto.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
@@ -158,7 +158,7 @@ Creación y desarrollo de las páginas de inicio de sesión y registro (incluyen
 |1| [Create Login](https://github.com/DWS-2026/project-grupo-16/commit/22145abc9606f203abd05fa641fc6e8b08870a61)  | [login.html](https://github.com/DWS-2026/project-grupo-16/blob/main/login.html)   |
 |2| [Create Register](https://github.com/DWS-2026/project-grupo-16/commit/22145abc9606f203abd05fa641fc6e8b08870a61)  | [register.html](https://github.com/DWS-2026/project-grupo-16/blob/main/register.html)   |
 |3| [Add forgot password page navigation](https://github.com/DWS-2026/project-grupo-16/commit/ec980fc8b8928fe9fef43a2768dd579e7afbbca5)  | [forgot-password.html](https://github.com/DWS-2026/project-grupo-16/blob/main/forgot-password.html)   |
-|4| [Aadding the completed booking page](https://github.com/DWS-2026/project-grupo-16/commit/cef3516fd2bdcff585e881c34d06d8b68f905ccc)  | [booking-success.html](https://github.com/DWS-2026/project-grupo-16/blob/main/booking-success.html)   |
+|4| [Adding the completed booking page](https://github.com/DWS-2026/project-grupo-16/commit/cef3516fd2bdcff585e881c34d06d8b68f905ccc)  | [booking-success.html](https://github.com/DWS-2026/project-grupo-16/blob/main/booking-success.html)   |
 |5| [Create Prices](https://github.com/DWS-2026/project-grupo-16/commit/35f3412d2cf25c716a16759c870a96dec0d6536c)  | [prices.html](https://github.com/DWS-2026/project-grupo-16/blob/main/prices.html)   |
 
 ---
