@@ -28,32 +28,32 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 - Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
 - Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
 - Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
-- Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N) 
+- Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N)
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
-* **Usuario Anónimo**: 
+* **Usuario Anónimo**:
   - Permisos: Visualización del listado de actividades y horarios, lectura de reseñas públicas, acceso a la página de login y registro.
   - No es dueño de ninguna entidad.
 
-* **Usuario Registrado**: 
+* **Usuario Registrado**:
   - Permisos: Gestión de su perfil personal, posibilidad de realizar reservas en las actividades disponibles, cancelación de sus propias reservas y redacción de reseñas sobre las actividades realizadas.
   - Es dueño de: Entidad Usuario (su propio perfil); Entidad Reserva (consulta de las reservas que ha realizado); Entidad Reseña (Las valoraciones que ha escrito (solo él puede editarlas o borrarlas).
 
-* **Administrador**: 
+* **Administrador**:
   - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios.
   - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
 
-- **Entidad Usuario**: Cada usuario podrá subir una imagen de perfil (avatar) para personalizar su cuenta. 
+- **Entidad Usuario**: Cada usuario podrá subir una imagen de perfil (avatar) para personalizar su cuenta.
 - **Entidad Actividad**: Cada actividad ofertada tendrá asociada una imagen representativa.
 - **Entidad Reseña**: Los usuarios podrán adjuntar una fotografía a su reseña.
 
 - ### **Funcionalidad**
-Almacenamiento de ficheros: 
+Almacenamiento de ficheros:
 - **PDF**: En cada actividad estará alojado un PDF con la información de la actividad. Este fichero podrá ser subido por el administrador y descargado por cualquier usuario (registrado o anónimo).
 
 ---
@@ -67,9 +67,9 @@ Almacenamiento de ficheros:
 ### **Diagrama de Navegación**
 Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicación:
 
-![Diagrama de Navegación](images/navigation-diagram.png)
+![Diagrama de Navegación](images/dws_diagrama.jpg)
 
-> [Descripción opcional del flujo de navegación: Ej: "El usuario puede acceder desde la página principal a todas las secciones mediante el menú de navegación. Los usuarios anónimos solo tienen acceso a las páginas públicas, mientras que los registrados pueden acceder a su perfil y panel de usuario."]
+> Descripción del flujo de navegación: El flujo de navegación parte de una barra de menú superior común que permite acceder a las secciones públicas de la web. Los usuarios anónimos pueden visualizar el catálogo de actividades y acceder a los formularios de registro e inicio de sesión. Una vez autenticados, los usuarios registrados obtienen acceso a su área personal para gestionar reservas y editar su perfil, mientras que el administrador es redirigido a un panel de gestión privado (Dashboard) desde donde puede administrar clases, usuarios, reseñas y la configuración del sitio.
 
 ### **Capturas de Pantalla y Descripción de Páginas**
 
