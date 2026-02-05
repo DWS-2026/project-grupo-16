@@ -145,7 +145,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 |1| [Create User Profile](https://github.com/DWS-2026/project-grupo-16/commit/890e631407d9daf9cdca7009320f40037eee88e9)  | [user-profile.html](https://github.com/DWS-2026/project-grupo-16/blob/main/user-profile.html)   |
 |2| [Create User Edit Profile](https://github.com/DWS-2026/project-grupo-16/commit/e384845db61812b4d7e09eee04754bc2fe06a7a6)  | [edit-profile.html](https://github.com/DWS-2026/project-grupo-16/blob/main/edit-profile.html)   |
 |3| [Creation of Activities](https://github.com/DWS-2026/project-grupo-16/commit/df2d9b002bb13e0ceb2ed57123a545426d0b7a1c)  | [index.html](https://github.com/DWS-2026/project-grupo-16/blob/main/index.html)   |
-|4| [Change format of all the files](https://github.com/DWS-2026/project-grupo-16/commit/3dffe60179be7045fa26312b1b5dc8830bebb216)  | [All files of activities]   |
+|4| [Change format of all the files](https://github.com/DWS-2026/project-grupo-16/commit/3dffe60179be7045fa26312b1b5dc8830bebb216)  |All activity files |
 
 ---
 
