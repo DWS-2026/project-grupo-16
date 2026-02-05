@@ -31,3 +31,4 @@ hs_err_pid*
 .idea/
 .vscode/
 assets/.DS_Store
+.DS_Store
