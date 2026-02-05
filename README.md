@@ -113,15 +113,19 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página que muestra un mensaje de validación con un icono de verificación verde indicando que la plaza ha sido asegurada. Incluye un cuadro informativo con recordatorios útiles sobre la asistencia y la política de cancelación (hasta 2 horas antes). Cuenta con un botón azul de "Go to My Profile" para gestionar las reservas y otro botón secundario para regresar al listado de actividades.
 
-#### **9. Página de principal del Administrador**
+#### **9. Página con mas detalles de Actividad**
+![Página Principal](images/FotoDetalleActividad.png)
+> Página que muestra mas informacion sobre la actividad seleccionada como una breve descripcion de la actividad y una zona donde puedes descargar un fichero si quieres obtener mas informacion como el horario. Tambien tienes una opcion para reservar tu plaza, seleccionando el dia que se quiera. En el caso que la actividad seleccionada este completa de aforo se marcará en rojo y no dejará realizar la reserva.
+
+#### **10. Página de principal del Administrador**
 ![Página Principal](images/admin.png)
 > Página principal de gestión del Gimnasio. Muestra tablas resumen para la gestión de Clases (con indicadores visuales de aforo), Usuarios (con estados y roles) y moderación de Reseñas. Incluye botones de acción rápida para editar, borrar o bloquear elementos. Así mismo, dispone de un menú para moverse por las distintas páginas del panel de administración.
 
-#### **10. Página de Configuración del Gimnasio**
+#### **11. Página de Configuración del Gimnasio**
 ![Página Principal](images/admin-settings.png)
 > Panel de configuración global que permite modificar la información del negocio (horarios, contacto) y activar el "Modo Mantenimiento" mediante interruptores (toggles).
 
-#### **11. Página de Gestión de Clases**
+#### **12. Página de Gestión de Clases**
 ![Página Principal](images/admin-classes.png)
 > Herramienta avanzada para entrenadores y administradores. Permite seleccionar una sesión específica mediante un desplegable y visualizar el listado de alumnos inscritos. Muestra el estado de pago de cada socio y permite pasar lista mediante checkboxes interactivos.
 
