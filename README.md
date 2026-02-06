@@ -163,7 +163,7 @@ Creación y desarrollo de las páginas de inicio de sesión y registro (incluyen
 
 ---
 
-#### **Alumno 3 - [Luis Estirado Revuelta]**
+#### **Alumno 3 - Luis Estirado Revuelta**
 
 Creación y desarrollo de las páginas del panel de administración, tales como la página principal, la página de gestión de las clases como también la página de gestión del sitio web. Así mismo, la creación del fichero admin.css para los estilos CSS del panel y así separar los estilos de la parte pública.
 
@@ -176,7 +176,7 @@ Creación y desarrollo de las páginas del panel de administración, tales como 
 
 ---
 
-#### **Alumno 4 - [Jaime Salgado Carballeda]**
+#### **Alumno 4 - Jaime Salgado Carballeda**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
