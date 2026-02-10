@@ -136,59 +136,56 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Roberto Acebes Moran**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrolllo de las páginas de perfil de usuarios registrados y edición del mismo. También, cargar las imágenes de las actividades asi como establecer el horario y días de impartición. Además, he supervisado (realizando modificaciones) el formato de los ficheros (contenido y forma) .html de todo el proyecto.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Create User Profile](https://github.com/DWS-2026/project-grupo-16/commit/890e631407d9daf9cdca7009320f40037eee88e9)  | [user-profile.html](https://github.com/DWS-2026/project-grupo-16/blob/main/user-profile.html)   |
+|2| [Create User Edit Profile](https://github.com/DWS-2026/project-grupo-16/commit/e384845db61812b4d7e09eee04754bc2fe06a7a6)  | [edit-profile.html](https://github.com/DWS-2026/project-grupo-16/blob/main/edit-profile.html)   |
+|3| [Creation of Activities](https://github.com/DWS-2026/project-grupo-16/commit/df2d9b002bb13e0ceb2ed57123a545426d0b7a1c)  | [index.html](https://github.com/DWS-2026/project-grupo-16/blob/main/index.html)   |
+|4| [Change format of all the files](https://github.com/DWS-2026/project-grupo-16/commit/3dffe60179be7045fa26312b1b5dc8830bebb216)  |All activity files |
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - Elena González Rodríguez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrollo de las páginas de inicio de sesión y registro (incluyendo la página de olvido de contraseña de la cuenta del usuario), la página de confirmación de reserva exitosa y la página de las diferentes tarifas del gimnasio.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Create Login](https://github.com/DWS-2026/project-grupo-16/commit/22145abc9606f203abd05fa641fc6e8b08870a61)  | [login.html](https://github.com/DWS-2026/project-grupo-16/blob/main/login.html)   |
+|2| [Create Register](https://github.com/DWS-2026/project-grupo-16/commit/22145abc9606f203abd05fa641fc6e8b08870a61)  | [register.html](https://github.com/DWS-2026/project-grupo-16/blob/main/register.html)   |
+|3| [Add forgot password page navigation](https://github.com/DWS-2026/project-grupo-16/commit/ec980fc8b8928fe9fef43a2768dd579e7afbbca5)  | [forgot-password.html](https://github.com/DWS-2026/project-grupo-16/blob/main/forgot-password.html)   |
+|4| [Adding the completed booking page](https://github.com/DWS-2026/project-grupo-16/commit/cef3516fd2bdcff585e881c34d06d8b68f905ccc)  | [booking-success.html](https://github.com/DWS-2026/project-grupo-16/blob/main/booking-success.html)   |
+|5| [Create Prices](https://github.com/DWS-2026/project-grupo-16/commit/35f3412d2cf25c716a16759c870a96dec0d6536c)  | [prices.html](https://github.com/DWS-2026/project-grupo-16/blob/main/prices.html)   |
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - Luis Estirado Revuelta**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación y desarrollo de las páginas del panel de administración, tales como la página principal, la página de gestión de las clases como también la página de gestión del sitio web. Así mismo, la creación del fichero admin.css para los estilos CSS del panel y así separar los estilos de la parte pública.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Create dashboard](https://github.com/DWS-2026/project-grupo-16/commit/31166d51900f57da8c3d0dda32101382682a5dd8)  | [admin-dashboard.html](https://github.com/DWS-2026/project-grupo-16/blob/main/admin-dashboard.html)   |
+|2| [Create site settings](https://github.com/DWS-2026/project-grupo-16/commit/5410f4b1b68239bd0f5d80e949a602029e589d4a)  | [site-settings.html](https://github.com/DWS-2026/project-grupo-16/blob/main/site-settings.html)   |
+|3| [Create classes management](https://github.com/DWS-2026/project-grupo-16/commit/d21593a7c8bc36c62f450d21e9aebc2fa952e7c6)  | [admin-class.html](https://github.com/DWS-2026/project-grupo-16/blob/main/admin-class.html)   |
+|4| [Create admin.css](https://github.com/DWS-2026/project-grupo-16/commit/1502495ea90c1cc170404201821b8fde00218e62)  | [admin.css](https://github.com/DWS-2026/project-grupo-16/blob/main/css/admin.css)   |
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - Jaime Salgado Carballeda**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Updates in activity form](https://github.com/DWS-2026/dws-2026-project-base/commit/54599807a3e265a9b63129bf2b61bbe3b5a5334c)  | [activity-form.html](https://github.com/DWS-2026/project-grupo-16/blob/main/activity-form.html)   |
+|2| [Create activity details in all activities](https://github.com/DWS-2026/dws-2026-project-base/commit/d700f3aa38dcb915b0b816fa0c7bf961189f1e14)  | [activity-detail-zumba.html](https://github.com/DWS-2026/project-grupo-16/blob/main/activity-detail-zumba.html)   |
+|3| [Creating the routes to activity details](https://github.com/DWS-2026/dws-2026-project-base/commit/85a1b409cb9592f8d6023e9d0dd3aca0fc8010a3)  | [index.html](https://github.com/DWS-2026/project-grupo-16/blob/main/index.html)   |
+|4| [Create the video](https://github.com/DWS-2026/dws-2026-project-base/commit/8505fe75b5d0a0680535dacbd4f0b0519867f254)  | [README.md](https://github.com/DWS-2026/project-grupo-16/blob/main/README.md)   |
 
 ---
 
