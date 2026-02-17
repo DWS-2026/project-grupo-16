@@ -1,13 +1,12 @@
-package es.codeurjc.helloword_vscode;
+package es.codeurjc.ferrumgym;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HellowordVscodeApplication {
+public class FerrumGymApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HellowordVscodeApplication.class, args);
+		SpringApplication.run(FerrumGymApplication.class, args);
 	}
-
 }

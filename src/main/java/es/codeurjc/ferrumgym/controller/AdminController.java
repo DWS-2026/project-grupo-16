@@ -1,5 +1,4 @@
 package es.codeurjc.ferrumgym.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +9,7 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+
 
     // --- CLASES DE DATOS (MOCK) ---
     // Usamos 'record' para crear objetos de datos rápidos (Java 14+)
@@ -34,7 +34,6 @@ public class AdminController {
 
     @GetMapping("/admin-dashboard")
     public String dashboard(Model model) {
-
         // --- CARGA DE DATOS MOCK ---
 
         // Lista de Actividades
