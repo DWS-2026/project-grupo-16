@@ -10,11 +10,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String author; // Por ahora String
+    private String author; // atm string, afterwards we will relate it to User
     private String className;
     private int stars; // 1 a 5
 
-    @Column(length = 1000) // Para permitir textos largos
+    @Column(length = 1000) // large comment
     private String comment;
 
     public Review() {}

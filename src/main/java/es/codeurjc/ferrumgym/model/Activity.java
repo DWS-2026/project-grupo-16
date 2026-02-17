@@ -11,7 +11,7 @@ public class Activity {
     private Long id;
 
     private String name;
-    private String trainer; // Por ahora String, luego lo relacionaremos con User
+    private String trainer; //atm string, afterwards we will relate it to User
     private String schedule;
     private int capacity;
     private int enrolled; // Gente apuntada
