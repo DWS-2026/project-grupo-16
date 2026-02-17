@@ -11,29 +11,12 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../static/css/styles.css" rel="stylesheet" />
-		<link href="../static/css/admin.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
+		<link href="/css/admin.css" rel="stylesheet" />
     </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand fw-bold" href="admin-dashboard.html">Ferrum Gym | Administration</a> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link" href="index.html">View public site</a></li>
-					<li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Admin Homepage</a></li>
-					<li class="nav-item"><a class="nav-link" href="site-settings.html">Site Settings</a></li>
-					<li class="nav-item"><a class="nav-link" href="admin-class.html">Classes Management</a></li>
-                </ul>
-                <div class="d-flex">
-                    <a href="login.html" class="btn btn-outline-danger">Log out</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+{{> fragments/navbar-admin }}
 
     <main class="container py-5">
         <div class="row mb-4">
