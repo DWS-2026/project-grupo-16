@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  mysqldb:
+    image: mysql:8.0
+    container_name: ferrum_mysql_container
+    restart: always
+    environment:
+      MYSQL_DATABASE: ferrum_db      # Database name
+      MYSQL_ROOT_PASSWORD: root      # Password for root > user (not for production)
+      MYSQL_USER: user               # User for the App
+      MYSQL_PASSWORD: pass           # Pass for the App user
+    ports:
+      - "3306:3306"                  # Port mapping for MySQL (3306 is default MySQL port)
+    volumes:
+      - mysql_data:/var/lib/mysql    # Save MySQL data to a Docker volume
+
+# Volumes to persist MySQL data
+volumes:
+  mysql_data:
