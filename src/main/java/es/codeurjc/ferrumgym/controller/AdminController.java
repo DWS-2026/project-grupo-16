@@ -65,4 +65,32 @@ public class AdminController {
 
         return "admin-dashboard";
     }
+    // 1. PÁGINA DE USUARIOS
+    @GetMapping("/admin-class")
+    public String users(Model model) {
+        // Reutilizamos el record User que creaste antes
+        List<User> users = new ArrayList<>();
+        users.add(new User(1, "Juan Pérez", "juan@email.com", "Member", true));
+        users.add(new User(2, "Alicia García", "alicia@email.com", "Trainer", true));
+        users.add(new User(3, "Nuevo Usuario", "nuevo@email.com", "Member", false));
+
+        model.addAttribute("users", users);
+        model.addAttribute("adminName", "Admin");
+
+        return "admin-class"; // Nombre exacto del archivo HTML en templates (sin .html)
+    }
+
+    // 2. PÁGINA DE AJUSTES
+    @GetMapping("/site-settings")
+    public String settings(Model model) {
+        model.addAttribute("adminName", "Admin");
+        return "site-settings"; // Nombre exacto del archivo HTML
+    }
+
+    // 3. FORMULARIO DE NUEVA ACTIVIDAD
+    @GetMapping("/admin/activity/new")
+    public String newActivityForm(Model model) {
+        model.addAttribute("adminName", "Admin");
+        return "activity-form"; // Nombre exacto del archivo HTML
+    }
 }
