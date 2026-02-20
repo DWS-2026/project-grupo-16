@@ -1,30 +1,72 @@
 package es.codeurjc.ferrumgym.model;
-
 import jakarta.persistence.*;
 
+
 @Entity
-@Table(name = "reviews")
 public class Review {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String author; // atm string, afterwards we will relate it to User
-    private String className;
-    private int stars; // 1 a 5
-
-    @Column(length = 1000) // large comment
-    private String comment;
 
     public Review() {}
 
-    public Review(String author, String className, int stars, String comment) {
-        this.author = author;
-        this.className = className;
-        this.stars = stars;
+    public Review(Long id, String comment, int rating, User user, Activity activity) {
+        this.id = id;
+        this.comment = comment;
+        this.rating = rating;
+        this.user = user;
+        this.activity = activity;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String comment;
+    private int rating;
+
+    @ManyToOne
+    private User user; // Only the owner can edit/delete
+
+    @ManyToOne
+    private Activity activity;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
-    // ... Genera Getters y Setters aquí ...
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+
 }
