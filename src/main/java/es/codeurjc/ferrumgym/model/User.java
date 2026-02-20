@@ -16,6 +16,13 @@ public class User {
         this.bookings = bookings;
         this.reviews = reviews;
     }
+    
+    public User(String name, String email, String password, List<String> roles) {
+        this.name = name;
+        this.email = email;
+        this.encodedPassword = password; // We use plain text as requested
+        this.roles = roles;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

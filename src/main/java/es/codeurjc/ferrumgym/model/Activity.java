@@ -12,6 +12,11 @@ public class Activity {
         this.image = image;
         this.bookings = bookings;
     }
+    
+    public Activity(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
