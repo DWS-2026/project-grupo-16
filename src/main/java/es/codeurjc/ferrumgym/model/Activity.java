@@ -19,6 +19,11 @@ public class Activity {
         this.enrolled = enrolled;
         this.bookings = bookings;
     }
+    
+    public Activity(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
