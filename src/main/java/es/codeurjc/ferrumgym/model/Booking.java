@@ -1,32 +1,28 @@
 package es.codeurjc.ferrumgym.model;
 import jakarta.persistence.*;
-
+import java.time.LocalDateTime;
 
 @Entity
-public class Review {
-
-    public Review() {}
-
-    public Review(Long id, String comment, int rating, User user, Activity activity) {
+public class Booking {
+    
+    public Booking(Long id, User user, Activity activity, LocalDateTime bookingDate) {
         this.id = id;
-        this.comment = comment;
-        this.rating = rating;
         this.user = user;
         this.activity = activity;
+        this.bookingDate = bookingDate;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String comment;
-    private int rating;
-
     @ManyToOne
-    private User user; // Only the owner can edit/delete
+    private User user; // The owner of the booking 
 
     @ManyToOne
     private Activity activity;
+
+    private LocalDateTime bookingDate;
 
     public Long getId() {
         return id;
@@ -34,22 +30,6 @@ public class Review {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public User getUser() {
@@ -68,5 +48,14 @@ public class Review {
         this.activity = activity;
     }
 
+    public LocalDateTime getBookingDate() {
+        return bookingDate;
+    }
 
+    public void setBookingDate(LocalDateTime bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    
+    
 }
