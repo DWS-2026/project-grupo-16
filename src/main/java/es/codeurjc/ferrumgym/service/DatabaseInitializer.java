@@ -1,16 +1,21 @@
-package es.codeurjc.ferrumgym.service;
+package es.codeurjc.ferrumgym;
 
-import es.codeurjc.ferrumgym.model.*;
-import es.codeurjc.ferrumgym.repository.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import es.codeurjc.ferrumgym.model.*;
+import es.codeurjc.ferrumgym.repository.*;
 
 @Component
-public class DatabaseInitializer {
+public class DataBaseInitializer {
 
     @Autowired
     private UserRepository userRepository;
@@ -25,60 +30,81 @@ public class DatabaseInitializer {
     private ReviewRepository reviewRepository;
 
     @PostConstruct
-    public void init() {
-        // Only initialize if the database is empty to avoid overwriting existing data
+    public void init() throws IOException {
+
+        // 1. SAFETY CHECK: Only run if DB is empty to prevent duplicates on restart
         if (userRepository.count() == 0) {
 
-            System.out.println("⏳ Loading mock data into the database...");
+            System.out.println("⏳ Loading mock data with images into the database...");
 
-            // 1. ADDING USERS
-            User admin = new User();
-            admin.setName("Main Admin");
-            admin.setEmail("admin@ferrumgym.com");
-            admin.setEncodedPassword("pass123"); // Hardcoded for simplicity right now
-            admin.setRoles(List.of("ROLE_USER", "ROLE_ADMIN"));
-            userRepository.save(admin);
-
-            User client = new User();
-            client.setName("John Doe");
-            client.setEmail("john@ferrumgym.com");
-            client.setEncodedPassword("pass123");
-            client.setRoles(List.of("ROLE_USER"));
-            userRepository.save(client);
-
-            // 2. ADDING ACTIVITIES
-            Activity crossfit = new Activity();
-            crossfit.setName("Crossfit Level 1");
-            crossfit.setDescription("High-intensity class to start your day with energy.");
-            crossfit.setTrainer("Alicia Garcia");
-            crossfit.setSchedule("Mon-Wed 17:00-18:00");
-            crossfit.setCapacity(25);
-            crossfit.setEnrolled(15);
-            activityRepository.save(crossfit);
-
+            // 2. Create Activities (Using setters to include the Dashboard fields)
             Activity yoga = new Activity();
-            yoga.setName("Yoga Relax");
-            yoga.setDescription("Stretching and relaxation to end your day.");
+            yoga.setName("Yoga");
+            yoga.setDescription("Relaxing sessions for mind and body.");
+            yoga.setImage(loadImage("src/main/resources/static/assets/Yoga.jpg"));
             yoga.setTrainer("Mark Perez");
             yoga.setSchedule("Tue-Thu 19:00-20:00");
             yoga.setCapacity(20);
             yoga.setEnrolled(20);
             activityRepository.save(yoga);
 
-            // 3. ADDING BOOKINGS
+            Activity crossfit = new Activity();
+            crossfit.setName("Crossfit");
+            crossfit.setDescription("High intensity interval training.");
+            crossfit.setImage(loadImage("src/main/resources/static/assets/crossfit.avif"));
+            crossfit.setTrainer("Alicia Garcia");
+            crossfit.setSchedule("Mon-Wed 17:00-18:00");
+            crossfit.setCapacity(25);
+            crossfit.setEnrolled(15);
+            activityRepository.save(crossfit);
+
+            // 3. Create Administrator
+            User admin = new User();
+            admin.setName("Admin");
+            admin.setEmail("admin@ferrumgym.com");
+            admin.setEncodedPassword("adminpass");
+            admin.setRoles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
+            admin.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
+            userRepository.save(admin);
+
+            // 4. Create Registered Users
+            User user1 = new User();
+            user1.setName("Juan Perez");
+            user1.setEmail("j.perez@alumnos.urjc.es");
+            user1.setEncodedPassword("pass1");
+            user1.setRoles(Arrays.asList("ROLE_USER"));
+            user1.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
+            userRepository.save(user1);
+
+            User user2 = new User();
+            user2.setName("Marta Gomez");
+            user2.setEmail("m.gomez@alumnos.urjc.es");
+            user2.setEncodedPassword("pass2");
+            user2.setRoles(Arrays.asList("ROLE_USER"));
+            user2.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
+            userRepository.save(user2);
+
+            // 5. Create Mock Bookings & Reviews for the Dashboard
             Booking booking = new Booking();
-            booking.setUser(client);
+            booking.setUser(user1);
             booking.setActivity(crossfit);
-            booking.setBookingDate(LocalDateTime.now().plusDays(2)); // Booked for 2 days from now
+            booking.setBookingDate(LocalDateTime.now().plusDays(2));
             bookingRepository.save(booking);
 
-            // 4. ADDING REVIEWS
             Review review = new Review();
             review.setComment("I loved the Crossfit class! The trainer is awesome.");
             review.setRating(5);
-            review.setUser(client);
+            review.setUser(user1);
             review.setActivity(crossfit);
             reviewRepository.save(review);
         }
+    }
+
+    private byte[] loadImage(String path) throws IOException {
+        Path imagePath = Paths.get(path);
+        if (Files.exists(imagePath)) {
+            return Files.readAllBytes(imagePath);
+        }
+        return null;
     }
 }
