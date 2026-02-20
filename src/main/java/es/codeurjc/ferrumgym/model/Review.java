@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 @Entity
 public class Review {
 
+		public Review() {}
+
     public Review(Long id, String comment, int rating, User user, Activity activity) {
         this.id = id;
         this.comment = comment;

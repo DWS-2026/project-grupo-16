@@ -5,6 +5,8 @@ import java.util.List;
 @Entity
 public class User {
 
+		public User() {}
+
     public User(Long id, String name, String email, String encodedPassword, List<String> roles, byte[] image,
             List<Booking> bookings, List<Review> reviews) {
         this.id = id;

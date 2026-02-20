@@ -5,6 +5,8 @@ import java.util.List;
 @Entity
 public class Activity {
 
+	public Activity() {}
+
     public Activity(Long id, String name, String description, byte[] image, List<Booking> bookings) {
         this.id = id;
         this.name = name;

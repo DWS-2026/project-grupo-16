@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Booking {
-    
+
+		public Booking() {}
+
     public Booking(Long id, User user, Activity activity, LocalDateTime bookingDate) {
         this.id = id;
         this.user = user;
@@ -17,7 +19,7 @@ public class Booking {
     private Long id;
 
     @ManyToOne
-    private User user; // The owner of the booking 
+    private User user; // The owner of the booking
 
     @ManyToOne
     private Activity activity;
@@ -56,6 +58,6 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    
-    
+
+
 }
