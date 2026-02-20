@@ -29,44 +29,52 @@ public class DatabaseInitializer {
         // Only initialize if the database is empty to avoid overwriting existing data
         if (userRepository.count() == 0) {
 
-            System.out.println("⏳ Cargando datos de prueba en la Base de Datos...");
+            System.out.println("⏳ Loading mock data into the database...");
 
-            // Adding users
+            // 1. ADDING USERS
             User admin = new User();
-            admin.setName("Admin Principal");
+            admin.setName("Main Admin");
             admin.setEmail("admin@ferrumgym.com");
-            admin.setEncodedPassword("pass123"); // hardcoded for simplicity
+            admin.setEncodedPassword("pass123"); // Hardcoded for simplicity right now
             admin.setRoles(List.of("ROLE_USER", "ROLE_ADMIN"));
             userRepository.save(admin);
 
             User client = new User();
-            client.setName("Juan Pérez");
-            client.setEmail("juan@ferrumgym.com");
+            client.setName("John Doe");
+            client.setEmail("john@ferrumgym.com");
             client.setEncodedPassword("pass123");
             client.setRoles(List.of("ROLE_USER"));
             userRepository.save(client);
 
-            // New Activities
+            // 2. ADDING ACTIVITIES
             Activity crossfit = new Activity();
-            crossfit.setName("Crossfit Nivel 1");
-            crossfit.setDescription("Clase de alta intensidad para empezar el día con fuerza.");
+            crossfit.setName("Crossfit Level 1");
+            crossfit.setDescription("High-intensity class to start your day with energy.");
+            crossfit.setTrainer("Alicia Garcia");
+            crossfit.setSchedule("Mon-Wed 17:00-18:00");
+            crossfit.setCapacity(25);
+            crossfit.setEnrolled(15);
             activityRepository.save(crossfit);
 
             Activity yoga = new Activity();
             yoga.setName("Yoga Relax");
-            yoga.setDescription("Estiramientos y relajación para terminar el día.");
+            yoga.setDescription("Stretching and relaxation to end your day.");
+            yoga.setTrainer("Mark Perez");
+            yoga.setSchedule("Tue-Thu 19:00-20:00");
+            yoga.setCapacity(20);
+            yoga.setEnrolled(20);
             activityRepository.save(yoga);
 
-            // Bookings
+            // 3. ADDING BOOKINGS
             Booking booking = new Booking();
             booking.setUser(client);
             booking.setActivity(crossfit);
-            booking.setBookingDate(LocalDateTime.now().plusDays(2)); // Book for 2 days later
+            booking.setBookingDate(LocalDateTime.now().plusDays(2)); // Booked for 2 days from now
             bookingRepository.save(booking);
 
-            // Reviews
+            // 4. ADDING REVIEWS
             Review review = new Review();
-            review.setComment("¡Me encantó la clase de Crossfit! El monitor es genial.");
+            review.setComment("I loved the Crossfit class! The trainer is awesome.");
             review.setRating(5);
             review.setUser(client);
             review.setActivity(crossfit);
