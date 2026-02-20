@@ -15,7 +15,7 @@ import es.codeurjc.ferrumgym.model.*;
 import es.codeurjc.ferrumgym.repository.*;
 
 @Component
-public class DataBaseInitializer {
+public class DatabaseInitializer {
 
     @Autowired
     private UserRepository userRepository;

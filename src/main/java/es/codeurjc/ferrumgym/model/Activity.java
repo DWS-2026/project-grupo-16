@@ -6,8 +6,10 @@ import java.util.List;
 @Entity
 public class Activity {
 
+    // 1. OBLIGATORY EMPTY CONSTRUCTOR FOR JPA
     public Activity() {}
 
+    // 2. CONSTRUCTOR FOR MOCK DATA
     public Activity(Long id, String name, String description, byte[] image, String trainer, String schedule, int capacity, int enrolled, List<Booking> bookings) {
         this.id = id;
         this.name = name;
@@ -19,11 +21,6 @@ public class Activity {
         this.enrolled = enrolled;
         this.bookings = bookings;
     }
-    
-    public Activity(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,22 +29,23 @@ public class Activity {
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String description; //TO CHECK
+    private String description;
 
     @Lob
-    private byte[] image; // Activity photo
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] image;
 
-    // Additional fields for activity management
+    // --- DASHBOARD FIELDS (Restored!) ---
     private String trainer;
     private String schedule;
     private int capacity;
     private int enrolled;
-    // ------------------------------------------------
+    // ------------------------------------
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
-    // --- GETTERS Y SETTERS ---
+    // --- GETTERS & SETTERS ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -76,12 +74,13 @@ public class Activity {
     public List<Booking> getBookings() { return bookings; }
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
 
-	public String getStatusColor() {
+    // --- UI HELPERS FOR DASHBOARD COLORS ---
+    public String getStatusColor() {
         if (this.capacity == 0) return "bg-secondary"; // Safety check
         if (this.enrolled >= this.capacity) {
             return "bg-danger"; // Full
         } else if (this.enrolled >= this.capacity - 5) {
-            return "bg-warning text-dark"; // Almost full (yellow needs dark text)
+            return "bg-warning text-dark"; // Almost full
         } else {
             return "bg-success"; // Plenty of space
         }
