@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import es.codeurjc.ferrumgym.model.Activity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class AdminController {
@@ -92,6 +93,15 @@ public class AdminController {
 
         activityRepository.save(newActivity);
 
+        return "redirect:/admin-dashboard";
+    }
+	// 3. GET: Delete an activity by its ID
+    @GetMapping("/activity/delete/{id}")
+    public String deleteActivity(@PathVariable Long id) {
+        // Delete the activity from the database
+        activityRepository.deleteById(id);
+
+        // Redirect back to the dashboard
         return "redirect:/admin-dashboard";
     }
 }
