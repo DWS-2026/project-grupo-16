@@ -32,12 +32,10 @@ public class DatabaseInitializer {
     @PostConstruct
     public void init() throws IOException {
 
-        // 1. SAFETY CHECK: Only run if DB is empty to prevent duplicates on restart
+        // Only run if DB is empty to prevent duplicates on restart
         if (userRepository.count() == 0) {
 
-            System.out.println("⏳ Loading mock data with images into the database...");
-
-            // 2. Create Activities (Using setters to include the Dashboard fields)
+            // Create Activities (Using setters to include the Dashboard fields)
             Activity yoga = new Activity();
             yoga.setName("Yoga");
             yoga.setDescription("Relaxing sessions for mind and body.");
@@ -58,7 +56,7 @@ public class DatabaseInitializer {
             crossfit.setEnrolled(15);
             activityRepository.save(crossfit);
 
-            // 3. Create Administrator
+            // Admin user with both roles and a profile picture
             User admin = new User();
             admin.setName("Admin");
             admin.setEmail("admin@ferrumgym.com");
@@ -67,7 +65,7 @@ public class DatabaseInitializer {
             admin.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(admin);
 
-            // 4. Create Registered Users
+            // Registered Users
             User user1 = new User();
             user1.setName("Juan Perez");
             user1.setEmail("j.perez@alumnos.urjc.es");
@@ -84,7 +82,7 @@ public class DatabaseInitializer {
             user2.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user2);
 
-            // 5. Create Mock Bookings & Reviews for the Dashboard
+            // Create Mock Bookings & Reviews for the Dashboard
             Booking booking = new Booking();
             booking.setUser(user1);
             booking.setActivity(crossfit);
