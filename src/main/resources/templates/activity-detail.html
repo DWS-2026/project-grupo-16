@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>{{activity.name}} - Ferrum Gym</title>
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="/">Ferrum Gym</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="/">Back to Activities</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" 
+                             src="/activity/{{activity.id}}/image" 
+                             alt="{{activity.name}}" 
+                             style="max-height: 500px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="small mb-1 text-muted">ID: {{activity.id}}</div>
+                        <h1 class="display-5 fw-bolder">{{activity.name}}</h1>
+                        
+                        <div class="fs-5 mb-5">
+                            <p><strong>Trainer:</strong> {{activity.trainer}}</p>
+                            <p class="text-muted"><i class="bi bi-clock"></i> {{activity.schedule}}</p>
+                        </div>
+                        
+                        <p class="lead">{{activity.description}}</p>
+                        
+                        <div class="mb-4">
+                            <label>Capacity: {{activity.enrolled}} / {{activity.capacity}}</label>
+                            <div class="progress mt-2" style="height: 25px;">
+                                <div class="progress-bar {{activity.statusColor}}" role="progressbar" 
+                                     style="width: {{activity.percentage}}%;" 
+                                     aria-valuenow="{{activity.enrolled}}" aria-valuemin="0" aria-valuemax="{{activity.capacity}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            {{^activity.isFull}}
+                            <form action="/activity/{{activity.id}}/book" method="POST">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                    <i class="bi-calendar-plus-fill me-1"></i> Book Class
+                                </button>
+                            </form>
+                            {{/activity.isFull}}
+
+                            {{#activity.isFull}}
+                            <button class="btn btn-danger flex-shrink-0" disabled>
+                                <i class="bi-x-circle me-1"></i> Class Full
+                            </button>
+                            {{/activity.isFull}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Ferrum Gym 2026</p></div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
