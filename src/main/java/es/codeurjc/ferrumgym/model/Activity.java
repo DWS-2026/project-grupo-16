@@ -86,3 +86,8 @@ public class Activity {
         }
     }
 }
+// Calcula el porcentaje real de ocupación para la barra
+    public int getPercentage() {
+        if (capacity == 0) return 0; // Evitar división por cero
+        return (enrolled * 100) / capacity;
+    }

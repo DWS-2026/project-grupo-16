@@ -3,30 +3,24 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="Ferrum Gym - Your place for fitness, group classes, and personal training." />
-        <meta name="author" content="Grupo 16" />
         <title>Home - Ferrum Gym</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
-        <!-- Bootstrap icons-->
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../static/css/styles.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
     </head>
     <body>
-        <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.html">Ferrum Gym</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <a class="navbar-brand" href="/">Ferrum Gym</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Activities</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="prices.html">Tariffs</a></li>
-                        <li class="nav-item"><a class="nav-link" href="user-profile.html">My Profile (Demo)</a></li>
-                        <li class="nav-item"><a class="nav-link" href="admin-dashboard.html" style="color: red;">Admin (Profe)</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/">Activities</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/prices.html">Tariffs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user-profile.html">My Profile (Demo)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin-dashboard" style="color: red;">Admin (Profe)</a></li>
                     </ul>
-                    <form class="d-flex" action="login.html">
+                    <form class="d-flex" action="/login.html">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-person-fill me-1"></i> Login/Register
                         </button>
@@ -34,7 +28,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Header-->
+        
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
@@ -43,204 +37,47 @@
                 </div>
             </div>
         </header>
-        <!-- Section-->
+        
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    
+                    {{#activities}}
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/crossfit.avif" alt="Crossfit Class" />
-                            <!-- Activity details-->
+                            <img class="card-img-top" src="/activity/{{id}}/image" alt="{{name}}" style="height: 200px; object-fit: cover;" />
+                            
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Crossfit</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Monday and Wednesday<br>
-                                        <strong>17:00 - 18:00</strong>
-                                    </p>
+                                    <h5 class="fw-bolder">{{name}}</h5>
+                                    <p class="text-muted">{{schedule}}</p>
+                                    <span class="badge {{statusColor}}">{{enrolled}}/{{capacity}} enrolled</span>
                                 </div>
                             </div>
-                            <!-- Activity details-->
+                            
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-crossfit.html">View Details</a></div>
+                                    <a class="btn btn-outline-dark mt-auto" href="/activity/{{id}}">View Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/BodyPump.jpg" alt="Body Pump Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Body Pump</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Monday and Wednesday<br>
-                                        <strong>18:00 - 19:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-bodypump.html">View Details</a></div>
-                            </div>
-                        </div>
+                    {{/activities}}
+                    
+                    {{^activities}}
+                    <div class="col-12 text-center">
+                        <p>No activities available yet.</p>
                     </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/Yoga.jpg" alt="Yoga Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Yoga</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Monday and Wednesday<br>
-                                        <strong>19:00 - 20:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-yoga.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/Spinning.jpg" alt="Spinning Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Spinning</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Monday and Wednesday<br>
-                                        <strong>20:00 - 21:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-spinning.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/foto_hiit.jpg" alt="HIIT Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">HIIT</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Tuesday and Thursday<br>
-                                        <strong>17:00 - 18:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-hiit.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/Pilates.jpg" alt="Pilates Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Pilates</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Tuesday and Thursday<br>
-                                        <strong>18:00 - 19:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-pilates.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/boxeo.avif" alt="Boxing Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Boxing</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Tuesday and Thursday<br>
-                                        <strong>19:00 - 20:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-boxing.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Activity image-->
-                            <img class="card-img-top" src="../static/assets/Zumba.webp" alt="Zumba Class" />
-                            <!-- Activity details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Activity name-->
-                                    <h5 class="fw-bolder">Zumba</h5>
-                                    <!-- Activity time-->
-                                    <p class="text-muted">
-                                        Tuesday and Thursday<br>
-                                        <strong>20:00 - 21:00</strong>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Activity details-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" href="activity-detail-zumba.html">View Details</a></div>
-                            </div>
-                        </div>
-                    </div>
+                    {{/activities}}
+                    
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+        
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Ferrum Gym 2026</p></div>
         </footer>
-        <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="/js/scripts.js"></script>
     </body>
 </html>
