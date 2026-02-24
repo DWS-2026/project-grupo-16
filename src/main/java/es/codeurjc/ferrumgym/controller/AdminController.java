@@ -95,13 +95,65 @@ public class AdminController {
 
         return "redirect:/admin-dashboard";
     }
-	// 3. GET: Delete an activity by its ID
+	// GET: Delete an activity by its ID
     @GetMapping("/activity/delete/{id}")
     public String deleteActivity(@PathVariable Long id) {
         // Delete the activity from the database
         activityRepository.deleteById(id);
 
         // Redirect back to the dashboard
+        return "redirect:/admin-dashboard";
+    }
+
+	@GetMapping("/activity/edit/{id}")
+    public String editActivityForm(@PathVariable Long id, Model model) {
+
+        // Find the activity in the database. If not found, go back to dashboard.
+        Activity activityToEdit = activityRepository.findById(id).orElse(null);
+        if (activityToEdit == null) {
+            return "redirect:/admin-dashboard";
+        }
+
+        // Send the specific activity data to the HTML
+        model.addAttribute("activity", activityToEdit);
+        model.addAttribute("adminName", "Admin");
+
+        return "activity-edit"; // We will create this file now
+    }
+
+    // POST: Save the edited changes to the database
+    @PostMapping("/activity/edit/{id}")
+    public String updateActivity(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam String trainer,
+            @RequestParam String schedule,
+            @RequestParam int capacity,
+            @RequestParam int enrolled,
+            @RequestParam String description,
+            @RequestParam("imageField") MultipartFile imageField) throws IOException {
+
+        // Find the original activity
+        Activity existingActivity = activityRepository.findById(id).orElse(null);
+
+        if (existingActivity != null) {
+            // Update fields
+            existingActivity.setName(name);
+            existingActivity.setTrainer(trainer);
+            existingActivity.setSchedule(schedule);
+            existingActivity.setCapacity(capacity);
+            existingActivity.setEnrolled(enrolled);
+            existingActivity.setDescription(description);
+
+            // ONLY update the image if the admin uploaded a new one
+            if (!imageField.isEmpty()) {
+                existingActivity.setImage(imageField.getBytes());
+            }
+
+            // Save the updated activity
+            activityRepository.save(existingActivity);
+        }
+
         return "redirect:/admin-dashboard";
     }
 }
