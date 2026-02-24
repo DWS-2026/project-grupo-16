@@ -56,6 +56,26 @@ public class DatabaseInitializer {
             crossfit.setEnrolled(15);
             activityRepository.save(crossfit);
 
+            Activity zumba = new Activity();
+            zumba.setName("Zumba");
+            zumba.setDescription("Dance and fitness to high-energy music.");
+            zumba.setImage(loadImage("src/main/resources/static/assets/zumba.jpg")); 
+            zumba.setTrainer("Marta Ruiz");
+            zumba.setSchedule("Mon-Wed 20:00-21:00");
+            zumba.setCapacity(30);
+            zumba.setEnrolled(10);
+            activityRepository.save(zumba);
+
+            Activity spinning = new Activity();
+            spinning.setName("Spinning");
+            spinning.setDescription("Intense indoor cycling workout.");
+            spinning.setImage(loadImage("src/main/resources/static/assets/spinning.jpg"));
+            spinning.setTrainer("Roberto Soler");
+            spinning.setSchedule("Fri 18:00-19:00");
+            spinning.setCapacity(15);
+            spinning.setEnrolled(12);
+            activityRepository.save(spinning);
+
             // Admin user with both roles and a profile picture
             User admin = new User();
             admin.setName("Admin");
