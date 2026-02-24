@@ -1,96 +1,159 @@
 package es.codeurjc.ferrumgym.controller;
+
+import es.codeurjc.ferrumgym.repository.ActivityRepository;
+import es.codeurjc.ferrumgym.repository.ReviewRepository;
+import es.codeurjc.ferrumgym.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import es.codeurjc.ferrumgym.model.Activity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class AdminController {
 
+    // MySQL connections
+    @Autowired
+    private UserRepository userRepository;
 
-    // --- CLASES DE DATOS (MOCK) ---
-    // Usamos 'record' para crear objetos de datos rápidos (Java 14+)
+    @Autowired
+    private ActivityRepository activityRepository;
 
-    // 1. Actividad (Clase)
-    public record Activity(long id, String name, String trainer, String schedule, int enrolled, int capacity) {
-        public boolean isFull() { return enrolled >= capacity; }
-        public String statusColor() {
-            if (isFull()) return "bg-danger"; // Rojo si está lleno
-            if (enrolled >= capacity - 5) return "bg-warning"; // Amarillo si quedan pocas
-            return "bg-success"; // Verde si hay sitio
-        }
-    }
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-    // 2. Usuario
-    public record User(long id, String name, String email, String role, boolean hasImage) {}
 
-    // 3. Reseña
-    public record Review(long id, String className, int stars, String comment, String author, boolean hasImage) {
-        public String starsDisplay() { return "★".repeat(stars); } // Crea string de estrellitas
-    }
-
+    // Dashboard
     @GetMapping("/admin-dashboard")
     public String dashboard(Model model) {
-        // --- CARGA DE DATOS MOCK ---
 
-        // Lista de Actividades
-        List<Activity> activities = new ArrayList<>();
-        activities.add(new Activity(1, "Crossfit", "Trainer 1", "Mon & Wed 17:00-18:00", 15, 25));
-        activities.add(new Activity(2, "Body Pump", "Trainer 2", "Mon & Wed 18:00-19:00", 18, 30));
-        activities.add(new Activity(3, "Yoga", "Trainer 3", "Mon & Wed 19:00-20:00", 20, 20)); // Llena
-        activities.add(new Activity(4, "Spinning", "Trainer 4", "Mon & Wed 20:00-21:00", 22, 25));
-        activities.add(new Activity(5, "HIIT", "Trainer 5", "Tue & Thu 17:00-18:00", 14, 20));
-        activities.add(new Activity(6, "Pilates", "Trainer 6", "Tue & Thu 18:00-19:00", 16, 28));
-        activities.add(new Activity(7, "Boxing", "Trainer 7", "Tue & Thu 19:00-20:00", 24, 30));
-        activities.add(new Activity(8, "Zumba", "Trainer 8", "Tue & Thu 20:00-21:00", 19, 32));
+        // Fetch all activities, users and reviews from the database
+        model.addAttribute("activities", activityRepository.findAll());
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("reviews", reviewRepository.findAll());
 
-        // Lista de Usuarios
-        List<User> users = new ArrayList<>();
-        users.add(new User(1, "Juan Pérez", "juan@alumnos.urjc.es", "Member", true));
-        users.add(new User(2, "Alicia García", "alicia@alumnos.urjc.es", "Trainer", true));
-
-        // Lista de Reseñas
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(new Review(1, "HIIT Class", 4, "Great class but a bit crowded, they could run more groups. See you next time!", "Nombre Apellido", true));
-        reviews.add(new Review(2, "Crossfit Class", 5, "It was the best class of my life. Thank you!", "Nombre Apellido", true));
-
-        // --- PASAR AL MODELO ---
-        model.addAttribute("activities", activities);
-        model.addAttribute("users", users);
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("adminName", "Admin"); // Para el navbar
+        model.addAttribute("adminName", "Admin"); // For the navbar
 
         return "admin-dashboard";
     }
-    // 1. PÁGINA DE USUARIOS
+
+    // Admin class management page
     @GetMapping("/admin-class")
     public String users(Model model) {
-        // Reutilizamos el record User que creaste antes
-        List<User> users = new ArrayList<>();
-        users.add(new User(1, "Juan Pérez", "juan@email.com", "Member", true));
-        users.add(new User(2, "Alicia García", "alicia@email.com", "Trainer", true));
-        users.add(new User(3, "Nuevo Usuario", "nuevo@email.com", "Member", false));
 
-        model.addAttribute("users", users);
+        // Fetch users from the database
+        model.addAttribute("users", userRepository.findAll());
         model.addAttribute("adminName", "Admin");
 
-        return "admin-class"; // Nombre exacto del archivo HTML en templates (sin .html)
+        return "admin-class";
     }
 
-    // 2. PÁGINA DE AJUSTES
+    // Site settings page
     @GetMapping("/site-settings")
     public String settings(Model model) {
         model.addAttribute("adminName", "Admin");
-        return "site-settings"; // Nombre exacto del archivo HTML
+        return "site-settings";
     }
 
-    // 3. FORMULARIO DE NUEVA ACTIVIDAD
-    @GetMapping("/admin/activity/new")
+    // 1. GET: Show the empty form when clicking the button
+    @GetMapping("/activity/new")
     public String newActivityForm(Model model) {
         model.addAttribute("adminName", "Admin");
-        return "activity-form"; // Nombre exacto del archivo HTML
+        return "activity-form";
+    }
+
+    // 2. POST: Receive data, create the activity and save it to the DB
+    @PostMapping("/activity/new")
+    public String saveActivity(
+            @RequestParam String name,
+            @RequestParam String trainer,
+            @RequestParam String schedule,
+            @RequestParam int capacity,
+            @RequestParam int enrolled,
+            @RequestParam String description,
+            @RequestParam("imageField") MultipartFile imageField) throws IOException {
+
+        Activity newActivity = new Activity();
+
+        newActivity.setName(name);
+        newActivity.setTrainer(trainer);
+        newActivity.setSchedule(schedule);
+        newActivity.setCapacity(capacity);
+        newActivity.setEnrolled(enrolled);
+        newActivity.setDescription(description);
+
+        if (!imageField.isEmpty()) {
+            newActivity.setImage(imageField.getBytes());
+        }
+
+        activityRepository.save(newActivity);
+
+        return "redirect:/admin-dashboard";
+    }
+	// GET: Delete an activity by its ID
+    @GetMapping("/activity/delete/{id}")
+    public String deleteActivity(@PathVariable Long id) {
+        // Delete the activity from the database
+        activityRepository.deleteById(id);
+
+        // Redirect back to the dashboard
+        return "redirect:/admin-dashboard";
+    }
+
+	@GetMapping("/activity/edit/{id}")
+    public String editActivityForm(@PathVariable Long id, Model model) {
+
+        // Find the activity in the database. If not found, go back to dashboard.
+        Activity activityToEdit = activityRepository.findById(id).orElse(null);
+        if (activityToEdit == null) {
+            return "redirect:/admin-dashboard";
+        }
+
+        // Send the specific activity data to the HTML
+        model.addAttribute("activity", activityToEdit);
+        model.addAttribute("adminName", "Admin");
+
+        return "activity-edit"; // We will create this file now
+    }
+
+    // POST: Save the edited changes to the database
+    @PostMapping("/activity/edit/{id}")
+    public String updateActivity(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam String trainer,
+            @RequestParam String schedule,
+            @RequestParam int capacity,
+            @RequestParam int enrolled,
+            @RequestParam String description,
+            @RequestParam("imageField") MultipartFile imageField) throws IOException {
+
+        // Find the original activity
+        Activity existingActivity = activityRepository.findById(id).orElse(null);
+
+        if (existingActivity != null) {
+            // Update fields
+            existingActivity.setName(name);
+            existingActivity.setTrainer(trainer);
+            existingActivity.setSchedule(schedule);
+            existingActivity.setCapacity(capacity);
+            existingActivity.setEnrolled(enrolled);
+            existingActivity.setDescription(description);
+
+            // ONLY update the image if the admin uploaded a new one
+            if (!imageField.isEmpty()) {
+                existingActivity.setImage(imageField.getBytes());
+            }
+
+            // Save the updated activity
+            activityRepository.save(existingActivity);
+        }
+
+        return "redirect:/admin-dashboard";
     }
 }

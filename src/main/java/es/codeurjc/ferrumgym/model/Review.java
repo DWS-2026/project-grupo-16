@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 public class Review {
-    
+
+		public Review() {}
+
     public Review(Long id, String comment, int rating, User user, Activity activity) {
         this.id = id;
         this.comment = comment;
@@ -21,7 +23,7 @@ public class Review {
     private int rating;
 
     @ManyToOne
-    private User user; // Only the owner can edit/delete 
+    private User user; // Only the owner can edit/delete
 
     @ManyToOne
     private Activity activity;
@@ -66,5 +68,5 @@ public class Review {
         this.activity = activity;
     }
 
-    
+
 }

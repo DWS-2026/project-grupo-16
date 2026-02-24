@@ -4,7 +4,9 @@ import java.util.List;
 
 @Entity
 public class User {
-    
+
+		public User() {}
+
     public User(Long id, String name, String email, String encodedPassword, List<String> roles, byte[] image,
             List<Booking> bookings, List<Review> reviews) {
         this.id = id;
@@ -36,13 +38,13 @@ public class User {
     private List<String> roles; // ROLE_USER, ROLE_ADMIN [cite: 217, 532]
 
     @Lob
-    private byte[] image; // Stored as LONGBLOB in MySQL 
+    private byte[] image; // Stored as LONGBLOB in MySQL
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Booking> bookings; // Ownership of bookings 
+    private List<Booking> bookings; // Ownership of bookings
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews; // Ownership of reviews 
+    private List<Review> reviews; // Ownership of reviews
 
     public Long getId() {
         return id;
@@ -108,5 +110,5 @@ public class User {
         this.reviews = reviews;
     }
 
-    
+
 }
