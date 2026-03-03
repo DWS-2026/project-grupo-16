@@ -1,8 +1,9 @@
 package es.codeurjc.ferrumgym.controller;
 
-import es.codeurjc.ferrumgym.repository.ActivityRepository;
-import es.codeurjc.ferrumgym.repository.ReviewRepository;
-import es.codeurjc.ferrumgym.repository.UserRepository;
+import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,31 +12,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import es.codeurjc.ferrumgym.model.Activity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class AdminController {
 
-    // MySQL connections
+    // 1. Ahora inyectamos los SERVICES en lugar de los Repositories
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private ActivityRepository activityRepository;
+    private ActivityService activityService;
 
     @Autowired
-    private ReviewRepository reviewRepository;
-
+    private ReviewService reviewService;
 
     // Dashboard
     @GetMapping("/admin-dashboard")
     public String dashboard(Model model) {
-
-        // Fetch all activities, users and reviews from the database
-        model.addAttribute("activities", activityRepository.findAll());
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("reviews", reviewRepository.findAll());
+        // Fetch all activities, users and reviews from the SERVICES
+        model.addAttribute("activities", activityService.findAll());
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("reviews", reviewService.findAll());
 
         model.addAttribute("adminName", "Admin"); // For the navbar
 
@@ -45,9 +43,8 @@ public class AdminController {
     // Admin class management page
     @GetMapping("/admin-class")
     public String users(Model model) {
-
-        // Fetch users from the database
-        model.addAttribute("users", userRepository.findAll());
+        // Fetch users from the service
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("adminName", "Admin");
 
         return "admin-class";
@@ -67,7 +64,7 @@ public class AdminController {
         return "activity-form";
     }
 
-    // 2. POST: Receive data, create the activity and save it to the DB
+    // 2. POST: Receive data, create the activity and save it via Service
     @PostMapping("/activity/new")
     public String saveActivity(
             @RequestParam String name,
@@ -91,25 +88,26 @@ public class AdminController {
             newActivity.setImage(imageField.getBytes());
         }
 
-        activityRepository.save(newActivity);
+        activityService.save(newActivity);
 
         return "redirect:/admin-dashboard";
     }
-	// GET: Delete an activity by its ID
+
+    // GET: Delete an activity by its ID
     @GetMapping("/activity/delete/{id}")
     public String deleteActivity(@PathVariable Long id) {
-        // Delete the activity from the database
-        activityRepository.deleteById(id);
+        // Delete the activity via service
+        activityService.deleteById(id);
 
         // Redirect back to the dashboard
         return "redirect:/admin-dashboard";
     }
 
-	@GetMapping("/activity/edit/{id}")
+    @GetMapping("/activity/edit/{id}")
     public String editActivityForm(@PathVariable Long id, Model model) {
 
-        // Find the activity in the database. If not found, go back to dashboard.
-        Activity activityToEdit = activityRepository.findById(id).orElse(null);
+        // Find the activity via service. If not found, go back to dashboard.
+        Activity activityToEdit = activityService.findById(id).orElse(null);
         if (activityToEdit == null) {
             return "redirect:/admin-dashboard";
         }
@@ -118,10 +116,10 @@ public class AdminController {
         model.addAttribute("activity", activityToEdit);
         model.addAttribute("adminName", "Admin");
 
-        return "activity-edit"; // We will create this file now
+        return "activity-edit"; 
     }
 
-    // POST: Save the edited changes to the database
+    // POST: Save the edited changes via Service
     @PostMapping("/activity/edit/{id}")
     public String updateActivity(
             @PathVariable Long id,
@@ -134,7 +132,7 @@ public class AdminController {
             @RequestParam("imageField") MultipartFile imageField) throws IOException {
 
         // Find the original activity
-        Activity existingActivity = activityRepository.findById(id).orElse(null);
+        Activity existingActivity = activityService.findById(id).orElse(null);
 
         if (existingActivity != null) {
             // Update fields
@@ -151,7 +149,7 @@ public class AdminController {
             }
 
             // Save the updated activity
-            activityRepository.save(existingActivity);
+            activityService.save(existingActivity);
         }
 
         return "redirect:/admin-dashboard";
