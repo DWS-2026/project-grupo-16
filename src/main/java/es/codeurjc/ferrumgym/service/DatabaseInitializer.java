@@ -29,6 +29,9 @@ public class DatabaseInitializer {
     @Autowired
     private ReviewRepository reviewRepository;
 
+	@Autowired
+    private SiteSettingsRepository siteSettingsRepository;
+
     @PostConstruct
     public void init() throws IOException {
 
@@ -59,7 +62,7 @@ public class DatabaseInitializer {
             Activity zumba = new Activity();
             zumba.setName("Zumba");
             zumba.setDescription("Dance and fitness to high-energy music.");
-            zumba.setImage(loadImage("src/main/resources/static/assets/zumba.jpg")); 
+            zumba.setImage(loadImage("src/main/resources/static/assets/zumba.jpg"));
             zumba.setTrainer("Marta Ruiz");
             zumba.setSchedule("Mon-Wed 20:00-21:00");
             zumba.setCapacity(30);
@@ -115,6 +118,16 @@ public class DatabaseInitializer {
             review.setUser(user1);
             review.setActivity(crossfit);
             reviewRepository.save(review);
+
+			SiteSettings settings = new SiteSettings();
+                settings.setGymName("Ferrum Gym");
+                settings.setContactEmail("info@ferrumgym.com");
+                settings.setContactPhone("+34 912 345 678");
+                settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
+                settings.setWeekdaysHours("07:00 - 23:00");
+                settings.setWeekendsHours("09:00 - 21:00");
+                settings.setMaintenanceMode(false);
+                siteSettingsRepository.save(settings);
         }
     }
 

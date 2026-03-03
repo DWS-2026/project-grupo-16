@@ -2,6 +2,7 @@ package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.repository.ActivityRepository;
 import es.codeurjc.ferrumgym.repository.ReviewRepository;
+import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
 import es.codeurjc.ferrumgym.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.SiteSettings;
+
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
@@ -26,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+	@Autowired
+    private SiteSettingsRepository siteSettingsRepository;
 
 
     // Dashboard
@@ -54,11 +60,49 @@ public class AdminController {
     }
 
     // Site settings page
+// --- SITE SETTINGS ---
+
+    // 1. GET: Mostrar la página de ajustes
     @GetMapping("/site-settings")
     public String settings(Model model) {
+        // Cogemos el primer registro (ID 1) porque solo hay unos ajustes
+        SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(null);
+
+        model.addAttribute("settings", settings);
         model.addAttribute("adminName", "Admin");
         return "site-settings";
     }
+
+    // 2. POST: Guardar los cambios
+    @PostMapping("/site-settings")
+    public String updateSettings(
+            @RequestParam String gymName,
+            @RequestParam String contactEmail,
+            @RequestParam String contactPhone,
+            @RequestParam String address,
+            @RequestParam String weekdaysHours,
+            @RequestParam String weekendsHours,
+            @RequestParam(required = false) String maintenanceMode) { // required = false porque los checkbox a veces no envían nada
+
+        // Recuperamos los ajustes actuales
+        SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(new SiteSettings());
+
+        // Actualizamos los datos
+        settings.setGymName(gymName);
+        settings.setContactEmail(contactEmail);
+        settings.setContactPhone(contactPhone);
+        settings.setAddress(address);
+        settings.setWeekdaysHours(weekdaysHours);
+        settings.setWeekendsHours(weekendsHours);
+
+        // Si el checkbox está marcado, llega el valor "on". Si no, llega null.
+        settings.setMaintenanceMode(maintenanceMode != null);
+
+        // Guardamos en MySQL
+        siteSettingsRepository.save(settings);
+
+        return "redirect:/site-settings";
+	}
 
     // 1. GET: Show the empty form when clicking the button
     @GetMapping("/activity/new")
