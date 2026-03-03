@@ -26,20 +26,20 @@
             </div>
         </div>
 
-        <div class="row">
+		<div class="row">
             <div class="col-md-3 mb-4">
-                <div class="list-group shadow-sm">
-                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">General Info</a>
-                    <a href="#" class="list-group-item list-group-item-action">Business Hours</a>
-                    <a href="#" class="list-group-item list-group-item-action text-danger">Maintenance Mode</a>
+                <div class="list-group shadow-sm sticky-top" style="top: 2rem;">
+                    <a href="#general" class="list-group-item list-group-item-action active" aria-current="true">General Info</a>
+                    <a href="#hours" class="list-group-item list-group-item-action">Business Hours</a>
+                    <a href="#maintenance" class="list-group-item list-group-item-action text-danger">Maintenance Mode</a>
                 </div>
-            </div>
+        </div>
 
             <div class="col-md-9">
                 <form action="/site-settings" method="POST">
 
                     <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-white fw-bold py-3">General Information</div>
+                        <div class="card-header bg-white fw-bold py-3" id="general">General Information</div>
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="gymName" class="form-label">Gym Name</label>
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-white fw-bold py-3">Business Hours</div>
+                        <div class="card-header bg-white fw-bold py-3" id="hours">Business Hours</div>
                         <div class="card-body">
                             <div class="row align-items-center mb-2">
                                 <div class="col-4">Weekdays</div>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
 
-                    <div class="card shadow-sm border-0 border-start border-4 border-danger">
+                    <div class="card shadow-sm border-0 border-start border-4 border-danger" id="maintenance">
                         <div class="card-body">
                             <h5 class="card-title text-danger">Maintenance Mode</h5>
                             <p class="card-text small text-muted">If enabled, users will see a "Under Construction" page instead of the main site.</p>
