@@ -59,7 +59,7 @@ public class DatabaseInitializer {
             Activity zumba = new Activity();
             zumba.setName("Zumba");
             zumba.setDescription("Dance and fitness to high-energy music.");
-            zumba.setImage(loadImage("src/main/resources/static/assets/zumba.jpg")); 
+            zumba.setImage(loadImage("src/main/resources/static/assets/Zumba.webp")); 
             zumba.setTrainer("Marta Ruiz");
             zumba.setSchedule("Mon-Wed 20:00-21:00");
             zumba.setCapacity(30);
