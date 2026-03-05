@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navAdmin">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" href="/">View Public Site</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/admin-dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin-dashboard">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="/site-settings">Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin-class">Classes</a></li>
             </ul>
@@ -18,3 +18,22 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+		// Obtain the current path and all nav links
+        const currentPath = window.location.pathname;
+		// Select all links with the class "nav-link" inside the navbar
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        // Loop through each link and compare its href to the current path
+        navLinks.forEach(link => {
+            // If the link's href matches the current path, add "fw-bold" and "active" classes; otherwise, remove them
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("fw-bold", "active");
+            } else {
+                link.classList.remove("fw-bold", "active");
+            }
+        });
+    });
+</script>
