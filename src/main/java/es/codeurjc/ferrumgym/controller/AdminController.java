@@ -1,71 +1,63 @@
 package es.codeurjc.ferrumgym.controller;
 
-import es.codeurjc.ferrumgym.repository.ActivityRepository;
-import es.codeurjc.ferrumgym.repository.ReviewRepository;
+import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.SiteSettings;
 import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
-import es.codeurjc.ferrumgym.repository.UserRepository;
+import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import es.codeurjc.ferrumgym.model.Activity;
-import es.codeurjc.ferrumgym.model.SiteSettings;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import java.io.IOException;
 
 @Controller
 public class AdminController {
 
-    // MySQL connections
+    // 1. Usamos los SERVICES de tus compañeros para lo que ya existía
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private ActivityRepository activityRepository;
+    private ActivityService activityService;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
-	@Autowired
+    // 2. Usamos TU REPOSITORY para la función nueva que acabas de crear
+    @Autowired
     private SiteSettingsRepository siteSettingsRepository;
 
 
-    // Dashboard
+    // --- DASHBOARD ---
     @GetMapping("/admin-dashboard")
     public String dashboard(Model model) {
+        model.addAttribute("activities", activityService.findAll());
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("reviews", reviewService.findAll());
 
-        // Fetch all activities, users and reviews from the database
-        model.addAttribute("activities", activityRepository.findAll());
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("reviews", reviewRepository.findAll());
-
-        model.addAttribute("adminName", "Admin"); // For the navbar
-
+        model.addAttribute("adminName", "Admin");
         return "admin-dashboard";
     }
 
-    // Admin class management page
+    // --- ADMIN CLASS MANAGEMENT ---
     @GetMapping("/admin-class")
     public String users(Model model) {
-
-        // Fetch users from the database
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("adminName", "Admin");
-
         return "admin-class";
     }
 
-    // Site settings page
-// --- SITE SETTINGS ---
-
-    // 1. GET: Mostrar la página de ajustes
+    // --- SITE SETTINGS ---
     @GetMapping("/site-settings")
     public String settings(Model model) {
-        // Cogemos el primer registro (ID 1) porque solo hay unos ajustes
         SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(null);
 
         model.addAttribute("settings", settings);
@@ -73,7 +65,6 @@ public class AdminController {
         return "site-settings";
     }
 
-    // 2. POST: Guardar los cambios
     @PostMapping("/site-settings")
     public String updateSettings(
             @RequestParam String gymName,
@@ -82,36 +73,30 @@ public class AdminController {
             @RequestParam String address,
             @RequestParam String weekdaysHours,
             @RequestParam String weekendsHours,
-            @RequestParam(required = false) String maintenanceMode) { // required = false porque los checkbox a veces no envían nada
+            @RequestParam(required = false) String maintenanceMode) {
 
-        // Recuperamos los ajustes actuales
         SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(new SiteSettings());
 
-        // Actualizamos los datos
         settings.setGymName(gymName);
         settings.setContactEmail(contactEmail);
         settings.setContactPhone(contactPhone);
         settings.setAddress(address);
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
-
-        // Si el checkbox está marcado, llega el valor "on". Si no, llega null.
         settings.setMaintenanceMode(maintenanceMode != null);
 
-        // Guardamos en MySQL
         siteSettingsRepository.save(settings);
 
         return "redirect:/site-settings";
-	}
+    }
 
-    // 1. GET: Show the empty form when clicking the button
+    // --- ACTIVITY MANAGEMENT ---
     @GetMapping("/activity/new")
     public String newActivityForm(Model model) {
         model.addAttribute("adminName", "Admin");
         return "activity-form";
     }
 
-    // 2. POST: Receive data, create the activity and save it to the DB
     @PostMapping("/activity/new")
     public String saveActivity(
             @RequestParam String name,
@@ -135,37 +120,31 @@ public class AdminController {
             newActivity.setImage(imageField.getBytes());
         }
 
-        activityRepository.save(newActivity);
+        activityService.save(newActivity);
 
         return "redirect:/admin-dashboard";
     }
-	// GET: Delete an activity by its ID
+
     @GetMapping("/activity/delete/{id}")
     public String deleteActivity(@PathVariable Long id) {
-        // Delete the activity from the database
-        activityRepository.deleteById(id);
-
-        // Redirect back to the dashboard
+        activityService.deleteById(id);
         return "redirect:/admin-dashboard";
     }
 
-	@GetMapping("/activity/edit/{id}")
+    @GetMapping("/activity/edit/{id}")
     public String editActivityForm(@PathVariable Long id, Model model) {
 
-        // Find the activity in the database. If not found, go back to dashboard.
-        Activity activityToEdit = activityRepository.findById(id).orElse(null);
+        Activity activityToEdit = activityService.findById(id).orElse(null);
         if (activityToEdit == null) {
             return "redirect:/admin-dashboard";
         }
 
-        // Send the specific activity data to the HTML
         model.addAttribute("activity", activityToEdit);
         model.addAttribute("adminName", "Admin");
 
-        return "activity-edit"; // We will create this file now
+        return "activity-edit";
     }
 
-    // POST: Save the edited changes to the database
     @PostMapping("/activity/edit/{id}")
     public String updateActivity(
             @PathVariable Long id,
@@ -177,11 +156,9 @@ public class AdminController {
             @RequestParam String description,
             @RequestParam("imageField") MultipartFile imageField) throws IOException {
 
-        // Find the original activity
-        Activity existingActivity = activityRepository.findById(id).orElse(null);
+        Activity existingActivity = activityService.findById(id).orElse(null);
 
         if (existingActivity != null) {
-            // Update fields
             existingActivity.setName(name);
             existingActivity.setTrainer(trainer);
             existingActivity.setSchedule(schedule);
@@ -189,13 +166,11 @@ public class AdminController {
             existingActivity.setEnrolled(enrolled);
             existingActivity.setDescription(description);
 
-            // ONLY update the image if the admin uploaded a new one
             if (!imageField.isEmpty()) {
                 existingActivity.setImage(imageField.getBytes());
             }
 
-            // Save the updated activity
-            activityRepository.save(existingActivity);
+            activityService.save(existingActivity);
         }
 
         return "redirect:/admin-dashboard";

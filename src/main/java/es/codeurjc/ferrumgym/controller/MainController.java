@@ -1,13 +1,20 @@
 package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.model.Activity;
-import es.codeurjc.ferrumgym.repository.ActivityRepository;
+import es.codeurjc.ferrumgym.model.Review;
+import es.codeurjc.ferrumgym.model.User;
+import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -15,18 +22,25 @@ import java.util.Optional;
 public class MainController {
 
     @Autowired
-    private ActivityRepository activityRepository;
+    private ActivityService activityService;
+
+    // Sustituimos los repositorios por los SERVICIOS
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String index(Model model) {
         // Pasa la lista de actividades a la vista "index.html"
-        model.addAttribute("activities", activityRepository.findAll());
+        model.addAttribute("activities", activityService.findAll());
         return "index";
     }
 
     @GetMapping("/activity/{id}")
     public String activityDetail(Model model, @PathVariable long id) {
-        Optional<Activity> activity = activityRepository.findById(id);
+        Optional<Activity> activity = activityService.findById(id);
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
             return "activity-detail"; 
@@ -35,9 +49,33 @@ public class MainController {
         }
     }
 
+    // Método POST para recibir el formulario de reseñas usando servicios
+    @PostMapping("/activity/{id}/review")
+    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
+        Optional<Activity> activity = activityService.findById(id);
+        
+        if (activity.isPresent()) {
+            Review review = new Review();
+            review.setComment(comment);
+            review.setRating(rating);
+            review.setActivity(activity.get());
+            
+            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
+            // Usamos userService en lugar de userRepository
+            User user = userService.findById(2L).orElse(null); 
+            review.setUser(user);
+            
+            // Usamos reviewService en lugar de reviewRepository
+            reviewService.save(review);
+        }
+        
+        // Redirige de vuelta a la página de detalles para ver la nueva reseña publicada
+        return "redirect:/activity/" + id;
+    }
+
     @GetMapping("/activity/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) {
-        Optional<Activity> activity = activityRepository.findById(id);
+        Optional<Activity> activity = activityService.findById(id);
         if (activity.isPresent() && activity.get().getImage() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
