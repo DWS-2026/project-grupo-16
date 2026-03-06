@@ -1,6 +1,7 @@
 package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.SiteSettings;
 import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
 import es.codeurjc.ferrumgym.service.ActivityService;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class AdminController {
 
-    // 1. Usamos los SERVICES de tus compañeros para lo que ya existía
     @Autowired
     private UserService userService;
 
@@ -31,9 +32,11 @@ public class AdminController {
     @Autowired
     private ReviewService reviewService;
 
-    // 2. Usamos TU REPOSITORY para la función nueva que acabas de crear
     @Autowired
     private SiteSettingsRepository siteSettingsRepository;
+
+    @Autowired
+    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
 
 
     // --- DASHBOARD ---
@@ -49,8 +52,32 @@ public class AdminController {
 
     // --- ADMIN CLASS MANAGEMENT ---
     @GetMapping("/admin-class")
-    public String users(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String manageClassAttendance(@RequestParam(required = false) Long activityId, Model model) {
+
+        List<Activity> allActivities = activityService.findAll();
+        model.addAttribute("allActivities", allActivities);
+
+        if (!allActivities.isEmpty()) {
+            Activity selectedActivity;
+            if (activityId != null) {
+                selectedActivity = activityService.findById(activityId).orElse(allActivities.get(0));
+            } else {
+                selectedActivity = allActivities.get(0);
+            }
+
+            model.addAttribute("selectedActivity", selectedActivity);
+
+            int percentage = 0;
+            if (selectedActivity.getCapacity() > 0) {
+                percentage = (selectedActivity.getEnrolled() * 100) / selectedActivity.getCapacity();
+            }
+            model.addAttribute("occupancyPercentage", percentage);
+
+            // Buscamos a los usuarios apuntados
+            List<Booking> bookings = bookingRepository.findByActivityId(selectedActivity.getId());
+            model.addAttribute("bookings", bookings);
+        }
+
         model.addAttribute("adminName", "Admin");
         return "admin-class";
     }
