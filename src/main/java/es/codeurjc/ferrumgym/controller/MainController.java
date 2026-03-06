@@ -1,9 +1,11 @@
 package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.Review;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.UserService;
 
@@ -30,6 +32,9 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BookingService bookingService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -83,5 +88,37 @@ public class MainController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // Método POST para procesar el botón de "Book Class"
+    @PostMapping("/activity/{id}/book")
+    public String bookActivity(@PathVariable long id) {
+        Optional<Activity> activityOpt = activityService.findById(id);
+        
+        if (activityOpt.isPresent()) {
+            Activity activity = activityOpt.get();
+            
+            // Comprobamos que no esté llena por seguridad
+            if (!activity.isFull()) {
+                Booking booking = new Booking();
+                booking.setActivity(activity);
+                booking.setBookingDate(java.time.LocalDateTime.now());
+                
+                // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
+                // Simulamos el usuario 1L ("Juan Perez")
+                User user = userService.findById(2L).orElse(null); 
+                booking.setUser(user);
+                
+                // 1. Guardamos la reserva usando el nuevo BookingService
+                bookingService.save(booking);
+                
+                // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
+                activity.setEnrolled(activity.getEnrolled() + 1);
+                activityService.save(activity);
+            }
+        }
+        
+        // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
+        return "redirect:/activity/" + id;
     }
 }
