@@ -82,6 +82,15 @@ public class AdminController {
         return "admin-class";
     }
 
+	@GetMapping("/admin-class/booking/delete/{bookingId}")
+    public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
+        // Borramos la reserva de la base de datos
+        bookingRepository.deleteById(bookingId);
+
+        // Recargamos la misma clase en la que estábamos
+        return "redirect:/admin-class?activityId=" + activityId;
+    }
+
     // --- SITE SETTINGS ---
     @GetMapping("/site-settings")
     public String settings(Model model) {
