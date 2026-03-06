@@ -18,7 +18,6 @@ public class SiteSettings {
     private String address;
     private String weekdaysHours;
     private String weekendsHours;
-    private boolean maintenanceMode;
 
     // Constructor
     public SiteSettings() {}
@@ -45,8 +44,5 @@ public class SiteSettings {
     public String getWeekendsHours() { return weekendsHours; }
     public void setWeekendsHours(String weekendsHours) { this.weekendsHours = weekendsHours; }
 
-    public boolean isMaintenanceMode() { return maintenanceMode; }
-    public void setMaintenanceMode(boolean maintenanceMode) { this.maintenanceMode = maintenanceMode; }
 
-	
 }

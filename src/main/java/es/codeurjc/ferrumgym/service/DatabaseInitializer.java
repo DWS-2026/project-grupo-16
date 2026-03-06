@@ -126,7 +126,6 @@ public class DatabaseInitializer {
                 settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
                 settings.setWeekdaysHours("07:00 - 23:00");
                 settings.setWeekendsHours("09:00 - 21:00");
-                settings.setMaintenanceMode(false);
                 siteSettingsRepository.save(settings);
         }
     }

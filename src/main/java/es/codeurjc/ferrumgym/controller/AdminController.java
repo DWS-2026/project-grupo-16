@@ -108,8 +108,7 @@ public class AdminController {
             @RequestParam String contactPhone,
             @RequestParam String address,
             @RequestParam String weekdaysHours,
-            @RequestParam String weekendsHours,
-            @RequestParam(required = false) String maintenanceMode) {
+            @RequestParam String weekendsHours){
 
         SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(new SiteSettings());
 
@@ -119,7 +118,6 @@ public class AdminController {
         settings.setAddress(address);
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
-        settings.setMaintenanceMode(maintenanceMode != null);
 
         siteSettingsRepository.save(settings);
 
