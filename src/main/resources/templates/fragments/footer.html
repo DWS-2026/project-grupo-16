@@ -1,0 +1,36 @@
+<footer class="py-5 bg-dark text-white mt-auto">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="text-uppercase fw-bold mb-3">{{settings.gymName}}</h5>
+                <p class="small text-muted mb-0">
+                    <i class="bi bi-geo-alt-fill me-2 text-primary"></i>{{settings.address}}
+                </p>
+            </div>
+
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="text-uppercase fw-bold mb-3">Contact Us</h5>
+                <ul class="list-unstyled small text-muted">
+                    <li class="mb-2"><i class="bi bi-telephone-fill me-2 text-primary"></i>{{settings.contactPhone}}</li>
+                    <li><i class="bi bi-envelope-fill me-2 text-primary"></i>{{settings.contactEmail}}</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h5 class="text-uppercase fw-bold mb-3">Business Hours</h5>
+                <ul class="list-unstyled small text-muted">
+                    <li class="mb-2"><strong>Weekdays:</strong> {{settings.weekdaysHours}}</li>
+                    <li><strong>Weekends:</strong> {{settings.weekendsHours}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="mt-4 mb-4 border-secondary">
+
+        <div class="row align-items-center">
+            <div class="col-12 text-center text-muted small">
+                Copyright &copy; {{settings.gymName}} 2026
+            </div>
+        </div>
+    </div>
+</footer>

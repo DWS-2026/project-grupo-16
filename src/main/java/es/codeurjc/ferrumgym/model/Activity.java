@@ -74,6 +74,14 @@ public class Activity {
     public List<Booking> getBookings() { return bookings; }
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
 
+
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    // Y sus correspondientes Getters y Setters:
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+
     // --- UI HELPERS FOR DASHBOARD COLORS ---
     public String getStatusColor() {
         if (this.capacity == 0) return "bg-secondary"; // Safety check
@@ -89,5 +97,10 @@ public class Activity {
     public int getPercentage() {
         if (capacity == 0) return 0; // Evitar división por cero
         return (enrolled * 100) / capacity;
+    }
+
+// Añade esto debajo de tus otros métodos getStatusColor() y getPercentage()
+    public boolean isFull() {
+        return this.capacity > 0 && this.enrolled >= this.capacity;
     }
 }
