@@ -132,14 +132,23 @@ public class DatabaseInitializer {
             siteSettingsRepository.save(settings);
         }
 
+        // Este es el if de las tarifas
         if (tariffService.findAll().isEmpty()) {
-            Tariff basic = new Tariff("Iron Basic", 30.0, "/mo", "Unlimited Gym Access.");
-            Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes.");
-            Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything.");
+            // 1. Las mensuales
+            Tariff basic = new Tariff("Iron Basic (Gym Only)", 30.0, "/mo", "Unlimited Gym Access. Free Weights & Machines area.");
+            Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes. Up to 2 Classes / Week.");
+            Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything. Gym + Unlimited Classes.");
+            
+            // 2. Los packs sueltos
+            Tariff voucher = new Tariff("Class Voucher (10)", 50.0, "/pack", "10 Group Classes. Valid for 6 months (Yoga, CrossFit, Zumba...).");
+            Tariff dayPass = new Tariff("Day Pass", 12.0, "/day", "1 Day Full Access. Gym + 1 Class included. No commitment.");
 
+            // Guardamos las 5
             tariffService.save(basic);
             tariffService.save(hybrid);
             tariffService.save(pro);
+            tariffService.save(voucher);
+            tariffService.save(dayPass);
         }
     }
 
