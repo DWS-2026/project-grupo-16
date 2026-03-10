@@ -116,4 +116,18 @@ public class MainController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/user-profile")
+    public String userProfile(Model model) {
+        // Buscamos al usuario con ID 2 para la demo
+        // Más adelante, aquí buscaremos al usuario que haya hecho login
+        Optional<User> user = userService.findById(2L);
+        
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            return "user-profile"; // Esto busca el archivo user-profile.html
+        } else {
+            return "redirect:/"; // Si no existe el usuario 2, te manda a la home
+        }
+    }
 }
