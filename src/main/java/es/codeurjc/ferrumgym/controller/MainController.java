@@ -76,6 +76,24 @@ public class MainController {
         return "prices"; 
     }
 
+    @PostMapping("/checkout")
+    public String processCheckout(@RequestParam Long tariffId, Model model) {
+        // 1. Buscamos la tarifa que el usuario ha elegido usando su ID
+        // Usamos .orElse(null) por seguridad, por si el ID no existe
+        Tariff selectedTariff = tariffService.findById(tariffId).orElse(null);
+
+        if (selectedTariff == null) {
+            return "redirect:/prices"; // Si hay error, volvemos a precios
+        }
+
+        // 2. Pasamos la tarifa seleccionada a la siguiente pantalla
+        model.addAttribute("tariff", selectedTariff);
+        
+        // 3. De momento, vamos a mandarlos a una página de "Éxito" o "Confirmación"
+        // (Asegúrate de tener un checkout-success.html o cambia este nombre)
+        return "checkout-success"; 
+    }
+
     @GetMapping("/activity/{id}")
     public String activityDetail(Model model, @PathVariable long id) {
         Optional<Activity> activity = activityService.findById(id);

@@ -57,7 +57,10 @@
                             <div class="card-body text-center d-flex flex-column">
                                 <h1 class="card-title pricing-card-title">{{price}}€<small class="text-muted fw-light">{{period}}</small></h1>
                                 <p class="mt-3 mb-4 flex-grow-1">{{description}}</p>
-                                <button type="button" class="btn btn-lg btn-outline-dark w-100 mt-auto">Select</button>
+                                <form action="/checkout" method="POST" class="mt-auto">
+                                    <input type="hidden" name="tariffId" value="{{id}}">
+                                    <button type="submit" class="btn btn-lg btn-outline-dark w-100">Select</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -77,7 +80,10 @@
                             <div class="card-body text-center d-flex flex-column">
                                 <h1 class="card-title pricing-card-title">{{price}}€<small class="text-muted fw-light">{{period}}</small></h1>
                                 <p class="mt-3 mb-4 flex-grow-1">{{description}}</p>
-                                <button type="button" class="btn btn-lg btn-outline-primary w-100 mt-auto">Buy Pass</button>
+                                <form action="/checkout" method="POST" class="mt-auto">
+                                    <input type="hidden" name="tariffId" value="{{id}}">
+                                    <button type="submit" class="btn btn-lg btn-outline-primary w-100">Buy Pass</button>
+                                </form>
                             </div>
                         </div>
                     </div>
