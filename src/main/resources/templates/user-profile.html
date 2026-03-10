@@ -7,11 +7,11 @@
         <meta name="author" content="Grupo 16" />
         <title>Home - Ferrum Gym</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../static/css/styles.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,7 +22,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link" href="index.html">Activities</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="prices.html">Tariffs</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="user-profile.html">My Profile (Demo)</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="user-profile">My Profile (Demo)</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin-dashboard.html" style="color: red;">Admin (Profe)</a></li>
                     </ul>
                     <form class="d-flex" action="login.html"> 
@@ -47,12 +47,12 @@
                     <div class="col-lg-4">
                         <div class="card mb-4 shadow-sm text-center">
                             <div class="card-body">
-                                <img src="../static/assets/foto.avif" alt="User Avatar" class="rounded-circle img-fluid mb-3" style="width: 150px;">
-                                <h5 class="my-3">Juan Pérez</h5>
+                                <img src="/user/{{user.id}}/image" alt="User Avatar" class="rounded-circle img-fluid mb-3" style="width: 150px;">
+                                <h5 class="my-3"> {{user.name}} </h5>
                                 <p class="text-muted mb-1">Active Member</p>
                                 <p class="text-muted mb-4">Móstoles, Madrid</p>
                                 <div class="d-flex justify-content-center mb-2">
-                                    <a href="edit-profile.html" class="btn btn-primary">Edit Profile</a>
+                                    <a href="edit-profile" class="btn btn-primary">Edit Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -66,12 +66,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-3"><p class="mb-0">Full Name</p></div>
-                                    <div class="col-sm-9"><p class="text-muted mb-0">Juan Pérez</p></div>
+                                    <div class="col-sm-9"><p class="text-muted mb-0"> {{user.name}} </p></div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3"><p class="mb-0">Email</p></div>
-                                    <div class="col-sm-9"><p class="text-muted mb-0">j.perez@alumnos.urjc.es</p></div>
+                                    <div class="col-sm-9"><p class="text-muted mb-0"> {{user.email}} </p></div>
                                 </div>
                                 <hr>
                                 <div class="row">
