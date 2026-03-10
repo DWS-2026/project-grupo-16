@@ -3,6 +3,7 @@ package es.codeurjc.ferrumgym.controller;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.Review;
+import es.codeurjc.ferrumgym.model.Tariff;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
@@ -52,8 +53,26 @@ public class MainController {
 
     @GetMapping("/prices")
     public String prices(Model model) {
-        // Le pedimos al servicio TODAS las tarifas y se las pasamos al HTML con el nombre "tariffs"
-        model.addAttribute("tariffs", tariffService.findAll());
+        // Obtenemos todas las tarifas de la BBDD
+        List<Tariff> allTariffs = tariffService.findAll();
+        
+        // Creamos dos listas vacías para separarlas
+        List<Tariff> monthlyTariffs = new java.util.ArrayList<>();
+        List<Tariff> packTariffs = new java.util.ArrayList<>();
+
+        // Las filtramos: Si el periodo es "/mo", va a mensuales. Si no, a packs.
+        for (Tariff t : allTariffs) {
+            if ("/mo".equals(t.getPeriod())) {
+                monthlyTariffs.add(t);
+            } else {
+                packTariffs.add(t);
+            }
+        }
+
+        // Pasamos las dos listas al HTML por separado
+        model.addAttribute("monthlyTariffs", monthlyTariffs);
+        model.addAttribute("packTariffs", packTariffs);
+        
         return "prices"; 
     }
 
