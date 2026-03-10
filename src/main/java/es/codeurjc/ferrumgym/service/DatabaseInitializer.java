@@ -122,22 +122,24 @@ public class DatabaseInitializer {
             reviewRepository.save(review);
 
 			SiteSettings settings = new SiteSettings();
-                settings.setGymName("Ferrum Gym");
-                settings.setContactEmail("info@ferrumgym.com");
-                settings.setContactPhone("+34 912 345 678");
-                settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
-                settings.setWeekdaysHours("07:00 - 23:00");
-                settings.setWeekendsHours("09:00 - 21:00");
-                settings.setMaintenanceMode(false);
-                siteSettingsRepository.save(settings);
+            settings.setGymName("Ferrum Gym");
+            settings.setContactEmail("info@ferrumgym.com");
+            settings.setContactPhone("+34 912 345 678");
+            settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
+            settings.setWeekdaysHours("07:00 - 23:00");
+            settings.setWeekendsHours("09:00 - 21:00");
+            settings.setMaintenanceMode(false);
+            siteSettingsRepository.save(settings);
+        }
 
-                Tariff basic = new Tariff("Iron Basic", 30.0, "/mo", "Unlimited Gym Access. Free Weights & Machines area.");
-                Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes. Up to 2 Classes / Week.");
-                Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything. Gym + Unlimited Classes.");
+        if (tariffService.findAll().isEmpty()) {
+            Tariff basic = new Tariff("Iron Basic", 30.0, "/mo", "Unlimited Gym Access.");
+            Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes.");
+            Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything.");
 
-                tariffService.save(basic);
-                tariffService.save(hybrid);
-                tariffService.save(pro);
+            tariffService.save(basic);
+            tariffService.save(hybrid);
+            tariffService.save(pro);
         }
     }
 
