@@ -224,4 +224,12 @@ public class AdminController {
         model.addAttribute("adminName", "Admin");
         return "admin-users";
     }
+
+	// --- REVIEW MANAGEMENT ---
+    @GetMapping("/review/delete/{id}")
+    public String deleteReview(@PathVariable Long id) {
+        // ReviewService for delete review by id
+        reviewService.deleteById(id);
+        return "redirect:/admin-dashboard";
+    }
 }

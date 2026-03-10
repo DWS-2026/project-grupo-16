@@ -146,13 +146,13 @@
 
         function confirmarBloqueo(name, id) {
             if (confirm(`Block user "${name}"?`)) {
-                alert(`User "${name}" blocked (Simulation).`);
+                window.location.href = '/user/block/' + id;
             }
         }
 
-        function confirmarEliminacionResena(className, id) {
-            if (confirm(`Delete review for "${className}"?`)) {
-                alert(`Review deleted (Simulation).`);
+		function confirmarEliminacionResena(className, id) {
+            if (confirm(`Are you sure you want to delete the review for "${className}"?`)) {
+                window.location.href = '/review/delete/' + id;
             }
         }
     </script>
