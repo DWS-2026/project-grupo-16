@@ -31,6 +31,8 @@ public class DatabaseInitializer {
 
 	@Autowired
     private SiteSettingsRepository siteSettingsRepository;
+    @Autowired
+    private TariffService tariffService;
 
     @PostConstruct
     public void init() throws IOException {
@@ -128,6 +130,14 @@ public class DatabaseInitializer {
                 settings.setWeekendsHours("09:00 - 21:00");
                 settings.setMaintenanceMode(false);
                 siteSettingsRepository.save(settings);
+
+                Tariff basic = new Tariff("Iron Basic", 30.0, "/mo", "Unlimited Gym Access. Free Weights & Machines area.");
+                Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes. Up to 2 Classes / Week.");
+                Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything. Gym + Unlimited Classes.");
+
+                tariffService.save(basic);
+                tariffService.save(hybrid);
+                tariffService.save(pro);
         }
     }
 
