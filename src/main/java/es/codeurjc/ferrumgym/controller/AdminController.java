@@ -175,4 +175,10 @@ public class AdminController {
 
         return "redirect:/admin-dashboard";
     }
+
+    @GetMapping("/admin/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteById(id); //
+        return "redirect:/admin-class";
+    }
 }

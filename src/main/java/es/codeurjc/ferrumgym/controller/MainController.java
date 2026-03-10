@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -89,6 +92,7 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
     }
+<<<<<<< HEAD
 
     // Método POST para procesar el botón de "Book Class"
     @PostMapping("/activity/{id}/book")
@@ -120,5 +124,35 @@ public class MainController {
         
         // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
         return "redirect:/activity/" + id;
+=======
+    
+    //Controlador de registros de usuario
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
+            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+
+        // Creamos el usuario con el rol por defecto de cliente
+        User newUser = new User(name, email, password, List.of("ROLE_USER"));
+
+        // Guardamos la foto si la ha subido
+        if (!imageFile.isEmpty()) {
+            newUser.setImage(imageFile.getBytes());
+        }
+
+        userService.save(newUser); // Usamos tu servicio
+        return "redirect:/login"; 
+    }
+
+    //Gestion de imagenes de usuario
+    @GetMapping("/user/{id}/image")
+    public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
+        Optional<User> user = userService.findById(id); //
+        if (user.isPresent() && user.get().getImage() != null) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(user.get().getImage());
+        }
+        return ResponseEntity.notFound().build();
+>>>>>>> 475c601f2fcc1d587639a03c998d5ea4a80295d4
     }
 }
