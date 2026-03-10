@@ -48,7 +48,7 @@
 
                 <h3 class="fw-bold mb-4 text-center"><i class="bi bi-person-badge"></i> Monthly Memberships</h3>
                 <div class="row gx-4 gx-lg-5 mb-5">
-                    {{#tariffs}}
+                    {{#monthlyTariffs}}
                     <div class="col-lg-4 mb-5">
                         <div class="card h-100 shadow-sm border-0">
                             <div class="card-header py-3 bg-light border-bottom-0">
@@ -61,49 +61,27 @@
                             </div>
                         </div>
                     </div>
-                    {{/tariffs}}
+                    {{/monthlyTariffs}}
                 </div>
+
                 <hr class="my-5">
 
                 <h3 class="fw-bold mb-4 text-center"><i class="bi bi-ticket-perforated"></i> Packs & Drop-ins</h3>
                 <div class="row gx-4 gx-lg-5 justify-content-center">
-
+                    {{#packTariffs}}
                     <div class="col-lg-4 mb-5">
                         <div class="card h-100 shadow-sm border-0">
                             <div class="card-header py-3 bg-light border-bottom-0">
-                                <h4 class="my-0 fw-normal text-center">Class Voucher (10)</h4>
+                                <h4 class="my-0 fw-normal text-center">{{name}}</h4>
                             </div>
                             <div class="card-body text-center d-flex flex-column">
-                                <h1 class="card-title pricing-card-title">50€<small class="text-muted fw-light">/pack</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
-                                    <li class="mb-2"><strong>10 Group Classes</strong></li>
-                                    <li class="mb-2">Valid for Yoga, CrossFit, Zumba...</li>
-                                    <li class="mb-2">Valid for 6 months</li>
-                                    <li class="text-muted text-decoration-line-through">Free Weights & Machines area</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-outline-primary w-100 mt-auto">Buy Classes</button>
+                                <h1 class="card-title pricing-card-title">{{price}}€<small class="text-muted fw-light">{{period}}</small></h1>
+                                <p class="mt-3 mb-4 flex-grow-1">{{description}}</p>
+                                <button type="button" class="btn btn-lg btn-outline-primary w-100 mt-auto">Buy Pass</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow-sm border-0">
-                            <div class="card-header py-3 bg-light border-bottom-0">
-                                <h4 class="my-0 fw-normal text-center">Day Pass</h4>
-                            </div>
-                            <div class="card-body text-center d-flex flex-column">
-                                <h1 class="card-title pricing-card-title">12€<small class="text-muted fw-light">/day</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
-                                    <li class="mb-2"><strong>1 Day Full Access</strong></li>
-                                    <li class="mb-2">Gym + 1 Class included</li>
-                                    <li class="mb-2">No commitment</li>
-                                    <li class="text-muted">Perfect for trying out</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-outline-primary w-100 mt-auto">Buy Day Pass</button>
-                            </div>
-                        </div>
-                    </div>
-
+                    {{/packTariffs}}
                 </div>
             </div>
         </section>
