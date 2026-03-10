@@ -7,6 +7,7 @@ import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.TariffService;
 import es.codeurjc.ferrumgym.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class MainController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private TariffService tariffService;
+
     @GetMapping("/")
     public String index(Model model) {
         // Pasa la lista de actividades a la vista "index.html"
@@ -48,8 +52,8 @@ public class MainController {
 
     @GetMapping("/prices")
     public String prices(Model model) {
-        // De momento solo devolvemos el HTML estático.
-        // Más adelante pasaremos las tarifas desde la Base de Datos aquí.
+        // Le pedimos al servicio TODAS las tarifas y se las pasamos al HTML con el nombre "tariffs"
+        model.addAttribute("tariffs", tariffService.findAll());
         return "prices"; 
     }
 
