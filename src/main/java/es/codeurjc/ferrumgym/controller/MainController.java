@@ -140,6 +140,7 @@ public class MainController {
         }
     }
     
+    
     //Controlador de registros de usuario
     @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
