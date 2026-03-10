@@ -116,4 +116,48 @@ public class MainController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/user-profile")
+    public String userProfile(Model model) {
+        // Buscamos al usuario con ID 2 para la demo
+        // Más adelante, aquí buscaremos al usuario que haya hecho login
+        Optional<User> user = userService.findById(2L);
+        
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            return "user-profile"; // Esto busca el archivo user-profile.html
+        } else {
+            return "redirect:/"; // Si no existe el usuario 2, te manda a la home
+        }
+    }
+
+    @GetMapping("/edit-profile")
+    public String editProfile(Model model) {
+        // Buscamos al usuario 2 para la demo (luego será el de la sesión)
+        Optional<User> user = userService.findById(2L);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            return "edit-profile"; // Carga el template edit-profile.html
+        }
+        return "redirect:/user-profile";
+    }
+    
+    @PostMapping("/edit-profile/save")
+    public String saveProfile(
+            @RequestParam Long id,
+            @RequestParam String fullName,
+            @RequestParam String userEmail,
+            @RequestParam("userAvatar") MultipartFile imageFile) throws IOException {
+
+        User user = userService.findById(id).orElseThrow();
+        user.setName(fullName);
+        user.setEmail(userEmail);
+
+        if (!imageFile.isEmpty()) {
+            user.setImage(imageFile.getBytes());
+        }
+
+        userService.save(user); // Aquí es donde el ID oculto hace su magia para actualizar
+        return "redirect:/user-profile";
+    }
 }
