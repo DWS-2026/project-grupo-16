@@ -51,7 +51,7 @@ public class MainController {
         Optional<Activity> activity = activityService.findById(id);
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
-            return "activity-detail"; 
+            return "activity-detail";
         } else {
             return "404";
         }
@@ -61,22 +61,22 @@ public class MainController {
     @PostMapping("/activity/{id}/review")
     public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
         Optional<Activity> activity = activityService.findById(id);
-        
+
         if (activity.isPresent()) {
             Review review = new Review();
             review.setComment(comment);
             review.setRating(rating);
             review.setActivity(activity.get());
-            
+
             // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
             // Usamos userService en lugar de userRepository
-            User user = userService.findById(2L).orElse(null); 
+            User user = userService.findById(2L).orElse(null);
             review.setUser(user);
-            
+
             // Usamos reviewService en lugar de reviewRepository
             reviewService.save(review);
         }
-        
+
         // Redirige de vuelta a la página de detalles para ver la nueva reseña publicada
         return "redirect:/activity/" + id;
     }
@@ -92,40 +92,39 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
     }
-<<<<<<< HEAD
 
     // Método POST para procesar el botón de "Book Class"
     @PostMapping("/activity/{id}/book")
     public String bookActivity(@PathVariable long id) {
         Optional<Activity> activityOpt = activityService.findById(id);
-        
+
         if (activityOpt.isPresent()) {
             Activity activity = activityOpt.get();
-            
+
             // Comprobamos que no esté llena por seguridad
             if (!activity.isFull()) {
                 Booking booking = new Booking();
                 booking.setActivity(activity);
                 booking.setBookingDate(java.time.LocalDateTime.now());
-                
+
                 // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
                 // Simulamos el usuario 1L ("Juan Perez")
-                User user = userService.findById(2L).orElse(null); 
+                User user = userService.findById(2L).orElse(null);
                 booking.setUser(user);
-                
+
                 // 1. Guardamos la reserva usando el nuevo BookingService
                 bookingService.save(booking);
-                
+
                 // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
                 activity.setEnrolled(activity.getEnrolled() + 1);
                 activityService.save(activity);
             }
         }
-        
+
         // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
         return "redirect:/activity/" + id;
-=======
-    
+    } // <-- ¡Esta es la llave que te faltaba y que rompía todo!
+
     //Controlador de registros de usuario
     @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
@@ -140,7 +139,7 @@ public class MainController {
         }
 
         userService.save(newUser); // Usamos tu servicio
-        return "redirect:/login"; 
+        return "redirect:/login";
     }
 
     //Gestion de imagenes de usuario
@@ -153,7 +152,6 @@ public class MainController {
                     .body(user.get().getImage());
         }
         return ResponseEntity.notFound().build();
->>>>>>> 475c601f2fcc1d587639a03c998d5ea4a80295d4
     }
 
     @GetMapping("/user-profile")
@@ -161,7 +159,7 @@ public class MainController {
         // Buscamos al usuario con ID 2 para la demo
         // Más adelante, aquí buscaremos al usuario que haya hecho login
         Optional<User> user = userService.findById(2L);
-        
+
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user-profile"; // Esto busca el archivo user-profile.html
@@ -180,7 +178,7 @@ public class MainController {
         }
         return "redirect:/user-profile";
     }
-    
+
     @PostMapping("/edit-profile/save")
     public String saveProfile(
             @RequestParam Long id,
