@@ -47,11 +47,12 @@
                     <div class="col-lg-8">
                         <div class="card shadow-sm">
                             <div class="card-body p-5">
-                                <form action="user-profile.html" method="GET" enctype="multipart/form-data">
+                                <form action="/edit-profile/save" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{user.id}}">
                                     <div class="row mb-4">
                                         <div class="col-md-4 text-center border-end">
                                             <label class="form-label d-block fw-bold mb-3">Profile Picture</label>
-                                            <img src="../static/assets/foto.avif" alt="Current Avatar" class="rounded-circle img-fluid mb-3" style="width: 120px;">
+                                            <img src="/user/{{user.id}}/image" alt="Current Avatar" class="rounded-circle img-fluid mb-3" style="width: 120px;">
                                             <input type="file" class="form-control form-control-sm" id="userAvatarInput" name="userAvatar">
                                             <div class="form-text small">Upload a new JPG or PNG file.</div>
                                         </div>
@@ -59,11 +60,11 @@
                                         <div class="col-md-8 ps-md-4">
                                             <div class="mb-3">
                                                 <label for="inputFullName" class="form-label fw-bold">Full Name</label>
-                                                <input type="text" class="form-control" id="inputFullName" name="fullName" value="Juan Pérez" required>
+                                                <input type="text" class="form-control" name="fullName" value="{{user.name}}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputEmail" class="form-label fw-bold">Email Address</label>
-                                                <input type="email" class="form-control" id="inputEmail" name="userEmail" value="j.perez@alumnos.urjc.es" required>
+                                                <input type="email" class="form-control" name="userEmail" value="{{user.email}}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputLocation" class="form-label fw-bold">Location</label>
