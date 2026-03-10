@@ -92,39 +92,6 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
     }
-<<<<<<< HEAD
-
-    // Método POST para procesar el botón de "Book Class"
-    @PostMapping("/activity/{id}/book")
-    public String bookActivity(@PathVariable long id) {
-        Optional<Activity> activityOpt = activityService.findById(id);
-        
-        if (activityOpt.isPresent()) {
-            Activity activity = activityOpt.get();
-            
-            // Comprobamos que no esté llena por seguridad
-            if (!activity.isFull()) {
-                Booking booking = new Booking();
-                booking.setActivity(activity);
-                booking.setBookingDate(java.time.LocalDateTime.now());
-                
-                // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-                // Simulamos el usuario 1L ("Juan Perez")
-                User user = userService.findById(2L).orElse(null); 
-                booking.setUser(user);
-                
-                // 1. Guardamos la reserva usando el nuevo BookingService
-                bookingService.save(booking);
-                
-                // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
-                activity.setEnrolled(activity.getEnrolled() + 1);
-                activityService.save(activity);
-            }
-        }
-        
-        // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
-        return "redirect:/activity/" + id;
-=======
     
     //Controlador de registros de usuario
     @PostMapping("/register")
@@ -153,7 +120,6 @@ public class MainController {
                     .body(user.get().getImage());
         }
         return ResponseEntity.notFound().build();
->>>>>>> 475c601f2fcc1d587639a03c998d5ea4a80295d4
     }
 
     @GetMapping("/user-profile")
