@@ -213,6 +213,15 @@ public class AdminController {
     @GetMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteById(id); //
-        return "redirect:/admin-class";
+        return "redirect:/admin-users";
+    }
+
+	// --- ADMIN USER MANAGEMENT ---
+    @GetMapping("/admin-users")
+    public String manageUsers(Model model) {
+        // Show all users in the system
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("adminName", "Admin");
+        return "admin-users";
     }
 }
