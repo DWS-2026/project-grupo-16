@@ -48,58 +48,21 @@
 
                 <h3 class="fw-bold mb-4 text-center"><i class="bi bi-person-badge"></i> Monthly Memberships</h3>
                 <div class="row gx-4 gx-lg-5 mb-5">
-
+                    {{#tariffs}}
                     <div class="col-lg-4 mb-5">
                         <div class="card h-100 shadow-sm border-0">
                             <div class="card-header py-3 bg-light border-bottom-0">
-                                <h4 class="my-0 fw-normal text-center">Iron Basic (Gym Only)</h4>
+                                <h4 class="my-0 fw-normal text-center">{{name}}</h4>
                             </div>
                             <div class="card-body text-center d-flex flex-column">
-                                <h1 class="card-title pricing-card-title">30€<small class="text-muted fw-light">/mo</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
-                                    <li class="mb-2"><strong>Unlimited Gym Access</strong></li>
-                                    <li class="mb-2">Free Weights & Machines area</li>
-                                    <li class="text-muted text-decoration-line-through">Group Classes included</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-outline-dark w-100 mt-auto">Select Muscle</button>
+                                <h1 class="card-title pricing-card-title">{{price}}€<small class="text-muted fw-light">{{period}}</small></h1>
+                                <p class="mt-3 mb-4 flex-grow-1">{{description}}</p>
+                                <button type="button" class="btn btn-lg btn-outline-dark w-100 mt-auto">Select</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow-sm border-0">
-                            <div class="card-header py-3 bg-white border-bottom-0">
-                                <h4 class="my-0 fw-normal text-center">Standard Hybrid</h4>
-                            </div>
-                            <div class="card-body text-center d-flex flex-column">
-                                <h1 class="card-title pricing-card-title">45€<small class="text-muted fw-light">/mo</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
-                                    <li class="mb-2"><strong>Gym Access + Classes</strong></li>
-                                    <li class="mb-2">Up to <strong>2 Classes / Week</strong></li>
-                                    <li class="mb-2">Free Weights & Machines area</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-dark w-100 mt-auto">Select Hybrid</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow border-primary">
-                            <div class="card-header py-3 bg-primary text-white border-primary">
-                                <h4 class="my-0 fw-normal text-center">Ultimate Pro</h4>
-                            </div>
-                            <div class="card-body text-center d-flex flex-column">
-                                <h1 class="card-title pricing-card-title">65€<small class="text-muted fw-light">/mo</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
-                                    <li class="mb-2"><strong>Unlimited Everything</strong></li>
-                                    <li class="mb-2">Gym + Unlimited Classes</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-primary w-100 mt-auto">Go Unlimited</button>
-                            </div>
-                        </div>
-                    </div>
+                    {{/tariffs}}
                 </div>
-
                 <hr class="my-5">
 
                 <h3 class="fw-bold mb-4 text-center"><i class="bi bi-ticket-perforated"></i> Packs & Drop-ins</h3>
