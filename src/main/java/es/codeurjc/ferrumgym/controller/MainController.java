@@ -89,9 +89,8 @@ public class MainController {
         // 2. Pasamos la tarifa seleccionada a la siguiente pantalla
         model.addAttribute("tariff", selectedTariff);
         
-        // 3. De momento, vamos a mandarlos a una página de "Éxito" o "Confirmación"
-        // (Asegúrate de tener un checkout-success.html o cambia este nombre)
-        return "checkout-success"; 
+        // 3. De momento, nos manda a la Home (hasta que creemos la parte de seguridad)
+        return "redirect:/"; 
     }
 
     @GetMapping("/activity/{id}")
