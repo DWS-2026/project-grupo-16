@@ -46,6 +46,13 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/prices")
+    public String prices(Model model) {
+        // De momento solo devolvemos el HTML estático.
+        // Más adelante pasaremos las tarifas desde la Base de Datos aquí.
+        return "prices"; 
+    }
+
     @GetMapping("/activity/{id}")
     public String activityDetail(Model model, @PathVariable long id) {
         Optional<Activity> activity = activityService.findById(id);
