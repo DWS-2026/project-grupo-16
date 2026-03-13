@@ -3,10 +3,12 @@ package es.codeurjc.ferrumgym.controller;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.Review;
+import es.codeurjc.ferrumgym.model.Tariff;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.TariffService;
 import es.codeurjc.ferrumgym.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,56 @@ public class MainController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private TariffService tariffService;
+
     @GetMapping("/")
     public String index(Model model) {
         // Activities
         model.addAttribute("activities", activityService.findAll());
         return "index";
+    }
+
+    @GetMapping("/prices")
+    public String prices(Model model) {
+        // Obtenemos todas las tarifas de la BBDD
+        List<Tariff> allTariffs = tariffService.findAll();
+
+        // Creamos dos listas vacías para separarlas
+        List<Tariff> monthlyTariffs = new java.util.ArrayList<>();
+        List<Tariff> packTariffs = new java.util.ArrayList<>();
+
+        // Las filtramos: Si el periodo es "/mo", va a mensuales. Si no, a packs.
+        for (Tariff t : allTariffs) {
+            if ("/mo".equals(t.getPeriod())) {
+                monthlyTariffs.add(t);
+            } else {
+                packTariffs.add(t);
+            }
+        }
+
+        // Pasamos las dos listas al HTML por separado
+        model.addAttribute("monthlyTariffs", monthlyTariffs);
+        model.addAttribute("packTariffs", packTariffs);
+
+        return "prices";
+    }
+
+    @PostMapping("/checkout")
+    public String processCheckout(@RequestParam Long tariffId, Model model) {
+        // 1. Buscamos la tarifa que el usuario ha elegido usando su ID
+        // Usamos .orElse(null) por seguridad, por si el ID no existe
+        Tariff selectedTariff = tariffService.findById(tariffId).orElse(null);
+
+        if (selectedTariff == null) {
+            return "redirect:/prices"; // Si hay error, volvemos a precios
+        }
+
+        // 2. Pasamos la tarifa seleccionada a la siguiente pantalla
+        model.addAttribute("tariff", selectedTariff);
+
+        // 3. De momento, nos manda a la Home (hasta que creemos la parte de seguridad)
+        return "redirect:/";
     }
 
     @GetMapping("/activity/{id}")
@@ -123,6 +170,8 @@ public class MainController {
         // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
         return "redirect:/activity/" + id;
     } // <-- ¡Esta es la llave que te faltaba y que rompía todo!
+
+
 
     //Controlador de registros de usuario
     @PostMapping("/register")

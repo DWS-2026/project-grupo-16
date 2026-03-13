@@ -86,16 +86,16 @@ public class Activity {
     public String getStatusColor() {
         if (this.capacity == 0) return "bg-secondary"; // Safety check
         if (this.enrolled >= this.capacity) {
-            return "bg-danger"; // Full
+            return "bg-danger"; // Full - red
         } else if (this.enrolled >= this.capacity - 5) {
-            return "bg-warning text-dark"; // Almost full
+            return "bg-warning text-dark"; // Almost full - yellow
         } else {
-            return "bg-success"; // Plenty of space
+            return "bg-success"; // Plenty of space - green
         }
     }
 // Calcula el porcentaje real de ocupación para la barra
     public int getPercentage() {
-        if (capacity == 0) return 0; // Evitar división por cero
+        if (capacity == 0) return 0;
         return (enrolled * 100) / capacity;
     }
 
