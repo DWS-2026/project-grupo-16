@@ -10,6 +10,7 @@
                 <li class="nav-item"><a class="nav-link" href="/admin-dashboard">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="/site-settings">Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin-class">Classes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin-users">Users</a></li>
             </ul>
             <div class="d-flex align-items-center">
                 <span class="me-3 text-muted small">Welcome, {{adminName}}</span>
@@ -21,9 +22,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-		// Obtain the current path and all nav links
+        // Obtain the current path and all nav links
         const currentPath = window.location.pathname;
-		// Select all links with the class "nav-link" inside the navbar
+        // Select all links with the class "nav-link" inside the navbar
         const navLinks = document.querySelectorAll(".nav-link");
 
         // Loop through each link and compare its href to the current path

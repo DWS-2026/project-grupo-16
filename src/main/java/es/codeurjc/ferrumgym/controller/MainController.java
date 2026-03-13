@@ -31,7 +31,6 @@ public class MainController {
     @Autowired
     private ActivityService activityService;
 
-    // Sustituimos los repositorios por los SERVICIOS
     @Autowired
     private ReviewService reviewService;
 
@@ -46,7 +45,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        // Pasa la lista de actividades a la vista "index.html"
+        // Activities
         model.addAttribute("activities", activityService.findAll());
         return "index";
     }
@@ -55,7 +54,7 @@ public class MainController {
     public String prices(Model model) {
         // Obtenemos todas las tarifas de la BBDD
         List<Tariff> allTariffs = tariffService.findAll();
-        
+
         // Creamos dos listas vacías para separarlas
         List<Tariff> monthlyTariffs = new java.util.ArrayList<>();
         List<Tariff> packTariffs = new java.util.ArrayList<>();
@@ -72,8 +71,8 @@ public class MainController {
         // Pasamos las dos listas al HTML por separado
         model.addAttribute("monthlyTariffs", monthlyTariffs);
         model.addAttribute("packTariffs", packTariffs);
-        
-        return "prices"; 
+
+        return "prices";
     }
 
     @PostMapping("/checkout")
@@ -88,9 +87,9 @@ public class MainController {
 
         // 2. Pasamos la tarifa seleccionada a la siguiente pantalla
         model.addAttribute("tariff", selectedTariff);
-        
+
         // 3. De momento, nos manda a la Home (hasta que creemos la parte de seguridad)
-        return "redirect:/"; 
+        return "redirect:/";
     }
 
     @GetMapping("/activity/{id}")
@@ -98,32 +97,32 @@ public class MainController {
         Optional<Activity> activity = activityService.findById(id);
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
-            return "activity-detail"; 
+            return "activity-detail";
         } else {
             return "404";
         }
     }
 
-    // Método POST para recibir el formulario de reseñas usando servicios
+    // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
     public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
         Optional<Activity> activity = activityService.findById(id);
-        
+
         if (activity.isPresent()) {
             Review review = new Review();
             review.setComment(comment);
             review.setRating(rating);
             review.setActivity(activity.get());
-            
+
             // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
             // Usamos userService en lugar de userRepository
-            User user = userService.findById(2L).orElse(null); 
+            User user = userService.findById(2L).orElse(null);
             review.setUser(user);
-            
+
             // Usamos reviewService en lugar de reviewRepository
             reviewService.save(review);
         }
-        
+
         // Redirige de vuelta a la página de detalles para ver la nueva reseña publicada
         return "redirect:/activity/" + id;
     }
@@ -139,8 +138,41 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-    
+
+    // Método POST para procesar el botón de "Book Class"
+    @PostMapping("/activity/{id}/book")
+    public String bookActivity(@PathVariable long id) {
+        Optional<Activity> activityOpt = activityService.findById(id);
+
+        if (activityOpt.isPresent()) {
+            Activity activity = activityOpt.get();
+
+            // Comprobamos que no esté llena por seguridad
+            if (!activity.isFull()) {
+                Booking booking = new Booking();
+                booking.setActivity(activity);
+                booking.setBookingDate(java.time.LocalDateTime.now());
+
+                // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
+                // Simulamos el usuario 1L ("Juan Perez")
+                User user = userService.findById(2L).orElse(null);
+                booking.setUser(user);
+
+                // 1. Guardamos la reserva usando el nuevo BookingService
+                bookingService.save(booking);
+
+                // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
+                activity.setEnrolled(activity.getEnrolled() + 1);
+                activityService.save(activity);
+            }
+        }
+
+        // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
+        return "redirect:/activity/" + id;
+    } // <-- ¡Esta es la llave que te faltaba y que rompía todo!
+
+
+
     //Controlador de registros de usuario
     @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
@@ -155,7 +187,7 @@ public class MainController {
         }
 
         userService.save(newUser); // Usamos tu servicio
-        return "redirect:/login"; 
+        return "redirect:/login";
     }
 
     //Gestion de imagenes de usuario
@@ -175,7 +207,7 @@ public class MainController {
         // Buscamos al usuario con ID 2 para la demo
         // Más adelante, aquí buscaremos al usuario que haya hecho login
         Optional<User> user = userService.findById(2L);
-        
+
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user-profile"; // Esto busca el archivo user-profile.html
@@ -194,7 +226,7 @@ public class MainController {
         }
         return "redirect:/user-profile";
     }
-    
+
     @PostMapping("/edit-profile/save")
     public String saveProfile(
             @RequestParam Long id,
@@ -210,7 +242,7 @@ public class MainController {
             user.setImage(imageFile.getBytes());
         }
 
-        userService.save(user); // Aquí es donde el ID oculto hace su magia para actualizar
+        userService.save(user); // Hidden ID field in the form ensures we update the existing user instead of creating a new one
         return "redirect:/user-profile";
     }
 }

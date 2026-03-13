@@ -1,4 +1,5 @@
 package es.codeurjc.ferrumgym.service;
+import es.codeurjc.ferrumgym.model.Tariff;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -122,23 +123,20 @@ public class DatabaseInitializer {
             reviewRepository.save(review);
 
 			SiteSettings settings = new SiteSettings();
-            settings.setGymName("Ferrum Gym");
-            settings.setContactEmail("info@ferrumgym.com");
-            settings.setContactPhone("+34 912 345 678");
-            settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
-            settings.setWeekdaysHours("07:00 - 23:00");
-            settings.setWeekendsHours("09:00 - 21:00");
-            settings.setMaintenanceMode(false);
-            siteSettingsRepository.save(settings);
+                settings.setGymName("Ferrum Gym");
+                settings.setContactEmail("info@ferrumgym.com");
+                settings.setContactPhone("+34 912 345 678");
+                settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
+                settings.setWeekdaysHours("07:00 - 23:00");
+                settings.setWeekendsHours("09:00 - 21:00");
+                siteSettingsRepository.save(settings);
         }
-
-        // Este es el if de las tarifas
-        if (tariffService.findAll().isEmpty()) {
+		if (tariffService.findAll().isEmpty()) {
             // 1. Las mensuales
             Tariff basic = new Tariff("Iron Basic (Gym Only)", 30.0, "/mo", "Unlimited Gym Access. Free Weights & Machines area.");
             Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes. Up to 2 Classes / Week.");
             Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything. Gym + Unlimited Classes.");
-            
+
             // 2. Los packs sueltos
             Tariff voucher = new Tariff("Class Voucher (10)", 50.0, "/pack", "10 Group Classes. Valid for 6 months (Yoga, CrossFit, Zumba...).");
             Tariff dayPass = new Tariff("Day Pass", 12.0, "/day", "1 Day Full Access. Gym + 1 Class included. No commitment.");

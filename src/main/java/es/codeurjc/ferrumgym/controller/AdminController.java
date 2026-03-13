@@ -1,6 +1,7 @@
 package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.SiteSettings;
 import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
 import es.codeurjc.ferrumgym.service.ActivityService;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class AdminController {
 
-    // 1. Usamos los SERVICES de tus compañeros para lo que ya existía
     @Autowired
     private UserService userService;
 
@@ -31,9 +32,11 @@ public class AdminController {
     @Autowired
     private ReviewService reviewService;
 
-    // 2. Usamos TU REPOSITORY para la función nueva que acabas de crear
     @Autowired
     private SiteSettingsRepository siteSettingsRepository;
+
+    @Autowired
+    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
 
 
     // --- DASHBOARD ---
@@ -49,10 +52,43 @@ public class AdminController {
 
     // --- ADMIN CLASS MANAGEMENT ---
     @GetMapping("/admin-class")
-    public String users(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String manageClassAttendance(@RequestParam(required = false) Long activityId, Model model) {
+
+        List<Activity> allActivities = activityService.findAll();
+        model.addAttribute("allActivities", allActivities);
+
+        if (!allActivities.isEmpty()) {
+            Activity selectedActivity;
+            if (activityId != null) {
+                selectedActivity = activityService.findById(activityId).orElse(allActivities.get(0));
+            } else {
+                selectedActivity = allActivities.get(0);
+            }
+
+            model.addAttribute("selectedActivity", selectedActivity);
+
+            int percentage = 0;
+            if (selectedActivity.getCapacity() > 0) {
+                percentage = (selectedActivity.getEnrolled() * 100) / selectedActivity.getCapacity();
+            }
+            model.addAttribute("occupancyPercentage", percentage);
+
+            // Buscamos a los usuarios apuntados
+            List<Booking> bookings = bookingRepository.findByActivityId(selectedActivity.getId());
+            model.addAttribute("bookings", bookings);
+        }
+
         model.addAttribute("adminName", "Admin");
         return "admin-class";
+    }
+
+	@GetMapping("/admin-class/booking/delete/{bookingId}")
+    public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
+        // Borramos la reserva de la base de datos
+        bookingRepository.deleteById(bookingId);
+
+        // Recargamos la misma clase en la que estábamos
+        return "redirect:/admin-class?activityId=" + activityId;
     }
 
     // --- SITE SETTINGS ---
@@ -72,8 +108,7 @@ public class AdminController {
             @RequestParam String contactPhone,
             @RequestParam String address,
             @RequestParam String weekdaysHours,
-            @RequestParam String weekendsHours,
-            @RequestParam(required = false) String maintenanceMode) {
+            @RequestParam String weekendsHours){
 
         SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(new SiteSettings());
 
@@ -83,7 +118,6 @@ public class AdminController {
         settings.setAddress(address);
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
-        settings.setMaintenanceMode(maintenanceMode != null);
 
         siteSettingsRepository.save(settings);
 
@@ -179,6 +213,23 @@ public class AdminController {
     @GetMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteById(id); //
-        return "redirect:/admin-class";
+        return "redirect:/admin-users";
+    }
+
+	// --- ADMIN USER MANAGEMENT ---
+    @GetMapping("/admin-users")
+    public String manageUsers(Model model) {
+        // Show all users in the system
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("adminName", "Admin");
+        return "admin-users";
+    }
+
+	// --- REVIEW MANAGEMENT ---
+    @GetMapping("/review/delete/{id}")
+    public String deleteReview(@PathVariable Long id) {
+        // ReviewService for delete review by id
+        reviewService.deleteById(id);
+        return "redirect:/admin-dashboard";
     }
 }
