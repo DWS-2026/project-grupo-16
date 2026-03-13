@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,16 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Ferrum Gym - Your place for fitness, group classes, and personal training." />
         <meta name="author" content="Grupo 16" />
-        <title>Home - Ferrum Gym</title>
-        <!-- Favicon-->
+        <title>Manage Class - Ferrum Gym</title>
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-        <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/css/styles.css" rel="stylesheet" />
-		<link href="/css/admin.css" rel="stylesheet" />
+        <link href="/css/admin.css" rel="stylesheet" />
     </head>
-<body>
+<body class="bg-light d-flex flex-column min-vh-100">
 
     {{> fragments/navbar-admin }}
 
@@ -26,7 +22,7 @@
                 <label for="classSelector" class="form-label text-muted fw-bold text-uppercase small">Select Class to Manage</label>
                 <form action="/admin-class" method="GET" class="input-group input-group-lg">
                     <span class="input-group-text bg-white"><i class="bi bi-calendar3"></i></span>
-					<select class="form-select fw-bold" id="classSelector" name="activityId" onchange="this.form.submit()">
+                    <select class="form-select fw-bold" id="classSelector" name="activityId" onchange="this.form.submit()">
                         {{#allActivities}}
                         <option value="{{id}}">{{name}} - {{schedule}} ({{trainer}})</option>
                         {{/allActivities}}
@@ -51,71 +47,79 @@
 
         <hr class="mb-4 border-secondary">
 
-        <div class="d-flex justify-content-between mb-3">
-            <div class="input-group w-50">
-                <input type="text" class="form-control" placeholder="Search user in this list...">
-                <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
-            </div>
-            <div>
-                <button class="btn btn-success" onclick="alert('Attendance saved successfully!')"><i class="bi bi-save"></i> Save Changes (TO BE IMPLEMENTED)</button>
-				<button type="button" class="btn btn-outline-dark" onclick="window.print()"><i class="bi bi-printer"></i> Print</button>            </div>
-        </div>
+        <form action="/admin-class/attendance" method="POST">
+            <input type="hidden" name="activityId" value="{{selectedActivity.id}}">
 
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th class="ps-4">Booking ID</th>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Email</th>
-                                <th class="text-end pe-4">Attendance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#bookings}}
-                            <tr>
-                                <td class="ps-4 text-muted">#{{id}}</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-person-circle fs-3 me-2 text-secondary"></i>
-                                        <div class="fw-bold">{{user.name}}</div>
-                                    </div>
-                                </td>
-                                <td><span class="badge bg-primary">Member</span></td>
-                                <td><span class="text-muted small">{{user.email}}</span></td>
-                                <td class="text-end pe-4">
-                                    <input type="checkbox" class="btn-check" id="btn-check-{{id}}" autocomplete="off">
-                                    <label class="btn btn-outline-success btn-sm" for="btn-check-{{id}}">Present</label>
-                                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" title="Remove Booking" onclick="confirmarEliminacionReserva('{{user.name}}', '{{id}}', '{{selectedActivity.id}}')">
-                    				<i class="bi bi-trash"></i>
-                </button>                                </td>
-                            </tr>
-                            {{/bookings}}
-
-                            {{^bookings}}
-                            <tr>
-                                <td colspan="5" class="text-center py-5 text-muted">
-                                    <i class="bi bi-people fs-1 d-block mb-2"></i>
-                                    No users enrolled in this class yet.
-                                </td>
-                            </tr>
-                            {{/bookings}}
-                        </tbody>
-                    </table>
+            <div class="d-flex justify-content-between mb-3">
+                <div class="input-group w-50">
+                    <input type="text" class="form-control" placeholder="Search user in this list...">
+                    <button type="button" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Save Attendance</button>
+                    <button type="button" class="btn btn-outline-dark" onclick="window.print()"><i class="bi bi-printer"></i> Print</button>
                 </div>
             </div>
-        </div>
+
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th class="ps-4">Booking ID</th>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th class="text-end pe-4">Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#bookings}}
+                                <tr>
+                                    <td class="ps-4 text-muted">#{{id}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-person-circle fs-3 me-2 text-secondary"></i>
+                                            <div class="fw-bold">{{user.name}}</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-primary">Member</span></td>
+                                    <td><span class="text-muted small">{{user.email}}</span></td>
+                                    <td class="text-end pe-4">
+
+                                        <input type="checkbox" class="btn-check" id="btn-check-{{id}}" name="attendedBookingIds" value="{{id}}" {{#attended}}checked{{/attended}}>
+                                        <label class="btn btn-outline-success btn-sm" for="btn-check-{{id}}">Present</label>
+
+                                        <button type="button" class="btn btn-sm btn-outline-danger ms-2" title="Remove Booking" onclick="confirmarEliminacionReserva('{{user.name}}', '{{id}}', '{{selectedActivity.id}}')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{/bookings}}
+
+                                {{^bookings}}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <i class="bi bi-people fs-1 d-block mb-2"></i>
+                                        No users enrolled in this class yet.
+                                    </td>
+                                </tr>
+                                {{/bookings}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </main>
 
     {{> fragments/footer }}
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-		//Activity selector
+        //Activity selector
         document.addEventListener("DOMContentLoaded", function() {
             const selectElement = document.getElementById('classSelector');
             const selectedId = "{{selectedActivity.id}}";

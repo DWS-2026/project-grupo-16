@@ -57,7 +57,16 @@ public class Booking {
     public void setBookingDate(LocalDateTime bookingDate) {
         this.bookingDate = bookingDate;
     }
+    // Assisted Attendance Tracking
+    private boolean attended = false;
 
+    public boolean isAttended() {
+        return attended;
+    }
+
+    public void setAttended(boolean attended) {
+        this.attended = attended;
+    }
 
 
 }
