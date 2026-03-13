@@ -29,7 +29,6 @@ public class MainController {
     @Autowired
     private ActivityService activityService;
 
-    // Sustituimos los repositorios por los SERVICIOS
     @Autowired
     private ReviewService reviewService;
 
@@ -41,7 +40,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        // Pasa la lista de actividades a la vista "index.html"
+        // Activities
         model.addAttribute("activities", activityService.findAll());
         return "index";
     }
@@ -57,7 +56,7 @@ public class MainController {
         }
     }
 
-    // Método POST para recibir el formulario de reseñas usando servicios
+    // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
     public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
         Optional<Activity> activity = activityService.findById(id);
@@ -194,7 +193,7 @@ public class MainController {
             user.setImage(imageFile.getBytes());
         }
 
-        userService.save(user); // Aquí es donde el ID oculto hace su magia para actualizar
+        userService.save(user); // Hidden ID field in the form ensures we update the existing user instead of creating a new one
         return "redirect:/user-profile";
     }
 }
