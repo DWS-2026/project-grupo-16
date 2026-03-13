@@ -82,12 +82,19 @@ public class AdminController {
         return "admin-class";
     }
 
-	@GetMapping("/admin-class/booking/delete/{bookingId}")
+@GetMapping("/admin-class/booking/delete/{bookingId}")
     public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
-        // Borramos la reserva de la base de datos
+
+        Activity activity = activityService.findById(activityId).orElse(null);
+        if (activity != null && activity.getEnrolled() > 0) {
+            activity.setEnrolled(activity.getEnrolled() - 1);
+            activityService.save(activity); // Guardamos el nuevo número
+        }
+
+        // Delete the booking from the database
         bookingRepository.deleteById(bookingId);
 
-        // Recargamos la misma clase en la que estábamos
+        // Redirect back to the class management page for the same activity
         return "redirect:/admin-class?activityId=" + activityId;
     }
 
@@ -231,5 +238,31 @@ public class AdminController {
         // ReviewService for delete review by id
         reviewService.deleteById(id);
         return "redirect:/admin-dashboard";
+    }
+
+	// --- SAVE ATTENDANCE ---
+    @PostMapping("/admin-class/attendance")
+    public String saveAttendance(
+            @RequestParam Long activityId,
+            @RequestParam(required = false) List<Long> attendedBookingIds) {
+
+        // Load all bookings for this activity
+        List<Booking> bookings = bookingRepository.findByActivityId(activityId);
+
+        // Check each booking against the list of attended IDs and update the "attended" status accordingly
+        for (Booking booking : bookings) {
+            // If the booking ID is in the list of attended IDs, mark it as attended
+            if (attendedBookingIds != null && attendedBookingIds.contains(booking.getId())) {
+                booking.setAttended(true);
+            } else {
+                // If it's not in the list, mark it as not attended
+                booking.setAttended(false);
+            }
+
+            // Save the updated booking back to the database
+            bookingRepository.save(booking);
+        }
+
+        return "redirect:/admin-class?activityId=" + activityId;
     }
 }
