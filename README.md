@@ -245,7 +245,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ### **Participación de Miembros en la Práctica 2**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Roberto Acebes Moran**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -259,7 +259,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - Elena González Rodríguez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -273,7 +273,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - Luis Estirado Revuelta**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -287,7 +287,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - Jaime Salgado Carballeda**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
