@@ -271,4 +271,9 @@ public class MainController {
     public String register() {
         return "register"; // Carga register.html
     }
+
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forgot-password"; // Carga forgot-password.html
+    }
 }
