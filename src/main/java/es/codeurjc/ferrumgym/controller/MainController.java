@@ -258,4 +258,20 @@ public class MainController {
         userService.save(user); // Hidden ID field in the form ensures we update the existing user instead of creating a new one
         return "redirect:/user-profile";
     }
+
+    @GetMapping("/booking/cancel/{id}")
+    public String cancelBooking(@PathVariable Long id) {
+        // 1. Buscamos la reserva para saber qué actividad era
+        Booking booking = bookingService.findById(id).orElseThrow();
+        Activity activity = booking.getActivity();
+
+        // 2. Restamos uno al contador de la actividad
+        activity.setEnrolled(activity.getEnrolled() - 1);
+        activityService.save(activity);
+
+        // 3. Borramos la reserva de MySQL
+        bookingService.deleteById(id);
+
+        return "redirect:/user-profile";
+    }
 }

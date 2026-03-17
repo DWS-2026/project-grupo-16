@@ -70,21 +70,20 @@
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                        <div>
-                                            <h6 class="mb-0 fw-bold">Crossfit</h6>
-                                            <small class="text-muted">Monday, 17:00 - 18:00</small>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-danger">Cancel Booking</button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                        <div>
-                                            <h6 class="mb-0 fw-bold">Yoga</h6>
-                                            <small class="text-muted">Wednesday, 19:00 - 20:00</small>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-danger">Cancel Booking</button>
-                                    </li>
-                                </ul>
+                                        {{#user.bookings}}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                            <div>
+                                                <h6 class="mb-0 fw-bold">{{activity.name}}</h6>
+                                                <small class="text-muted">{{activity.schedule}}</small>
+                                            </div>
+                                            <a href="/booking/cancel/{{id}}" class="btn btn-sm btn-outline-danger">Cancel Booking</a>
+                                        </li>
+                                        {{/user.bookings}}
+
+                                        {{^user.bookings}}
+                                        <li class="list-group-item px-0 text-muted">You have no active bookings.</li>
+                                        {{/user.bookings}}
+                                    </ul>
                             </div>
                         </div>
                     </div>
