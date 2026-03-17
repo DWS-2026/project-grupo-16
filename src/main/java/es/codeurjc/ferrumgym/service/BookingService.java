@@ -31,4 +31,7 @@ public class BookingService {
     public void deleteById(Long id) {
         bookingRepository.deleteById(id);
     }
+	public boolean existsByUserAndActivity(User user, Activity activity) {
+        return bookingRepository.existsByUserAndActivity(user, activity);
+    }
 }
