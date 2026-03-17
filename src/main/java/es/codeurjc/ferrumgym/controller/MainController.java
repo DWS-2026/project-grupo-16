@@ -261,4 +261,14 @@ public class MainController {
 
         return "redirect:/user-profile";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // Carga login.html
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register"; // Carga register.html
+    }
 }
