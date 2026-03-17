@@ -53,7 +53,12 @@
                                 </div>
                             </div>
                         </div>
-
+		{{#errorMessage}}
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> <strong>Oops!</strong> {{errorMessage}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{/errorMessage}}
                         <div class="d-flex">
                             {{^activity.isFull}}
                             <form action="/activity/{{activity.id}}/book" method="POST">
@@ -61,6 +66,7 @@
                                     <i class="bi-calendar-plus-fill me-1"></i> Book Class
                                 </button>
                             </form>
+
                             {{/activity.isFull}}
 
                             {{#activity.isFull}}

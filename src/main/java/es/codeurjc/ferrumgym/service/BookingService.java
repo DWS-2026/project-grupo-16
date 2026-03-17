@@ -1,8 +1,10 @@
 package es.codeurjc.ferrumgym.service;
 
+import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import es.codeurjc.ferrumgym.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +30,8 @@ public class BookingService {
 
     public void deleteById(Long id) {
         bookingRepository.deleteById(id);
+    }
+    public boolean existsByUserAndActivity(User user, Activity activity) {
+        return bookingRepository.existsByUserAndActivity(user, activity);
     }
 }

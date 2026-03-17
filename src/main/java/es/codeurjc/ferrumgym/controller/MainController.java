@@ -93,10 +93,16 @@ public class MainController {
     }
 
     @GetMapping("/activity/{id}")
-    public String activityDetail(Model model, @PathVariable long id) {
+    public String activityDetail(Model model, @PathVariable long id, @RequestParam(required = false) String error) {
         Optional<Activity> activity = activityService.findById(id);
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
+
+            // ¡NUEVO! Si viene con el error de duplicado por la URL, preparamos el mensaje
+            if ("already_booked".equals(error)) {
+                model.addAttribute("errorMessage", "You are already enrolled in this class!");
+            }
+
             return "activity-detail";
         } else {
             return "404";
@@ -147,31 +153,38 @@ public class MainController {
         if (activityOpt.isPresent()) {
             Activity activity = activityOpt.get();
 
-            // Comprobamos que no esté llena por seguridad
-            if (!activity.isFull()) {
-                Booking booking = new Booking();
-                booking.setActivity(activity);
-                booking.setBookingDate(java.time.LocalDateTime.now());
+            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
+            // Simulamos el usuario 2L
+            User user = userService.findById(2L).orElse(null);
 
-                // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-                // Simulamos el usuario 1L ("Juan Perez")
-                User user = userService.findById(2L).orElse(null);
-                booking.setUser(user);
+            // Asegurarnos de que el usuario existe antes de hacer nada
+            if (user != null) {
 
-                // 1. Guardamos la reserva usando el nuevo BookingService
-                bookingService.save(booking);
+                // Check if the user has already booked this activity to prevent duplicate bookings
+                if (bookingService.existsByUserAndActivity(user, activity)) {
+                    // Si ya existe, lo devolvemos a la página de la actividad.
+                    // (Opcional: puedes añadir un parámetro ?error para mostrar un mensajito en el HTML)
+                    return "redirect:/activity/" + id + "?error=already_booked";
+                }
 
-                // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
-                activity.setEnrolled(activity.getEnrolled() + 1);
-                activityService.save(activity);
+                // Comprobamos que no esté llena por seguridad
+                if (!activity.isFull()) {
+                    Booking booking = new Booking();
+                    booking.setActivity(activity);
+                    booking.setBookingDate(java.time.LocalDateTime.now());
+                    booking.setUser(user);
+
+                    // 1. Guardamos la reserva usando el nuevo BookingService
+                    bookingService.save(booking);
+
+                    // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
+                    activity.setEnrolled(activity.getEnrolled() + 1);
+                    activityService.save(activity);
+                }
             }
         }
-
-        // Redirigimos a la página de la actividad para que vea la barra de progreso actualizada
         return "redirect:/activity/" + id;
-    } // <-- ¡Esta es la llave que te faltaba y que rompía todo!
-
-
+    }
 
     //Controlador de registros de usuario
     @PostMapping("/register")
