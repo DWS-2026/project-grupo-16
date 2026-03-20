@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class MainController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
 
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
@@ -111,63 +115,48 @@ public class MainController {
 
     // Método POST para procesar el botón de "Book Class"
     @PostMapping("/activity/{id}/book")
-    public String bookActivity(@PathVariable long id) {
-        Optional<Activity> activityOpt = activityService.findById(id);
+    public String bookClass(@PathVariable Long id, Principal principal, Model model) {
+        // 1. Buscamos la actividad
+        Activity activity = activityService.findById(id).orElseThrow();
+        
+        // 2. Buscamos al usuario logueado
+        String email = principal.getName();
+        User currentUser = userService.findByEmail(email).orElseThrow();
 
-        if (activityOpt.isPresent()) {
-            Activity activity = activityOpt.get();
-
-            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-            // Simulamos el usuario 2L
-            User user = userService.findById(2L).orElse(null);
-
-            // Asegurarnos de que el usuario existe antes de hacer nada
-            if (user != null) {
-
-                // Check if the user has already booked this activity to prevent duplicate bookings
-                if (bookingService.existsByUserAndActivity(user, activity)) {
-                    // Si ya existe, lo devolvemos a la página de la actividad.
-                    // (Opcional: puedes añadir un parámetro ?error para mostrar un mensajito en el HTML)
-                    return "redirect:/activity/" + id + "?error=already_booked";
-                }
-
-                // Comprobamos que no esté llena por seguridad
-                if (!activity.isFull()) {
-                    Booking booking = new Booking();
-                    booking.setActivity(activity);
-                    booking.setBookingDate(java.time.LocalDateTime.now());
-                    booking.setUser(user);
-
-                    // 1. Guardamos la reserva usando el nuevo BookingService
-                    bookingService.save(booking);
-
-                    // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
-                    activity.setEnrolled(activity.getEnrolled() + 1);
-                    activityService.save(activity);
-                }
+        // 3. Comprobamos si el usuario ya tiene un "Booking" para esta actividad
+        boolean isEnrolled = false;
+        for (Booking b : activity.getBookings()) {
+            if (b.getUser().getId().equals(currentUser.getId())) {
+                isEnrolled = true;
+                break;
             }
         }
-        return "redirect:/activity/" + id;
-    }
 
-    //Controlador de registros de usuario
-   @PostMapping("/register")
-    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
-            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
-
-        // Encriptamos la contraseña antes de guardarla
-        String encodedPassword = passwordEncoder.encode(password);
-
-        // Usamos la contraseña encriptada al crear el usuario
-        User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
-
-        // Guardamos la foto si la ha subido
-        if (!imageFile.isEmpty()) {
-            newUser.setImage(imageFile.getBytes());
+        if (isEnrolled) {
+            model.addAttribute("alreadyEnrolled", true);
+        } else {
+            // 4. Si hay hueco, creamos una reserva nueva SOLO con usuario y actividad
+            if (activity.getEnrolled() < activity.getCapacity()) {
+                Booking newBooking = new Booking();
+                newBooking.setUser(currentUser);
+                newBooking.setActivity(activity);
+                
+                // 5. Guardamos la reserva en la base de datos
+                bookingRepository.save(newBooking); 
+                
+                // 6. Sumamos 1 al número de apuntados y actualizamos la actividad
+                activity.setEnrolled(activity.getEnrolled() + 1);
+                activityService.save(activity);
+                
+                model.addAttribute("enrollSuccess", true);
+            } else {
+                model.addAttribute("fullClass", true); 
+            }
         }
-
-        userService.save(newUser);
-        return "redirect:/login";
+        
+        // Volvemos a pasar la actividad para que la página se vea bien
+        model.addAttribute("activity", activity);
+        return "activity-detail";
     }
 
     //Gestion de imagenes de usuario
@@ -190,10 +179,14 @@ public class MainController {
         // 2. Buscamos a ESE usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
         
-        // 3. Lo pasamos a la vista
+        // 3. Pasamos los datos del usuario a la vista
         model.addAttribute("user", currentUser);
         
-        // (Si tienes código para pasar las reservas o rutinas, déjalo aquí también)
+        // 4. Pasamos SUS reservas a la vista
+        // Como tu entidad User ya tiene una lista de Bookings, es así de fácil:
+        List<Booking> myBookings = currentUser.getBookings();
+        model.addAttribute("bookings", myBookings);
+        model.addAttribute("bookingCount", myBookings.size());
         
         return "user-profile";
     }
@@ -252,6 +245,26 @@ public class MainController {
     @GetMapping("/register")
     public String register() {
         return "register"; // Carga register.html
+    }
+
+        //Controlador de registros de usuario
+   @PostMapping("/register")
+    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
+            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+
+        // Encriptamos la contraseña antes de guardarla
+        String encodedPassword = passwordEncoder.encode(password);
+
+        // Usamos la contraseña encriptada al crear el usuario
+        User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
+
+        // Guardamos la foto si la ha subido
+        if (!imageFile.isEmpty()) {
+            newUser.setImage(imageFile.getBytes());
+        }
+
+        userService.save(newUser);
+        return "redirect:/login";
     }
 
     @GetMapping("/forgot-password")
