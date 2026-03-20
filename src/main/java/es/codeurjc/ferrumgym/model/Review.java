@@ -1,18 +1,18 @@
 package es.codeurjc.ferrumgym.model;
 import jakarta.persistence.*;
 
-
 @Entity
 public class Review {
 
-		public Review() {}
+    public Review() {}
 
-    public Review(Long id, String comment, int rating, User user, Activity activity) {
+    public Review(Long id, String comment, int rating, User user, Activity activity, boolean hasImage) {
         this.id = id;
         this.comment = comment;
         this.rating = rating;
         this.user = user;
         this.activity = activity;
+        this.hasImage = hasImage;
     }
 
     @Id
@@ -27,6 +27,12 @@ public class Review {
 
     @ManyToOne
     private Activity activity;
+
+    private boolean hasImage;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageFile;
 
     public Long getId() {
         return id;
@@ -68,5 +74,19 @@ public class Review {
         this.activity = activity;
     }
 
+    public boolean getHasImage() {
+        return hasImage;
+    }
 
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
+    }
+
+    public byte[] getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
+    }
 }
