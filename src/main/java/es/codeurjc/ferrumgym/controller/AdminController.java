@@ -240,7 +240,7 @@ public String showEditForm(@PathVariable("id") Long id, Model model) {
     // Transfer the user data to the model to pre-fill the form
     model.addAttribute("user", user);
 
-    return "admin/edit-user";
+    return "edit-user";
 }
  // Edit users (POST Method)
 @PostMapping("/admin/user/edit/{id}")

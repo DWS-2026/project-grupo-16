@@ -17,7 +17,7 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">Edit User Profile</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Manage details and permissions for {{user.username}}</p>
+                    <p class="lead fw-normal text-white-50 mb-0">Manage details and permissions for {{user.name}}</p>
                 </div>
             </div>
         </header>
@@ -41,8 +41,8 @@
 
                                         <div class="col-md-8 ps-md-4">
                                             <div class="mb-3">
-                                                <label for="inputUsername" class="form-label fw-bold">Username</label>
-                                                <input type="text" class="form-control" name="username" value="{{user.username}}" required>
+												<label for="inputUsername" class="form-label fw-bold">Full Name</label>
+												<input type="text" class="form-control" name="name" value="{{user.name}}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="inputEmail" class="form-label fw-bold">Email Address</label>
