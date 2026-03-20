@@ -191,36 +191,44 @@ public class MainController {
         return "user-profile";
     }
 
+    // 1. Mostrar la página de editar perfil con TUS datos
     @GetMapping("/edit-profile")
-    public String editProfile(Model model) {
-        // Buscamos al usuario 2 para la demo (luego será el de la sesión)
-        Optional<User> user = userService.findById(2L);
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-            return "edit-profile"; // Carga el template edit-profile.html
-        }
-        return "redirect:/user-profile";
+    public String editProfile(Model model, Principal principal) {
+        // Sacamos tu email de la sesión
+        String email = principal.getName();
+        // Buscamos tu usuario en la base de datos
+        User currentUser = userService.findByEmail(email).orElseThrow();
+        
+        // Pasamos TU usuario a la vista
+        model.addAttribute("user", currentUser);
+        return "edit-profile"; 
     }
 
+    // 2. Guardar los cambios en TU perfil
     @PostMapping("/edit-profile/save")
     public String saveProfile(
-            @RequestParam Long id,
             @RequestParam String fullName,
             @RequestParam String userEmail,
-            @RequestParam("userAvatar") MultipartFile imageFile) throws IOException {
+            @RequestParam("userAvatar") MultipartFile imageFile,
+            Principal principal) throws IOException { // Añadimos Principal aquí también
 
-        User user = userService.findById(id).orElseThrow();
-        user.setName(fullName);
-        user.setEmail(userEmail);
+        // Sacamos quién eres a través de la sesión de Spring Security
+        String currentEmail = principal.getName();
+        User currentUser = userService.findByEmail(currentEmail).orElseThrow();
 
+        // Actualizamos TUS datos
+        currentUser.setName(fullName);
+        currentUser.setEmail(userEmail);
+
+        // Si has subido una foto nueva, la guardamos
         if (!imageFile.isEmpty()) {
-            user.setImage(imageFile.getBytes());
+            currentUser.setImage(imageFile.getBytes());
         }
 
-        userService.save(user); // Hidden ID field in the form ensures we update the existing user instead of creating a new one
+        userService.save(currentUser); 
         return "redirect:/user-profile";
     }
-
+    
     @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id) {
         // 1. Buscamos la reserva para saber qué actividad era
