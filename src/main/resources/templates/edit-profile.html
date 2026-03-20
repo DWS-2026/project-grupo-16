@@ -31,7 +31,6 @@
                             <div class="card-body p-5">
                                 <form action="/edit-profile/save" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-                                    <input type="hidden" name="id" value="{{user.id}}">
                                     <div class="row mb-4">
                                         <div class="col-md-4 text-center border-end">
                                             <label class="form-label d-block fw-bold mb-3">Profile Picture</label>
