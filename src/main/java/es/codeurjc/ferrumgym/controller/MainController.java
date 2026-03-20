@@ -8,6 +8,7 @@ import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -182,17 +183,19 @@ public class MainController {
     }
 
     @GetMapping("/user-profile")
-    public String userProfile(Model model) {
-        // Buscamos al usuario con ID 2 para la demo
-        // Más adelante, aquí buscaremos al usuario que haya hecho login
-        Optional<User> user = userService.findById(2L);
-
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-            return "user-profile"; // Esto busca el archivo user-profile.html
-        } else {
-            return "redirect:/"; // Si no existe el usuario 2, te manda a la home
-        }
+    public String userProfile(Model model, HttpServletRequest request) {
+        // 1. Sacamos el email del usuario que ha iniciado sesión
+        String email = request.getUserPrincipal().getName();
+        
+        // 2. Buscamos a ESE usuario en la base de datos
+        User currentUser = userService.findByEmail(email).orElseThrow();
+        
+        // 3. Lo pasamos a la vista
+        model.addAttribute("user", currentUser);
+        
+        // (Si tienes código para pasar las reservas o rutinas, déjalo aquí también)
+        
+        return "user-profile";
     }
 
     @GetMapping("/edit-profile")

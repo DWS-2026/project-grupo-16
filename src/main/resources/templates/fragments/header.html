@@ -8,14 +8,32 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" href="/">Activities</a></li>
                 <li class="nav-item"><a class="nav-link" href="/prices">Tariffs</a></li>
+                
+                {{#logged}}
                 <li class="nav-item"><a class="nav-link" href="/user-profile">My Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin-dashboard" style="color: red;">Admin</a></li>
+                {{/logged}}
+                
+                {{#admin}}
+                <li class="nav-item"><a class="nav-link fw-bold" href="/admin-dashboard" style="color: red;">Admin</a></li>
+                {{/admin}}
             </ul>
-            <form class="d-flex" action="/login">
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-person-fill me-1"></i> Login/Register
-                </button>
-            </form>
+            
+            <div class="d-flex">
+                {{^logged}}
+                    <a href="/login" class="btn btn-outline-dark">
+                        <i class="bi-person-fill me-1"></i> Login/Register
+                    </a>
+                {{/logged}}
+                
+                {{#logged}}
+                    <form action="/logout" method="POST" class="m-0">
+                        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                        <button class="btn btn-outline-danger" type="submit">
+                            <i class="bi bi-box-arrow-right me-1"></i> Logout
+                        </button>
+                    </form>
+                {{/logged}}
+            </div>
         </div>
     </div>
 </nav>
