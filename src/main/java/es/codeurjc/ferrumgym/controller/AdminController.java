@@ -11,6 +11,8 @@ import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +20,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Controller
 public class AdminController {
@@ -51,6 +60,13 @@ public class AdminController {
         model.addAttribute("activities", activityService.findAll());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("reviews", reviewService.findAll());
+
+		List<User> allUsers = userService.findAll();
+        Collections.reverse(allUsers); // Go to the end of the list to get the most recent users first
+        List<User> recentUsers = allUsers.stream().limit(5).collect(Collectors.toList());
+
+        // Transfer the recent users to the model to display in the dashboard
+        model.addAttribute("recentUsers", recentUsers);
 
         model.addAttribute("adminName", "Admin");
         return "admin-dashboard";
@@ -244,13 +260,30 @@ public String showEditForm(@PathVariable("id") Long id, Model model) {
 }
  // Edit users (POST Method)
 @PostMapping("/admin/user/edit/{id}")
-public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
-    // We set the ID to ensure we update the existing user instead of creating a new one
-    user.setId(id);
-    userRepository.save(user);
+    public String updateUser(
+            @PathVariable("id") Long id,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
 
-    return "redirect:/admin-dashboard";
-}
+        // Search for the existing user by ID, if not found, throw an exception
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+        // Update only the fields that are editable from the form
+        existingUser.setName(name);
+        existingUser.setEmail(email);
+
+        // Executed if a new image was uploaded, otherwise keep the existing one
+        if (!imageField.isEmpty()) {
+            existingUser.setImage(imageField.getBytes());
+        }
+
+        // Save the updated user back to the database
+        userRepository.save(existingUser);
+
+		return "redirect:/admin-users";
+    }
 
 	// --- ADMIN USER MANAGEMENT ---
     @GetMapping("/admin-users")
