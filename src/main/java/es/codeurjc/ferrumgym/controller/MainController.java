@@ -38,6 +38,9 @@ public class MainController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     @GetMapping("/")
     public String index(Model model) {
         // Activities
@@ -147,19 +150,22 @@ public class MainController {
     }
 
     //Controlador de registros de usuario
-    @PostMapping("/register")
+   @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
             @RequestParam("formFile") MultipartFile imageFile) throws IOException {
 
-        // Creamos el usuario con el rol por defecto de cliente
-        User newUser = new User(name, email, password, List.of("ROLE_USER"));
+        // Encriptamos la contraseña antes de guardarla
+        String encodedPassword = passwordEncoder.encode(password);
+
+        // Usamos la contraseña encriptada al crear el usuario
+        User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
 
         // Guardamos la foto si la ha subido
         if (!imageFile.isEmpty()) {
             newUser.setImage(imageFile.getBytes());
         }
 
-        userService.save(newUser); // Usamos tu servicio
+        userService.save(newUser);
         return "redirect:/login";
     }
 
