@@ -7,11 +7,14 @@ import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.UserService;
+import es.codeurjc.ferrumgym.model.User;
+import es.codeurjc.ferrumgym.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+	@Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ActivityService activityService;
@@ -216,12 +222,35 @@ public class AdminController {
 
         return "redirect:/admin-dashboard";
     }
-
+	// Delete users
     @GetMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteById(id); //
         return "redirect:/admin-users";
     }
+
+	// Edit users (GET Method)
+
+	@GetMapping("/admin/user/edit/{id}")
+public String showEditForm(@PathVariable("id") Long id, Model model) {
+    //Searching for the user by ID, if not found, throw an exception
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+    // Transfer the user data to the model to pre-fill the form
+    model.addAttribute("user", user);
+
+    return "admin/edit-user";
+}
+ // Edit users (POST Method)
+@PostMapping("/admin/user/edit/{id}")
+public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
+    // We set the ID to ensure we update the existing user instead of creating a new one
+    user.setId(id);
+    userRepository.save(user);
+
+    return "redirect:/admin-dashboard";
+}
 
 	// --- ADMIN USER MANAGEMENT ---
     @GetMapping("/admin-users")
