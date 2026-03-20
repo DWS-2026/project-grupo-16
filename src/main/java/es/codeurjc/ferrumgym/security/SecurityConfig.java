@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1. Mantenemos tu encriptador de contraseñas (¡Esencial para el siguiente paso!)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -56,7 +55,7 @@ public class SecurityConfig {
             .permitAll()
         );
 
-        // ¡OJO! Ya NO desactivamos el CSRF. Lo dejamos activo por defecto para cumplir la rúbrica.
+        // Ya NO desactivamos el CSRF. Lo dejamos activo por defecto para cumplir la rúbrica.
 
         return http.build();
     }
