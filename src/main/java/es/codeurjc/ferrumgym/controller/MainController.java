@@ -249,4 +249,16 @@ public class MainController {
     public String forgotPassword() {
         return "forgot-password"; // Carga forgot-password.html
     }
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam String email, Model model) {
+        // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
+        // User user = userService.findByEmail(email);
+        
+        // 2. Aquí generarías el token y enviarías el email real.
+        
+        // 3. Por ahora, simulamos el éxito y devolvemos el mensaje a la vista
+        model.addAttribute("message", "If an account with the email " + email + " exists, instructions have been sent.");
+        
+        return "forgot-password"; 
+    }
 }

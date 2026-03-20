@@ -48,6 +48,7 @@
         <hr class="mb-4 border-secondary">
 
         <form action="/admin-class/attendance" method="POST">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
             <input type="hidden" name="activityId" value="{{selectedActivity.id}}">
 
             <div class="d-flex justify-content-between mb-3">
