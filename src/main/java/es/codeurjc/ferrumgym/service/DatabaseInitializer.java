@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import es.codeurjc.ferrumgym.model.*;
 import es.codeurjc.ferrumgym.repository.*;
+// ¡NUEVO IMPORT AÑADIDO!
+import org.springframework.security.crypto.password.PasswordEncoder; 
 
 @Component
 public class DatabaseInitializer {
@@ -29,8 +31,12 @@ public class DatabaseInitializer {
     @Autowired
     private ReviewRepository reviewRepository;
 
-	@Autowired
+    @Autowired
     private SiteSettingsRepository siteSettingsRepository;
+
+    // ¡INYECTAMOS EL ENCRIPTADOR AQUÍ!
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void init() throws IOException {
@@ -38,7 +44,7 @@ public class DatabaseInitializer {
         // Only run if DB is empty to prevent duplicates on restart
         if (userRepository.count() == 0) {
 
-            // Create Activities (Using setters to include the Dashboard fields)
+            // Create Activities
             Activity yoga = new Activity();
             yoga.setName("Yoga");
             yoga.setDescription("Relaxing sessions for mind and body.");
@@ -83,7 +89,8 @@ public class DatabaseInitializer {
             User admin = new User();
             admin.setName("Admin");
             admin.setEmail("admin@ferrumgym.com");
-            admin.setEncodedPassword("adminpass");
+            // ¡CONTRASEÑA ENCRIPTADA!
+            admin.setEncodedPassword(passwordEncoder.encode("adminpass")); 
             admin.setRoles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
             admin.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(admin);
@@ -92,7 +99,8 @@ public class DatabaseInitializer {
             User user1 = new User();
             user1.setName("Juan Perez");
             user1.setEmail("j.perez@alumnos.urjc.es");
-            user1.setEncodedPassword("pass1");
+            // ¡CONTRASEÑA ENCRIPTADA!
+            user1.setEncodedPassword(passwordEncoder.encode("pass1")); 
             user1.setRoles(Arrays.asList("ROLE_USER"));
             user1.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user1);
@@ -100,7 +108,8 @@ public class DatabaseInitializer {
             User user2 = new User();
             user2.setName("Marta Gomez");
             user2.setEmail("m.gomez@alumnos.urjc.es");
-            user2.setEncodedPassword("pass2");
+            // ¡CONTRASEÑA ENCRIPTADA!
+            user2.setEncodedPassword(passwordEncoder.encode("pass2")); 
             user2.setRoles(Arrays.asList("ROLE_USER"));
             user2.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user2);
@@ -119,14 +128,14 @@ public class DatabaseInitializer {
             review.setActivity(crossfit);
             reviewRepository.save(review);
 
-			SiteSettings settings = new SiteSettings();
-                settings.setGymName("Ferrum Gym");
-                settings.setContactEmail("info@ferrumgym.com");
-                settings.setContactPhone("+34 912 345 678");
-                settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
-                settings.setWeekdaysHours("07:00 - 23:00");
-                settings.setWeekendsHours("09:00 - 21:00");
-                siteSettingsRepository.save(settings);
+            SiteSettings settings = new SiteSettings();
+            settings.setGymName("Ferrum Gym");
+            settings.setContactEmail("info@ferrumgym.com");
+            settings.setContactPhone("+34 912 345 678");
+            settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
+            settings.setWeekdaysHours("07:00 - 23:00");
+            settings.setWeekendsHours("09:00 - 21:00");
+            siteSettingsRepository.save(settings);
         }
     }
 
