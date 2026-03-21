@@ -6,13 +6,12 @@ public class Review {
 
     public Review() {}
 
-    public Review(Long id, String comment, int rating, User user, Activity activity, boolean hasImage) {
+    public Review(Long id, String comment, int rating, User user, Activity activity) {
         this.id = id;
         this.comment = comment;
         this.rating = rating;
         this.user = user;
         this.activity = activity;
-        this.hasImage = hasImage;
     }
 
     @Id
@@ -23,7 +22,7 @@ public class Review {
     private int rating;
 
     @ManyToOne
-    private User user; // Only the owner can edit/delete
+    private User user;
 
     @ManyToOne
     private Activity activity;
