@@ -1,4 +1,5 @@
 package es.codeurjc.ferrumgym.service;
+import es.codeurjc.ferrumgym.model.Tariff;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import es.codeurjc.ferrumgym.model.*;
 import es.codeurjc.ferrumgym.repository.*;
-// ¡NUEVO IMPORT AÑADIDO!
-import org.springframework.security.crypto.password.PasswordEncoder; 
 
 @Component
 public class DatabaseInitializer {
@@ -33,18 +32,15 @@ public class DatabaseInitializer {
 
     @Autowired
     private SiteSettingsRepository siteSettingsRepository;
-
-    // ¡INYECTAMOS EL ENCRIPTADOR AQUÍ!
+    
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private TariffService tariffService;
 
     @PostConstruct
     public void init() throws IOException {
 
-        // Only run if DB is empty to prevent duplicates on restart
         if (userRepository.count() == 0) {
 
-            // Create Activities
             Activity yoga = new Activity();
             yoga.setName("Yoga");
             yoga.setDescription("Relaxing sessions for mind and body.");
@@ -53,6 +49,7 @@ public class DatabaseInitializer {
             yoga.setSchedule("Tue-Thu 19:00-20:00");
             yoga.setCapacity(20);
             yoga.setEnrolled(20);
+            yoga.setPdfFilename("Yoga.pdf");
             activityRepository.save(yoga);
 
             Activity crossfit = new Activity();
@@ -63,6 +60,7 @@ public class DatabaseInitializer {
             crossfit.setSchedule("Mon-Wed 17:00-18:00");
             crossfit.setCapacity(25);
             crossfit.setEnrolled(15);
+            crossfit.setPdfFilename("Crossfit.pdf");
             activityRepository.save(crossfit);
 
             Activity zumba = new Activity();
@@ -73,6 +71,7 @@ public class DatabaseInitializer {
             zumba.setSchedule("Mon-Wed 20:00-21:00");
             zumba.setCapacity(30);
             zumba.setEnrolled(10);
+            zumba.setPdfFilename("Zumba.pdf");
             activityRepository.save(zumba);
 
             Activity spinning = new Activity();
@@ -83,24 +82,21 @@ public class DatabaseInitializer {
             spinning.setSchedule("Fri 18:00-19:00");
             spinning.setCapacity(15);
             spinning.setEnrolled(12);
+            spinning.setPdfFilename("Spinning.pdf");
             activityRepository.save(spinning);
 
-            // Admin user with both roles and a profile picture
             User admin = new User();
             admin.setName("Admin");
             admin.setEmail("admin@ferrumgym.com");
-            // ¡CONTRASEÑA ENCRIPTADA!
-            admin.setEncodedPassword(passwordEncoder.encode("adminpass")); 
+            admin.setEncodedPassword("adminpass");
             admin.setRoles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
             admin.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(admin);
 
-            // Registered Users
             User user1 = new User();
             user1.setName("Juan Perez");
             user1.setEmail("j.perez@alumnos.urjc.es");
-            // ¡CONTRASEÑA ENCRIPTADA!
-            user1.setEncodedPassword(passwordEncoder.encode("pass1")); 
+            user1.setEncodedPassword("pass1");
             user1.setRoles(Arrays.asList("ROLE_USER"));
             user1.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user1);
@@ -108,13 +104,11 @@ public class DatabaseInitializer {
             User user2 = new User();
             user2.setName("Marta Gomez");
             user2.setEmail("m.gomez@alumnos.urjc.es");
-            // ¡CONTRASEÑA ENCRIPTADA!
-            user2.setEncodedPassword(passwordEncoder.encode("pass2")); 
+            user2.setEncodedPassword("pass2");
             user2.setRoles(Arrays.asList("ROLE_USER"));
             user2.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user2);
 
-            // Create Mock Bookings & Reviews for the Dashboard
             Booking booking = new Booking();
             booking.setUser(user1);
             booking.setActivity(crossfit);
@@ -126,6 +120,7 @@ public class DatabaseInitializer {
             review.setRating(5);
             review.setUser(user1);
             review.setActivity(crossfit);
+            review.setHasImage(false);
             reviewRepository.save(review);
 
             SiteSettings settings = new SiteSettings();
@@ -136,6 +131,20 @@ public class DatabaseInitializer {
             settings.setWeekdaysHours("07:00 - 23:00");
             settings.setWeekendsHours("09:00 - 21:00");
             siteSettingsRepository.save(settings);
+        }
+        
+        if (tariffService.findAll().isEmpty()) {
+            Tariff basic = new Tariff("Iron Basic (Gym Only)", 30.0, "/mo", "Unlimited Gym Access. Free Weights & Machines area.");
+            Tariff hybrid = new Tariff("Standard Hybrid", 45.0, "/mo", "Gym Access + Classes. Up to 2 Classes / Week.");
+            Tariff pro = new Tariff("Ultimate Pro", 65.0, "/mo", "Unlimited Everything. Gym + Unlimited Classes.");
+            Tariff voucher = new Tariff("Class Voucher (10)", 50.0, "/pack", "10 Group Classes. Valid for 6 months (Yoga, CrossFit, Zumba...).");
+            Tariff dayPass = new Tariff("Day Pass", 12.0, "/day", "1 Day Full Access. Gym + 1 Class included. No commitment.");
+
+            tariffService.save(basic);
+            tariffService.save(hybrid);
+            tariffService.save(pro);
+            tariffService.save(voucher);
+            tariffService.save(dayPass);
         }
     }
 
