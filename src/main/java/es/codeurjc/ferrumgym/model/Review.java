@@ -6,12 +6,13 @@ public class Review {
 
     public Review() {}
 
-    public Review(Long id, String comment, int rating, User user, Activity activity) {
+    public Review(Long id, String comment, int rating, User user, Activity activity, boolean hasImage) {
         this.id = id;
         this.comment = comment;
         this.rating = rating;
         this.user = user;
         this.activity = activity;
+        this.hasImage = hasImage;
     }
 
     @Id
