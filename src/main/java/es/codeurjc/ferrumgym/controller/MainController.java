@@ -79,7 +79,12 @@ public class MainController {
 
     // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
+    public String addReview(@PathVariable long id, 
+                            @RequestParam String comment, 
+                            @RequestParam int rating,
+                            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                            Principal principal) throws IOException {
+        
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -88,10 +93,22 @@ public class MainController {
             review.setRating(rating);
             review.setActivity(activity.get());
 
+            if (imageFile != null && !imageFile.isEmpty()) {
+                review.setImageFile(imageFile.getBytes());
+                review.setHasImage(true);
+            } else {
+                review.setHasImage(false);
+            }
+
             // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
             // Usamos userService en lugar de userRepository
-            User user = userService.findById(2L).orElse(null);
-            review.setUser(user);
+            if (principal != null) {
+                User user = userService.findByEmail(principal.getName()).orElse(null);
+                review.setUser(user);
+            } else {
+                User user = userService.findById(2L).orElse(null);
+                review.setUser(user);
+            }
 
             // Usamos reviewService en lugar de reviewRepository
             reviewService.save(review);
@@ -108,6 +125,18 @@ public class MainController {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
                     .body(activity.get().getImage());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/review/{id}/image")
+    public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
+        Optional<Review> review = reviewService.findById(id);
+        if (review.isPresent() && review.get().getHasImage() && review.get().getImageFile() != null) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(review.get().getImageFile());
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -162,7 +191,7 @@ public class MainController {
     //Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
-        Optional<User> user = userService.findById(id); //
+        Optional<User> user = userService.findById(id); 
         if (user.isPresent() && user.get().getImage() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -255,7 +284,7 @@ public class MainController {
         return "register"; // Carga register.html
     }
 
-        //Controlador de registros de usuario
+   //Controlador de registros de usuario
    @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
             @RequestParam("formFile") MultipartFile imageFile) throws IOException {
@@ -279,6 +308,7 @@ public class MainController {
     public String forgotPassword() {
         return "forgot-password"; // Carga forgot-password.html
     }
+    
     @PostMapping("/forgot-password")
     public String processForgotPassword(@RequestParam String email, Model model) {
         // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
