@@ -55,7 +55,7 @@ public class MainController {
 
     @GetMapping("/prices")
     public String prices() {
-        // Al no haber base de datos, Spring simplemente busca 
+        // Al no haber base de datos, Spring simplemente busca
         // el archivo "prices.html" en la carpeta templates y lo lanza.
         return "prices";
     }
@@ -113,51 +113,42 @@ public class MainController {
         }
     }
 
-    // Método POST para procesar el botón de "Book Class"
+    // POST Method to handle the "Book Class" form submission
     @PostMapping("/activity/{id}/book")
-    public String bookClass(@PathVariable Long id, Principal principal, Model model) {
-        // 1. Buscamos la actividad
-        Activity activity = activityService.findById(id).orElseThrow();
-        
-        // 2. Buscamos al usuario logueado
-        String email = principal.getName();
-        User currentUser = userService.findByEmail(email).orElseThrow();
+public String bookClass(@PathVariable Long id, Principal principal, Model model) {
+    Activity activity = activityService.findById(id).orElseThrow();
+    String email = principal.getName();
+    User currentUser = userService.findByEmail(email).orElseThrow();
 
-        // 3. Comprobamos si el usuario ya tiene un "Booking" para esta actividad
-        boolean isEnrolled = false;
-        for (Booking b : activity.getBookings()) {
-            if (b.getUser().getId().equals(currentUser.getId())) {
-                isEnrolled = true;
-                break;
-            }
+    boolean isEnrolled = false;
+    for (Booking b : activity.getBookings()) {
+        if (b.getUser().getId().equals(currentUser.getId())) {
+            isEnrolled = true;
+            break;
         }
-
-        if (isEnrolled) {
-            model.addAttribute("alreadyEnrolled", true);
-        } else {
-            // 4. Si hay hueco, creamos una reserva nueva SOLO con usuario y actividad
-            if (activity.getEnrolled() < activity.getCapacity()) {
-                Booking newBooking = new Booking();
-                newBooking.setUser(currentUser);
-                newBooking.setActivity(activity);
-                
-                // 5. Guardamos la reserva en la base de datos
-                bookingRepository.save(newBooking); 
-                
-                // 6. Sumamos 1 al número de apuntados y actualizamos la actividad
-                activity.setEnrolled(activity.getEnrolled() + 1);
-                activityService.save(activity);
-                
-                model.addAttribute("enrollSuccess", true);
-            } else {
-                model.addAttribute("fullClass", true); 
-            }
-        }
-        
-        // Volvemos a pasar la actividad para que la página se vea bien
-        model.addAttribute("activity", activity);
-        return "activity-detail";
     }
+
+    if (isEnrolled) {
+        // Pass the error message as a query parameter to the redirect URL
+        return "redirect:/activity/" + id + "?error=already_booked";
+    } else {
+        if (activity.getEnrolled() < activity.getCapacity()) {
+            Booking newBooking = new Booking();
+            newBooking.setUser(currentUser);
+            newBooking.setActivity(activity);
+
+            bookingRepository.save(newBooking);
+
+            activity.setEnrolled(activity.getEnrolled() + 1);
+            activityService.save(activity);
+
+            // Redirect back to the activity detail page to see the updated enrollment
+            return "redirect:/activity/" + id;}
+			else {
+            return "redirect:/activity/" + id + "?error=class_full";
+        }
+    }
+}
 
     //Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
@@ -175,19 +166,19 @@ public class MainController {
     public String userProfile(Model model, HttpServletRequest request) {
         // 1. Sacamos el email del usuario que ha iniciado sesión
         String email = request.getUserPrincipal().getName();
-        
+
         // 2. Buscamos a ESE usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
-        
+
         // 3. Pasamos los datos del usuario a la vista
         model.addAttribute("user", currentUser);
-        
+
         // 4. Pasamos SUS reservas a la vista
         // Como tu entidad User ya tiene una lista de Bookings, es así de fácil:
         List<Booking> myBookings = currentUser.getBookings();
         model.addAttribute("bookings", myBookings);
         model.addAttribute("bookingCount", myBookings.size());
-        
+
         return "user-profile";
     }
 
@@ -198,10 +189,10 @@ public class MainController {
         String email = principal.getName();
         // Buscamos tu usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
-        
+
         // Pasamos TU usuario a la vista
         model.addAttribute("user", currentUser);
-        return "edit-profile"; 
+        return "edit-profile";
     }
 
     // 2. Guardar los cambios en TU perfil
@@ -225,10 +216,10 @@ public class MainController {
             currentUser.setImage(imageFile.getBytes());
         }
 
-        userService.save(currentUser); 
+        userService.save(currentUser);
         return "redirect:/user-profile";
     }
-    
+
     @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id) {
         // 1. Buscamos la reserva para saber qué actividad era
@@ -283,12 +274,12 @@ public class MainController {
     public String processForgotPassword(@RequestParam String email, Model model) {
         // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
         // User user = userService.findByEmail(email);
-        
+
         // 2. Aquí generarías el token y enviarías el email real.
-        
+
         // 3. Por ahora, simulamos el éxito y devolvemos el mensaje a la vista
         model.addAttribute("message", "If an account with the email " + email + " exists, instructions have been sent.");
-        
-        return "forgot-password"; 
+
+        return "forgot-password";
     }
 }
