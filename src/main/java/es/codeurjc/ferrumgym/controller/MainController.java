@@ -79,7 +79,7 @@ public class MainController {
 
     // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating) {
+    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating, Principal principal) {
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -88,16 +88,19 @@ public class MainController {
             review.setRating(rating);
             review.setActivity(activity.get());
 
-            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-            // Usamos userService en lugar de userRepository
-            User user = userService.findById(2L).orElse(null);
-            review.setUser(user);
+            // 1. Sacamos el email del usuario de la sesión actual
+            String email = principal.getName();
+            
+            // 2. Buscamos a ESE usuario en la base de datos
+            User currentUser = userService.findByEmail(email).orElseThrow();
+            
+            // 3. Le asignamos la reseña al autor real
+            review.setUser(currentUser);
 
-            // Usamos reviewService en lugar de reviewRepository
             reviewService.save(review);
         }
 
-        // Redirige de vuelta a la página de detalles para ver la nueva reseña publicada
+        // Redirige de vuelta a la página de detalles
         return "redirect:/activity/" + id;
     }
 
