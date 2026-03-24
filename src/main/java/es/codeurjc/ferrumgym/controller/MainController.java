@@ -116,6 +116,18 @@ public class MainController {
         }
     }
 
+    @GetMapping("/review/{id}/image")
+    public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
+        Optional<Review> review = reviewService.findById(id);
+        if (review.isPresent() && review.get().getHasImage() && review.get().getImageFile() != null) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(review.get().getImageFile());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // Método POST para procesar el botón de "Book Class"
     @PostMapping("/activity/{id}/book")
     public String bookClass(@PathVariable Long id, Principal principal, Model model) {
@@ -165,7 +177,7 @@ public class MainController {
     //Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
-        Optional<User> user = userService.findById(id); //
+        Optional<User> user = userService.findById(id); 
         if (user.isPresent() && user.get().getImage() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -258,7 +270,7 @@ public class MainController {
         return "register"; // Carga register.html
     }
 
-        //Controlador de registros de usuario
+   //Controlador de registros de usuario
    @PostMapping("/register")
     public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
             @RequestParam("formFile") MultipartFile imageFile) throws IOException {
@@ -282,6 +294,7 @@ public class MainController {
     public String forgotPassword() {
         return "forgot-password"; // Carga forgot-password.html
     }
+    
     @PostMapping("/forgot-password")
     public String processForgotPassword(@RequestParam String email, Model model) {
         // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
