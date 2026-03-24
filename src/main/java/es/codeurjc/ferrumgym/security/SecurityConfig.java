@@ -34,8 +34,10 @@ public class SecurityConfig {
             .requestMatchers("/user-profile", "/edit-profile/**", "/booking/cancel/**").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/activity/*/review", "/activity/*/book").hasAnyRole("USER", "ADMIN")
             
-            // 5. RUTAS DEL ADMINISTRADOR (El Profe)
-            .requestMatchers("/admin-dashboard/**").hasRole("ADMIN")
+            // 5. RUTAS DEL ADMINISTRADOR (¡BLINDADAS!)
+            .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings").hasRole("ADMIN")
+            .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
+            .requestMatchers("/admin/user/**", "/review/delete/**").hasRole("ADMIN")
             
             // 6. CUALQUIER OTRA COSA (Por seguridad, pedimos login)
             .anyRequest().authenticated()
