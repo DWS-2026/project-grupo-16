@@ -6,10 +6,8 @@ import java.util.List;
 @Entity
 public class Activity {
 
-    // 1. OBLIGATORY EMPTY CONSTRUCTOR FOR JPA
     public Activity() {}
 
-    // 2. CONSTRUCTOR FOR MOCK DATA
     public Activity(Long id, String name, String description, byte[] image, String trainer, String schedule, int capacity, int enrolled, List<Booking> bookings) {
         this.id = id;
         this.name = name;
@@ -35,17 +33,18 @@ public class Activity {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 
-    // --- DASHBOARD FIELDS (Restored!) ---
     private String trainer;
     private String schedule;
     private int capacity;
     private int enrolled;
-    // ------------------------------------
+    
+    private String pdfFilename;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
-    // --- GETTERS & SETTERS ---
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -74,32 +73,28 @@ public class Activity {
     public List<Booking> getBookings() { return bookings; }
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
 
-
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
-    private List<Review> reviews;
-
-    // Y sus correspondientes Getters y Setters:
     public List<Review> getReviews() { return reviews; }
     public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
-    // --- UI HELPERS FOR DASHBOARD COLORS ---
+    public String getPdfFilename() { return pdfFilename; }
+    public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
+
     public String getStatusColor() {
-        if (this.capacity == 0) return "bg-secondary"; // Safety check
+        if (this.capacity == 0) return "bg-secondary";
         if (this.enrolled >= this.capacity) {
-            return "bg-danger"; // Full - red
+            return "bg-danger";
         } else if (this.enrolled >= this.capacity - 5) {
-            return "bg-warning text-dark"; // Almost full - yellow
+            return "bg-warning text-dark";
         } else {
-            return "bg-success"; // Plenty of space - green
+            return "bg-success";
         }
     }
-// Calcula el porcentaje real de ocupación para la barra
+
     public int getPercentage() {
         if (capacity == 0) return 0;
         return (enrolled * 100) / capacity;
     }
 
-// Añade esto debajo de tus otros métodos getStatusColor() y getPercentage()
     public boolean isFull() {
         return this.capacity > 0 && this.enrolled >= this.capacity;
     }

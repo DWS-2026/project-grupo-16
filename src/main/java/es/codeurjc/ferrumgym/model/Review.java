@@ -23,7 +23,7 @@ public class Review {
     private int rating;
 
     @ManyToOne
-    private User user; // Only the owner can edit/delete
+    private User user;
 
     @ManyToOne
     private Activity activity;

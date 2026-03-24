@@ -8,6 +8,7 @@ import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class MainController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -107,60 +115,48 @@ public class MainController {
 
     // Método POST para procesar el botón de "Book Class"
     @PostMapping("/activity/{id}/book")
-    public String bookActivity(@PathVariable long id) {
-        Optional<Activity> activityOpt = activityService.findById(id);
+    public String bookClass(@PathVariable Long id, Principal principal, Model model) {
+        // 1. Buscamos la actividad
+        Activity activity = activityService.findById(id).orElseThrow();
+        
+        // 2. Buscamos al usuario logueado
+        String email = principal.getName();
+        User currentUser = userService.findByEmail(email).orElseThrow();
 
-        if (activityOpt.isPresent()) {
-            Activity activity = activityOpt.get();
-
-            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-            // Simulamos el usuario 2L
-            User user = userService.findById(2L).orElse(null);
-
-            // Asegurarnos de que el usuario existe antes de hacer nada
-            if (user != null) {
-
-                // Check if the user has already booked this activity to prevent duplicate bookings
-                if (bookingService.existsByUserAndActivity(user, activity)) {
-                    // Si ya existe, lo devolvemos a la página de la actividad.
-                    // (Opcional: puedes añadir un parámetro ?error para mostrar un mensajito en el HTML)
-                    return "redirect:/activity/" + id + "?error=already_booked";
-                }
-
-                // Comprobamos que no esté llena por seguridad
-                if (!activity.isFull()) {
-                    Booking booking = new Booking();
-                    booking.setActivity(activity);
-                    booking.setBookingDate(java.time.LocalDateTime.now());
-                    booking.setUser(user);
-
-                    // 1. Guardamos la reserva usando el nuevo BookingService
-                    bookingService.save(booking);
-
-                    // 2. Aumentamos en 1 el número de apuntados a la clase y actualizamos la actividad
-                    activity.setEnrolled(activity.getEnrolled() + 1);
-                    activityService.save(activity);
-                }
+        // 3. Comprobamos si el usuario ya tiene un "Booking" para esta actividad
+        boolean isEnrolled = false;
+        for (Booking b : activity.getBookings()) {
+            if (b.getUser().getId().equals(currentUser.getId())) {
+                isEnrolled = true;
+                break;
             }
         }
-        return "redirect:/activity/" + id;
-    }
 
-    //Controlador de registros de usuario
-    @PostMapping("/register")
-    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
-            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
-
-        // Creamos el usuario con el rol por defecto de cliente
-        User newUser = new User(name, email, password, List.of("ROLE_USER"));
-
-        // Guardamos la foto si la ha subido
-        if (!imageFile.isEmpty()) {
-            newUser.setImage(imageFile.getBytes());
+        if (isEnrolled) {
+            model.addAttribute("alreadyEnrolled", true);
+        } else {
+            // 4. Si hay hueco, creamos una reserva nueva SOLO con usuario y actividad
+            if (activity.getEnrolled() < activity.getCapacity()) {
+                Booking newBooking = new Booking();
+                newBooking.setUser(currentUser);
+                newBooking.setActivity(activity);
+                
+                // 5. Guardamos la reserva en la base de datos
+                bookingRepository.save(newBooking); 
+                
+                // 6. Sumamos 1 al número de apuntados y actualizamos la actividad
+                activity.setEnrolled(activity.getEnrolled() + 1);
+                activityService.save(activity);
+                
+                model.addAttribute("enrollSuccess", true);
+            } else {
+                model.addAttribute("fullClass", true); 
+            }
         }
-
-        userService.save(newUser); // Usamos tu servicio
-        return "redirect:/login";
+        
+        // Volvemos a pasar la actividad para que la página se vea bien
+        model.addAttribute("activity", activity);
+        return "activity-detail";
     }
 
     //Gestion de imagenes de usuario
@@ -176,49 +172,63 @@ public class MainController {
     }
 
     @GetMapping("/user-profile")
-    public String userProfile(Model model) {
-        // Buscamos al usuario con ID 2 para la demo
-        // Más adelante, aquí buscaremos al usuario que haya hecho login
-        Optional<User> user = userService.findById(2L);
-
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-            return "user-profile"; // Esto busca el archivo user-profile.html
-        } else {
-            return "redirect:/"; // Si no existe el usuario 2, te manda a la home
-        }
+    public String userProfile(Model model, HttpServletRequest request) {
+        // 1. Sacamos el email del usuario que ha iniciado sesión
+        String email = request.getUserPrincipal().getName();
+        
+        // 2. Buscamos a ESE usuario en la base de datos
+        User currentUser = userService.findByEmail(email).orElseThrow();
+        
+        // 3. Pasamos los datos del usuario a la vista
+        model.addAttribute("user", currentUser);
+        
+        // 4. Pasamos SUS reservas a la vista
+        // Como tu entidad User ya tiene una lista de Bookings, es así de fácil:
+        List<Booking> myBookings = currentUser.getBookings();
+        model.addAttribute("bookings", myBookings);
+        model.addAttribute("bookingCount", myBookings.size());
+        
+        return "user-profile";
     }
 
+    // 1. Mostrar la página de editar perfil con TUS datos
     @GetMapping("/edit-profile")
-    public String editProfile(Model model) {
-        // Buscamos al usuario 2 para la demo (luego será el de la sesión)
-        Optional<User> user = userService.findById(2L);
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-            return "edit-profile"; // Carga el template edit-profile.html
-        }
-        return "redirect:/user-profile";
+    public String editProfile(Model model, Principal principal) {
+        // Sacamos tu email de la sesión
+        String email = principal.getName();
+        // Buscamos tu usuario en la base de datos
+        User currentUser = userService.findByEmail(email).orElseThrow();
+        
+        // Pasamos TU usuario a la vista
+        model.addAttribute("user", currentUser);
+        return "edit-profile"; 
     }
 
+    // 2. Guardar los cambios en TU perfil
     @PostMapping("/edit-profile/save")
     public String saveProfile(
-            @RequestParam Long id,
             @RequestParam String fullName,
             @RequestParam String userEmail,
-            @RequestParam("userAvatar") MultipartFile imageFile) throws IOException {
+            @RequestParam("userAvatar") MultipartFile imageFile,
+            Principal principal) throws IOException { // Añadimos Principal aquí también
 
-        User user = userService.findById(id).orElseThrow();
-        user.setName(fullName);
-        user.setEmail(userEmail);
+        // Sacamos quién eres a través de la sesión de Spring Security
+        String currentEmail = principal.getName();
+        User currentUser = userService.findByEmail(currentEmail).orElseThrow();
 
+        // Actualizamos TUS datos
+        currentUser.setName(fullName);
+        currentUser.setEmail(userEmail);
+
+        // Si has subido una foto nueva, la guardamos
         if (!imageFile.isEmpty()) {
-            user.setImage(imageFile.getBytes());
+            currentUser.setImage(imageFile.getBytes());
         }
 
-        userService.save(user); // Hidden ID field in the form ensures we update the existing user instead of creating a new one
+        userService.save(currentUser); 
         return "redirect:/user-profile";
     }
-
+    
     @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id) {
         // 1. Buscamos la reserva para saber qué actividad era
@@ -245,8 +255,40 @@ public class MainController {
         return "register"; // Carga register.html
     }
 
+        //Controlador de registros de usuario
+   @PostMapping("/register")
+    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
+            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+
+        // Encriptamos la contraseña antes de guardarla
+        String encodedPassword = passwordEncoder.encode(password);
+
+        // Usamos la contraseña encriptada al crear el usuario
+        User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
+
+        // Guardamos la foto si la ha subido
+        if (!imageFile.isEmpty()) {
+            newUser.setImage(imageFile.getBytes());
+        }
+
+        userService.save(newUser);
+        return "redirect:/login";
+    }
+
     @GetMapping("/forgot-password")
     public String forgotPassword() {
         return "forgot-password"; // Carga forgot-password.html
+    }
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam String email, Model model) {
+        // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
+        // User user = userService.findByEmail(email);
+        
+        // 2. Aquí generarías el token y enviarías el email real.
+        
+        // 3. Por ahora, simulamos el éxito y devolvemos el mensaje a la vista
+        model.addAttribute("message", "If an account with the email " + email + " exists, instructions have been sent.");
+        
+        return "forgot-password"; 
     }
 }
