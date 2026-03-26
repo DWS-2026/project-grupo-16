@@ -135,8 +135,14 @@
                             </div>
                             <p class="small fst-italic text-muted">{{comment}}</p>
 
-                            <img src="/assets/resena.jpg" class="img-fluid rounded mb-3" alt="Review Image" style="max-height: 200px; object-fit: cover;">
-
+                            {{#hasImage}}
+                                <img src="/review/{{id}}/image" class="img-fluid rounded mb-3" alt="Review Image" style="max-height: 200px; object-fit: cover; width: 100%;">
+                            {{/hasImage}}
+                            
+                            {{^hasImage}}
+                                <img src="/assets/resena.jpg" class="img-fluid rounded mb-3" alt="Default Image" style="max-height: 200px; object-fit: cover; width: 100%;">
+                            {{/hasImage}}
+                            
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <small>By: {{user.name}}</small>
                                 <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionResena('{{activity.name}}', '{{id}}')">Delete</button>
