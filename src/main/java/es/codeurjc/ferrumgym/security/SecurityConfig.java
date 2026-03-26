@@ -23,7 +23,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
             
             // 2. ARCHIVOS ESTÁTICOS Y PÚBLICOS (Para que la web no se vea sin estilos)
-            .requestMatchers("/css/**", "/js/**", "/assets/**").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
             
             // 3. RUTAS DE VISITANTES (No logueados)
             .requestMatchers("/", "/prices", "/register", "/login", "/forgot-password").permitAll()
