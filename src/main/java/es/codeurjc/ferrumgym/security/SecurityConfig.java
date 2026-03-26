@@ -29,6 +29,7 @@ public class SecurityConfig {
             .requestMatchers("/", "/prices", "/register", "/login", "/forgot-password").permitAll()
             .requestMatchers(HttpMethod.GET, "/activity/**").permitAll() // Ver detalles de actividad
             .requestMatchers(HttpMethod.GET, "/user/*/image").permitAll() // Ver avatares en las reseñas
+            .requestMatchers(HttpMethod.GET, "/review/*/image").permitAll() // Para ver las fotos de reseñas
             
             // 4. RUTAS DE USUARIOS REGISTRADOS (User y Admin)
             .requestMatchers("/user-profile", "/edit-profile/**", "/booking/cancel/**").hasAnyRole("USER", "ADMIN")

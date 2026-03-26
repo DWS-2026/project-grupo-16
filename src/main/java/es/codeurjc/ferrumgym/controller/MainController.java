@@ -79,7 +79,8 @@ public class MainController {
 
     // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating, Principal principal) {
+    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating, 
+                            @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException { 
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -96,6 +97,12 @@ public class MainController {
             
             // 3. Le asignamos la reseña al autor real
             review.setUser(currentUser);
+
+            // Si el usuario ha subido una foto, la guardamos
+            if (!imageFile.isEmpty()) {
+                review.setImageFile(imageFile.getBytes());
+                review.setHasImage(true); 
+            }
 
             reviewService.save(review);
         }
