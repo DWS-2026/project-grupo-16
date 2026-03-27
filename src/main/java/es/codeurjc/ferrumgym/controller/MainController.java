@@ -55,7 +55,7 @@ public class MainController {
 
     @GetMapping("/prices")
     public String prices() {
-        // Al no haber base de datos, Spring simplemente busca 
+        // Al no haber base de datos, Spring simplemente busca
         // el archivo "prices.html" en la carpeta templates y lo lanza.
         return "prices";
     }
@@ -79,8 +79,8 @@ public class MainController {
 
     // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating, 
-                            @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException { 
+    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating,
+                            @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException {
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -91,17 +91,17 @@ public class MainController {
 
             // 1. Sacamos el email del usuario de la sesión actual
             String email = principal.getName();
-            
+
             // 2. Buscamos a ESE usuario en la base de datos
             User currentUser = userService.findByEmail(email).orElseThrow();
-            
+
             // 3. Le asignamos la reseña al autor real
             review.setUser(currentUser);
 
             // Si el usuario ha subido una foto, la guardamos
             if (!imageFile.isEmpty()) {
                 review.setImageFile(imageFile.getBytes());
-                review.setHasImage(true); 
+                review.setHasImage(true);
             }
 
             reviewService.save(review);
@@ -135,17 +135,13 @@ public class MainController {
         }
     }
 
-    // Método POST para procesar el botón de "Book Class"
+// Booking Controller POST method
     @PostMapping("/activity/{id}/book")
     public String bookClass(@PathVariable Long id, Principal principal, Model model) {
-        // 1. Buscamos la actividad
         Activity activity = activityService.findById(id).orElseThrow();
-        
-        // 2. Buscamos al usuario logueado
         String email = principal.getName();
         User currentUser = userService.findByEmail(email).orElseThrow();
 
-        // 3. Comprobamos si el usuario ya tiene un "Booking" para esta actividad
         boolean isEnrolled = false;
         for (Booking b : activity.getBookings()) {
             if (b.getUser().getId().equals(currentUser.getId())) {
@@ -155,36 +151,32 @@ public class MainController {
         }
 
         if (isEnrolled) {
-            model.addAttribute("alreadyEnrolled", true);
+            // Redirect to the same page with an error message indicating the user is already enrolled
+            return "redirect:/activity/" + id + "?error=already_booked";
         } else {
-            // 4. Si hay hueco, creamos una reserva nueva SOLO con usuario y actividad
             if (activity.getEnrolled() < activity.getCapacity()) {
                 Booking newBooking = new Booking();
                 newBooking.setUser(currentUser);
                 newBooking.setActivity(activity);
-                
-                // 5. Guardamos la reserva en la base de datos
-                bookingRepository.save(newBooking); 
-                
-                // 6. Sumamos 1 al número de apuntados y actualizamos la actividad
+
+                bookingRepository.save(newBooking);
+
                 activity.setEnrolled(activity.getEnrolled() + 1);
                 activityService.save(activity);
-                
-                model.addAttribute("enrollSuccess", true);
+
+                // Redirect to the same page + id
+                return "redirect:/activity/" + id;
             } else {
-                model.addAttribute("fullClass", true); 
+                // Case when the class is full
+                return "redirect:/activity/" + id + "?error=class_full";
             }
         }
-        
-        // Volvemos a pasar la actividad para que la página se vea bien
-        model.addAttribute("activity", activity);
-        return "activity-detail";
     }
 
     //Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
-        Optional<User> user = userService.findById(id); 
+        Optional<User> user = userService.findById(id);
         if (user.isPresent() && user.get().getImage() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -197,19 +189,19 @@ public class MainController {
     public String userProfile(Model model, HttpServletRequest request) {
         // 1. Sacamos el email del usuario que ha iniciado sesión
         String email = request.getUserPrincipal().getName();
-        
+
         // 2. Buscamos a ESE usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
-        
+
         // 3. Pasamos los datos del usuario a la vista
         model.addAttribute("user", currentUser);
-        
+
         // 4. Pasamos SUS reservas a la vista
         // Como tu entidad User ya tiene una lista de Bookings, es así de fácil:
         List<Booking> myBookings = currentUser.getBookings();
         model.addAttribute("bookings", myBookings);
         model.addAttribute("bookingCount", myBookings.size());
-        
+
         return "user-profile";
     }
 
@@ -220,10 +212,10 @@ public class MainController {
         String email = principal.getName();
         // Buscamos tu usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
-        
+
         // Pasamos TU usuario a la vista
         model.addAttribute("user", currentUser);
-        return "edit-profile"; 
+        return "edit-profile";
     }
 
     // 2. Guardar los cambios en TU perfil
@@ -247,10 +239,10 @@ public class MainController {
             currentUser.setImage(imageFile.getBytes());
         }
 
-        userService.save(currentUser); 
+        userService.save(currentUser);
         return "redirect:/user-profile";
     }
-    
+
     @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id) {
         // 1. Buscamos la reserva para saber qué actividad era
@@ -301,17 +293,17 @@ public class MainController {
     public String forgotPassword() {
         return "forgot-password"; // Carga forgot-password.html
     }
-    
+
     @PostMapping("/forgot-password")
     public String processForgotPassword(@RequestParam String email, Model model) {
         // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
         // User user = userService.findByEmail(email);
-        
+
         // 2. Aquí generarías el token y enviarías el email real.
-        
+
         // 3. Por ahora, simulamos el éxito y devolvemos el mensaje a la vista
         model.addAttribute("message", "If an account with the email " + email + " exists, instructions have been sent.");
-        
-        return "forgot-password"; 
+
+        return "forgot-password";
     }
 }
