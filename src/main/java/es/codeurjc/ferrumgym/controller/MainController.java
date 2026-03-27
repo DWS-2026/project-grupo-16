@@ -101,11 +101,7 @@ public class MainController {
             // Si el usuario ha subido una foto, la guardamos
             if (!imageFile.isEmpty()) {
                 review.setImageFile(imageFile.getBytes());
-<<<<<<< HEAD
                 review.setHasImage(true);
-=======
-                review.setHasImage(true);
->>>>>>> 5b3652aa90cfd6afb3c01d1d7b40bb9da8eff928
             }
 
             reviewService.save(review);
