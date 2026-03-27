@@ -23,19 +23,22 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
             
             // 2. ARCHIVOS ESTÁTICOS Y PÚBLICOS (Para que la web no se vea sin estilos)
-            .requestMatchers("/css/**", "/js/**", "/assets/**").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
             
             // 3. RUTAS DE VISITANTES (No logueados)
             .requestMatchers("/", "/prices", "/register", "/login", "/forgot-password").permitAll()
             .requestMatchers(HttpMethod.GET, "/activity/**").permitAll() // Ver detalles de actividad
             .requestMatchers(HttpMethod.GET, "/user/*/image").permitAll() // Ver avatares en las reseñas
+            .requestMatchers(HttpMethod.GET, "/review/*/image").permitAll() // Para ver las fotos de reseñas
             
             // 4. RUTAS DE USUARIOS REGISTRADOS (User y Admin)
             .requestMatchers("/user-profile", "/edit-profile/**", "/booking/cancel/**").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/activity/*/review", "/activity/*/book").hasAnyRole("USER", "ADMIN")
             
-            // 5. RUTAS DEL ADMINISTRADOR (El Profe)
-            .requestMatchers("/admin-dashboard/**").hasRole("ADMIN")
+            // 5. RUTAS DEL ADMINISTRADOR (¡BLINDADAS!)
+            .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings").hasRole("ADMIN")
+            .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
+            .requestMatchers("/admin/user/**", "/review/delete/**").hasRole("ADMIN")
             
             // 6. CUALQUIER OTRA COSA (Por seguridad, pedimos login)
             .anyRequest().authenticated()
