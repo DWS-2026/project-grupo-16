@@ -30,7 +30,13 @@
                             <div class="card-body p-5">
                                 <form action="/admin/user/edit/{{user.id}}" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="{{user.id}}">
+									{{#csrfToken}}
+									<input type="hidden" name="_csrf" value="{{csrfToken}}">
+									{{/csrfToken}}
 
+									{{#_csrf}}
+									<input type="hidden" name="_csrf" value="{{_csrf.token}}">
+									{{/_csrf}}
                                     <div class="row mb-4">
                                         <div class="col-md-4 text-center border-end">
                                             <label class="form-label d-block fw-bold mb-3">Profile Picture</label>
@@ -52,8 +58,9 @@
                                             <div class="mb-3">
                                                 <label for="inputRole" class="form-label fw-bold">User Role</label>
                                                 <select class="form-select" name="role" id="inputRole">
-                                                    <option value="USER">Member (USER)</option>
-                                                    <option value="ADMIN">Administrator (ADMIN)</option>
+    												<option value="ROLE_USER">Member (USER)</option>
+    												<option value="ROLE_ADMIN">Administrator (ADMIN)</option>
+												</select>
                                                 </select>
                                                 <div class="form-text small text-muted">Warning: Giving ADMIN rights allows full system access.</div>
                                             </div>

@@ -252,30 +252,34 @@ public String showEditForm(@PathVariable("id") Long id, Model model) {
 }
  // Edit users (POST Method)
 @PostMapping("/admin/user/edit/{id}")
-    public String updateUser(
-            @PathVariable("id") Long id,
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
+public String updateUser(
+        @PathVariable("id") Long id,
+        @RequestParam String name,
+        @RequestParam String email,
+        @RequestParam String role,
+        @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
 
-        // Search for the existing user by ID, if not found, throw an exception
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+    // Search for the existing user by ID, if not found, throw an exception
+    User existingUser = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
-        // Update only the fields that are editable from the form
-        existingUser.setName(name);
-        existingUser.setEmail(email);
+    // Update only the fields that are editable from the form
+    existingUser.setName(name);
+    existingUser.setEmail(email);
 
-        // Executed if a new image was uploaded, otherwise keep the existing one
-        if (!imageField.isEmpty()) {
-            existingUser.setImage(imageField.getBytes());
-        }
+    // Modify the user's role based on the selected option in the form (mutable list to avoid issues with immutable collections)
+	existingUser.setRoles(new java.util.ArrayList<>(List.of(role)));
 
-        // Save the updated user back to the database
-        userRepository.save(existingUser);
-
-		return "redirect:/admin-users";
+    // Executed if a new image was uploaded, otherwise keep the existing one
+    if (!imageField.isEmpty()) {
+        existingUser.setImage(imageField.getBytes());
     }
+
+    // Save the updated user back to the database
+    userRepository.save(existingUser);
+
+    return "redirect:/admin-users";
+}
 
 	// --- ADMIN USER MANAGEMENT ---
     @GetMapping("/admin-users")
