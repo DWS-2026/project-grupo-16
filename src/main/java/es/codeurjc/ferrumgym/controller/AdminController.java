@@ -20,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Collections;
+
+import java.nio.file.Path;
 
 @Controller
 public class AdminController {
@@ -160,7 +165,8 @@ public class AdminController {
             @RequestParam int capacity,
             @RequestParam int enrolled,
             @RequestParam String description,
-            @RequestParam("imageField") MultipartFile imageField) throws IOException {
+            @RequestParam("imageField") MultipartFile imageField,
+            @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
 
         Activity newActivity = new Activity();
 
@@ -173,6 +179,25 @@ public class AdminController {
 
         if (!imageField.isEmpty()) {
             newActivity.setImage(imageField.getBytes());
+        }
+
+        if (pdfFile != null && !pdfFile.isEmpty()) {
+            // 1. Sacamos el nombre (ej: "boxing-info.pdf") y se lo damos a la actividad
+            String originalFilename = pdfFile.getOriginalFilename();
+            newActivity.setPdfFilename(originalFilename);
+
+            // 2. Preparamos la ruta donde se va a guardar físicamente
+            String uploadDir = "src/main/resources/static/docs/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            // Si la carpeta 'docs' no existe, que la cree
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // 3. Copiamos el archivo que nos llega a la carpeta
+            Path filePath = uploadPath.resolve(originalFilename);
+            Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
         activityService.save(newActivity);
@@ -209,7 +234,8 @@ public class AdminController {
             @RequestParam int capacity,
             @RequestParam int enrolled,
             @RequestParam String description,
-            @RequestParam("imageField") MultipartFile imageField) throws IOException {
+            @RequestParam("imageField") MultipartFile imageField,
+            @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
 
         Activity existingActivity = activityService.findById(id).orElse(null);
 
@@ -223,6 +249,22 @@ public class AdminController {
 
             if (!imageField.isEmpty()) {
                 existingActivity.setImage(imageField.getBytes());
+            }
+
+            if (pdfFile != null && !pdfFile.isEmpty()) {
+                String originalFilename = pdfFile.getOriginalFilename();
+                existingActivity.setPdfFilename(originalFilename);
+
+                String uploadDir = "src/main/resources/static/docs/";
+                Path uploadPath = Paths.get(uploadDir);
+
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                Path filePath = uploadPath.resolve(originalFilename);
+                // REPLACE_EXISTING hace que si ya había un "yoga.pdf", lo sobrescriba con el nuevo
+                Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
             activityService.save(existingActivity);
