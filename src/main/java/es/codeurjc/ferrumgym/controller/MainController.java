@@ -79,12 +79,8 @@ public class MainController {
 
     // POST Method to handle the "Add Review" form submission
     @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id,
-                            @RequestParam String comment,
-                            @RequestParam int rating,
-                            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                            Principal principal) throws IOException {
-
+    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating,
+                            @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException {
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -93,28 +89,25 @@ public class MainController {
             review.setRating(rating);
             review.setActivity(activity.get());
 
-            if (imageFile != null && !imageFile.isEmpty()) {
+            // 1. Sacamos el email del usuario de la sesión actual
+            String email = principal.getName();
+
+            // 2. Buscamos a ESE usuario en la base de datos
+            User currentUser = userService.findByEmail(email).orElseThrow();
+
+            // 3. Le asignamos la reseña al autor real
+            review.setUser(currentUser);
+
+            // Si el usuario ha subido una foto, la guardamos
+            if (!imageFile.isEmpty()) {
                 review.setImageFile(imageFile.getBytes());
                 review.setHasImage(true);
-            } else {
-                review.setHasImage(false);
             }
 
-            // TODO: Cuando implementes Spring Security, aquí cogeremos el usuario de la sesión.
-            // Usamos userService en lugar de userRepository
-            if (principal != null) {
-                User user = userService.findByEmail(principal.getName()).orElse(null);
-                review.setUser(user);
-            } else {
-                User user = userService.findById(2L).orElse(null);
-                review.setUser(user);
-            }
-
-            // Usamos reviewService en lugar de reviewRepository
             reviewService.save(review);
         }
 
-        // Redirige de vuelta a la página de detalles para ver la nueva reseña publicada
+        // Redirige de vuelta a la página de detalles
         return "redirect:/activity/" + id;
     }
 
@@ -130,42 +123,55 @@ public class MainController {
         }
     }
 
-    // POST Method to handle the "Book Class" form submission
+    @GetMapping("/review/{id}/image")
+    public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
+        Optional<Review> review = reviewService.findById(id);
+        if (review.isPresent() && review.get().getHasImage() && review.get().getImageFile() != null) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(review.get().getImageFile());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+// Booking Controller POST method
     @PostMapping("/activity/{id}/book")
-public String bookClass(@PathVariable Long id, Principal principal, Model model) {
-    Activity activity = activityService.findById(id).orElseThrow();
-    String email = principal.getName();
-    User currentUser = userService.findByEmail(email).orElseThrow();
+    public String bookClass(@PathVariable Long id, Principal principal, Model model) {
+        Activity activity = activityService.findById(id).orElseThrow();
+        String email = principal.getName();
+        User currentUser = userService.findByEmail(email).orElseThrow();
 
-    boolean isEnrolled = false;
-    for (Booking b : activity.getBookings()) {
-        if (b.getUser().getId().equals(currentUser.getId())) {
-            isEnrolled = true;
-            break;
+        boolean isEnrolled = false;
+        for (Booking b : activity.getBookings()) {
+            if (b.getUser().getId().equals(currentUser.getId())) {
+                isEnrolled = true;
+                break;
+            }
+        }
+
+        if (isEnrolled) {
+            // Redirect to the same page with an error message indicating the user is already enrolled
+            return "redirect:/activity/" + id + "?error=already_booked";
+        } else {
+            if (activity.getEnrolled() < activity.getCapacity()) {
+                Booking newBooking = new Booking();
+                newBooking.setUser(currentUser);
+                newBooking.setActivity(activity);
+
+                bookingRepository.save(newBooking);
+
+                activity.setEnrolled(activity.getEnrolled() + 1);
+                activityService.save(activity);
+
+                // Redirect to the same page + id
+                return "redirect:/activity/" + id;
+            } else {
+                // Case when the class is full
+                return "redirect:/activity/" + id + "?error=class_full";
+            }
         }
     }
-
-    if (isEnrolled) {
-        // Pass the error message as a query parameter to the redirect URL
-        return "redirect:/activity/" + id + "?error=already_booked";
-    } else {
-        if (activity.getEnrolled() < activity.getCapacity()) {
-            Booking newBooking = new Booking();
-            newBooking.setUser(currentUser);
-            newBooking.setActivity(activity);
-
-            bookingRepository.save(newBooking);
-
-            activity.setEnrolled(activity.getEnrolled() + 1);
-            activityService.save(activity);
-
-            // Redirect back to the activity detail page to see the updated enrollment
-            return "redirect:/activity/" + id;}
-			else {
-            return "redirect:/activity/" + id + "?error=class_full";
-        }
-    }
-}
 
     //Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
