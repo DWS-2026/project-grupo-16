@@ -3,12 +3,12 @@ package es.codeurjc.ferrumgym.controller;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.SiteSettings;
-import es.codeurjc.ferrumgym.repository.SiteSettingsRepository;
-import es.codeurjc.ferrumgym.service.ActivityService;
-import es.codeurjc.ferrumgym.service.ReviewService;
-import es.codeurjc.ferrumgym.service.UserService;
 import es.codeurjc.ferrumgym.model.User;
-import es.codeurjc.ferrumgym.repository.UserRepository;
+import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.BookingService;
+import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.SiteSettingsService;
+import es.codeurjc.ferrumgym.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,22 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Collections;
-
-import java.nio.file.Path;
 
 @Controller
 public class AdminController {
 
     @Autowired
     private UserService userService;
-
-	@Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private ActivityService activityService;
@@ -45,10 +41,10 @@ public class AdminController {
     private ReviewService reviewService;
 
     @Autowired
-    private SiteSettingsRepository siteSettingsRepository;
+    private SiteSettingsService siteSettingsService; 
 
-    @Autowired
-    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
+    @Autowired 
+    private BookingService bookingService; 
 
 
     // --- DASHBOARD ---
@@ -58,13 +54,11 @@ public class AdminController {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("reviews", reviewService.findAll());
 
-		List<User> allUsers = userService.findAll();
-        Collections.reverse(allUsers); // Go to the end of the list to get the most recent users first
+        List<User> allUsers = userService.findAll();
+        Collections.reverse(allUsers); 
         List<User> recentUsers = allUsers.stream().limit(5).collect(Collectors.toList());
 
-        // Transfer the recent users to the model to display in the dashboard
         model.addAttribute("recentUsers", recentUsers);
-
         model.addAttribute("adminName", "Admin");
         return "admin-dashboard";
     }
@@ -92,8 +86,7 @@ public class AdminController {
             }
             model.addAttribute("occupancyPercentage", percentage);
 
-            // Buscamos a los usuarios apuntados
-            List<Booking> bookings = bookingRepository.findByActivityId(selectedActivity.getId());
+            List<Booking> bookings = bookingService.findByActivityId(selectedActivity.getId());
             model.addAttribute("bookings", bookings);
         }
 
@@ -101,26 +94,24 @@ public class AdminController {
         return "admin-class";
     }
 
-@GetMapping("/admin-class/booking/delete/{bookingId}")
+    @GetMapping("/admin-class/booking/delete/{bookingId}")
     public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
 
         Activity activity = activityService.findById(activityId).orElse(null);
         if (activity != null && activity.getEnrolled() > 0) {
             activity.setEnrolled(activity.getEnrolled() - 1);
-            activityService.save(activity); // Guardamos el nuevo número
+            activityService.save(activity); 
         }
 
-        // Delete the booking from the database
-        bookingRepository.deleteById(bookingId);
+        bookingService.deleteById(bookingId);
 
-        // Redirect back to the class management page for the same activity
         return "redirect:/admin-class?activityId=" + activityId;
     }
 
     // --- SITE SETTINGS ---
     @GetMapping("/site-settings")
     public String settings(Model model) {
-        SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(null);
+        SiteSettings settings = siteSettingsService.findAll().stream().findFirst().orElse(null);
 
         model.addAttribute("settings", settings);
         model.addAttribute("adminName", "Admin");
@@ -136,7 +127,7 @@ public class AdminController {
             @RequestParam String weekdaysHours,
             @RequestParam String weekendsHours){
 
-        SiteSettings settings = siteSettingsRepository.findAll().stream().findFirst().orElse(new SiteSettings());
+        SiteSettings settings = siteSettingsService.findAll().stream().findFirst().orElse(new SiteSettings());
 
         settings.setGymName(gymName);
         settings.setContactEmail(contactEmail);
@@ -145,7 +136,7 @@ public class AdminController {
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
 
-        siteSettingsRepository.save(settings);
+        siteSettingsService.save(settings);
 
         return "redirect:/site-settings";
     }
@@ -182,20 +173,16 @@ public class AdminController {
         }
 
         if (pdfFile != null && !pdfFile.isEmpty()) {
-            // 1. Sacamos el nombre (ej: "boxing-info.pdf") y se lo damos a la actividad
             String originalFilename = pdfFile.getOriginalFilename();
             newActivity.setPdfFilename(originalFilename);
 
-            // 2. Preparamos la ruta donde se va a guardar físicamente
             String uploadDir = "src/main/resources/static/docs/";
             Path uploadPath = Paths.get(uploadDir);
 
-            // Si la carpeta 'docs' no existe, que la cree
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            // 3. Copiamos el archivo que nos llega a la carpeta
             Path filePath = uploadPath.resolve(originalFilename);
             Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
@@ -263,7 +250,6 @@ public class AdminController {
                 }
 
                 Path filePath = uploadPath.resolve(originalFilename);
-                // REPLACE_EXISTING hace que si ya había un "yoga.pdf", lo sobrescriba con el nuevo
                 Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
@@ -272,95 +258,87 @@ public class AdminController {
 
         return "redirect:/admin-dashboard";
     }
-	// Delete users
+    
+    // Delete users
     @GetMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
-        userService.deleteById(id); //
+        userService.deleteById(id);
         return "redirect:/admin-users";
     }
 
-	// Edit users (GET Method)
+    // Edit users (GET Method)
+    @GetMapping("/admin/user/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        // Cambiado a userService
+        User user = userService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
-	@GetMapping("/admin/user/edit/{id}")
-public String showEditForm(@PathVariable("id") Long id, Model model) {
-    //Searching for the user by ID, if not found, throw an exception
-    User user = userRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        model.addAttribute("user", user);
 
-    // Transfer the user data to the model to pre-fill the form
-    model.addAttribute("user", user);
-
-    return "edit-user";
-}
- // Edit users (POST Method)
-@PostMapping("/admin/user/edit/{id}")
-public String updateUser(
-        @PathVariable("id") Long id,
-        @RequestParam String name,
-        @RequestParam String email,
-        @RequestParam String role,
-        @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
-
-    // Search for the existing user by ID, if not found, throw an exception
-    User existingUser = userRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-
-    // Update only the fields that are editable from the form
-    existingUser.setName(name);
-    existingUser.setEmail(email);
-
-    // Modify the user's role based on the selected option in the form (mutable list to avoid issues with immutable collections)
-	existingUser.setRoles(new java.util.ArrayList<>(List.of(role)));
-
-    // Executed if a new image was uploaded, otherwise keep the existing one
-    if (!imageField.isEmpty()) {
-        existingUser.setImage(imageField.getBytes());
+        return "edit-user";
     }
 
-    // Save the updated user back to the database
-    userRepository.save(existingUser);
+    // Edit users (POST Method)
+    @PostMapping("/admin/user/edit/{id}")
+    public String updateUser(
+            @PathVariable("id") Long id,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String role,
+            @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
 
-    return "redirect:/admin-users";
-}
+        // Cambiado a userService
+        User existingUser = userService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
-	// --- ADMIN USER MANAGEMENT ---
+        existingUser.setName(name);
+        existingUser.setEmail(email);
+
+        existingUser.setRoles(new java.util.ArrayList<>(List.of(role)));
+
+        if (!imageField.isEmpty()) {
+            existingUser.setImage(imageField.getBytes());
+        }
+
+        // Cambiado a userService
+        userService.save(existingUser);
+
+        return "redirect:/admin-users";
+    }
+
+    // --- ADMIN USER MANAGEMENT ---
     @GetMapping("/admin-users")
     public String manageUsers(Model model) {
-        // Show all users in the system
         model.addAttribute("users", userService.findAll());
         model.addAttribute("adminName", "Admin");
         return "admin-users";
     }
 
-	// --- REVIEW MANAGEMENT ---
+    // --- REVIEW MANAGEMENT ---
     @GetMapping("/review/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
-        // ReviewService for delete review by id
         reviewService.deleteById(id);
         return "redirect:/admin-dashboard";
     }
 
-	// --- SAVE ATTENDANCE ---
+    // --- SAVE ATTENDANCE ---
     @PostMapping("/admin-class/attendance")
     public String saveAttendance(
             @RequestParam Long activityId,
             @RequestParam(required = false) List<Long> attendedBookingIds) {
 
-        // Load all bookings for this activity
-        List<Booking> bookings = bookingRepository.findByActivityId(activityId);
+        // Cambiado a bookingService
+        List<Booking> bookings = bookingService.findByActivityId(activityId);
 
-        // Check each booking against the list of attended IDs and update the "attended" status accordingly
         for (Booking booking : bookings) {
-            // If the booking ID is in the list of attended IDs, mark it as attended
             if (attendedBookingIds != null && attendedBookingIds.contains(booking.getId())) {
                 booking.setAttended(true);
             } else {
-                // If it's not in the list, mark it as not attended
                 booking.setAttended(false);
             }
 
-            // Save the updated booking back to the database
-            bookingRepository.save(booking);
+            // Cambiado a bookingService
+            bookingService.save(booking);
         }
 
         return "redirect:/admin-class?activityId=" + activityId;

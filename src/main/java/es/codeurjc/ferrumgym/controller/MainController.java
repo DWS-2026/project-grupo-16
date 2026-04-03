@@ -41,9 +41,6 @@ public class MainController {
     private BookingService bookingService;
 
     @Autowired
-    private es.codeurjc.ferrumgym.repository.BookingRepository bookingRepository;
-
-    @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
@@ -159,8 +156,8 @@ public class MainController {
                 newBooking.setUser(currentUser);
                 newBooking.setActivity(activity);
 
-                bookingRepository.save(newBooking);
-
+                bookingService.save(newBooking);
+                
                 activity.setEnrolled(activity.getEnrolled() + 1);
                 activityService.save(activity);
 
