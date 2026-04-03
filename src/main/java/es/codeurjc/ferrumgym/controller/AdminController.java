@@ -125,7 +125,9 @@ public class AdminController {
             @RequestParam String contactPhone,
             @RequestParam String address,
             @RequestParam String weekdaysHours,
-            @RequestParam String weekendsHours){
+            @RequestParam String weekendsHours,
+            // Añadimos Principal para saber quién es el admin que está haciendo el cambio
+            java.security.Principal principal){
 
         SiteSettings settings = siteSettingsService.findAll().stream().findFirst().orElse(new SiteSettings());
 
@@ -135,6 +137,14 @@ public class AdminController {
         settings.setAddress(address);
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
+
+        // Buscamos al admin conectado y lo enganchamos a los ajustes 
+        if (principal != null) {
+            String email = principal.getName();
+            // Buscamos el usuario en la base de datos usando el UserService
+            User admin = userService.findByEmail(email).orElse(null);
+            settings.setUpdatedBy(admin); // Aquí se crea la relación en MySQL
+        }
 
         siteSettingsService.save(settings);
 

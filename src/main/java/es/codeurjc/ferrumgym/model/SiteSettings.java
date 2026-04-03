@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class SiteSettings {
@@ -18,6 +19,9 @@ public class SiteSettings {
     private String address;
     private String weekdaysHours;
     private String weekendsHours;
+    
+    @ManyToOne
+    private User updatedBy; // El administrador que guardó los ajustes
 
     // Constructor
     public SiteSettings() {}
@@ -44,5 +48,6 @@ public class SiteSettings {
     public String getWeekendsHours() { return weekendsHours; }
     public void setWeekendsHours(String weekendsHours) { this.weekendsHours = weekendsHours; }
 
-
+    public User getUpdatedBy() { return updatedBy; }
+    public void setUpdatedBy(User updatedBy) { this.updatedBy = updatedBy; }
 }
