@@ -205,7 +205,75 @@ Solo si ha cambiado.
 
 #### **Capturas de Pantalla Actualizadas**
 
-Solo si han cambiado.
+#### **1. Página Principal / Home**
+![Página Principal](images/pagina_principal.png)
+
+> La página principal muestra dinámicamente las actividades del gimnasio obteniendo nombres, imágenes y datos de aforo en tiempo real de la base de datos MySQL. Funciona como el eje central de navegación para consultar detalles de clases, tarifas y acceder al sistema de autenticación.
+
+#### **2. Página de Creación de Cuenta (Register)**
+![Página Principal](images/registrarse.png)
+
+> La página de registro permite la creación de nuevas cuentas incluyendo la subida de imágenes de perfil almacenadas en el servidor. Implementa validaciones de campos tanto en frontend como en backend para garantizar la integridad de los nuevos usuarios.
+
+#### **3. Página de Acceso de Usuario (Login)**
+![Página Principal](images/paginaLogin.png)
+
+> La página de acceso permite la autenticación segura de los usuarios mediante credenciales almacenadas en MySQL. Funciona como el punto de control de acceso principal para gestionar perfiles y reservas privadas en la plataforma.
+
+#### **4. Página de Recuperación de Contraseña**
+![Página Principal](images/recuperacionContraseña.png)
+
+> Este módulo proporciona una interfaz sencilla para que los usuarios soliciten el restablecimiento de su acceso mediante su correo electrónico. Está integrado en el flujo de seguridad para mejorar la experiencia de usuario en caso de pérdida de credenciales.
+
+#### **5. Página de Usuario Registrado (User-profile)**
+![Página Principal](images/perfil.png)
+
+> El perfil de usuario muestra de forma dinámica la información personal y las reservas activas recuperadas de MySQL. Permite visualizar el estado de la membresía y gestionar las clases inscritas con un contador actualizado en tiempo real.
+
+#### **6. Página de Edicion de Usuario (Edit-profile)**
+![Página Principal](images/editarperfil.png)
+
+> Esta interfaz permite modificar los datos del usuario, la biografía y la imagen de perfil, sincronizando los cambios permanentemente en la base de datos. El formulario carga dinámicamente la información actual para facilitar una edición rápida y eficiente.
+
+#### **7. Página de tarifas**
+![Página Principal](images/tarrifas.png)
+
+> Esta sección presenta de forma organizada los distintos planes de suscripción y bonos de clases disponibles en Ferrum Gym. Permite a los usuarios comparar precios y beneficios para elegir la opción que mejor se adapte a sus objetivos deportivos.
+
+#### **8. Página con mas detalles sobre la Actividad**
+![Página Principal](images/actividad_crossfit.png)
+
+> La página de detalle muestra la información completa de una actividad, incluyendo el entrenador, aforo dinámico y valoraciones de usuarios con imágenes. Permite realizar reservas directas o dejar reseñas, actualizando automáticamente el estado de ocupación en el sistema.
+
+#### **9. Página de principal del Administrador**
+![Página Principal](images/admin_principal.png)
+
+> El panel principal de administración ofrece una visión global del gimnasio, permitiendo gestionar clases, ver los últimos usuarios registrados y moderar las reseñas recibidas desde una interfaz centralizada.
+
+#### **10. Página de Configuración del Gimnasio**
+![Página Principal](images/admin_sitesettings.png)
+
+> Esta interfaz centraliza la configuración global del sitio, permitiendo modificar la información de contacto, la dirección y los horarios comerciales que se muestran dinámicamente en toda la plataforma.
+
+#### **11. Página de Gestión de Clases**
+![Página Principal](images/admin_classes.png)
+
+> La gestión de clases permite supervisar la asistencia de los miembros inscritos en actividades específicas y controlar el aforo dinámico para garantizar el correcto funcionamiento de las sesiones. También cuenta con una opción para imprimir los usuarios que van a participar en cada actividad.
+
+#### **12. Página de Gestión de Usuarios**
+![Página Principal](images/admin_users.png)
+
+> Esta sección permite al administrador listar todos los usuarios del sistema, visualizar sus roles (USER/ADMIN) y realizar acciones de edición o borrado permanente en la base de datos.
+
+#### **13. Página de Error 403**
+![Página Principal](images/error_privilegios.png)
+
+> La página personalizada de Error 403 impide que usuarios no autorizados accedan a áreas administrativas restringidas. Mantiene la identidad visual de la plataforma
+
+#### **14. Página de Error 404**
+![Página Principal](images/error_noEncontrado.png)
+
+> La página personalizada de Error 404 gestiona las peticiones a URLs inexistentes, manteniendo la identidad visual de la aplicación.
 
 ### **Instrucciones de Ejecución**
 
@@ -226,8 +294,8 @@ Solo si han cambiado.
 2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
 
 #### **Credenciales de prueba**
-- **Usuario Admin**: usuario: `admin`, contraseña: `admin`
-- **Usuario Registrado**: usuario: `user`, contraseña: `user`
+- **Usuario Admin**: usuario: `admin@ferrumgym.com`, contraseña: `adminpass`
+- **Usuario Registrado**: usuario: `prueba@prueba.com`, contraseña: `prueba`
 
 ### **Diagrama de Entidades de Base de Datos**
 
