@@ -303,7 +303,7 @@ Diagrama mostrando las entidades, sus campos y relaciones:
 
 ![Diagrama Entidad-Relación](images/EERDiagram_FerrumGym.png)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+> [Descripción: El diagrama EER representa el modelo de datos relacional de la plataforma. Consta de 5 entidades principales (user, activity, booking, review y site_settings). Destacan las entidades intermedias booking y review, que resuelven relaciones N:M entre usuarios y actividades mediante relaciones 1:N. Adicionalmente, el esquema incluye la tabla dependiente user_roles para gestionar los privilegios, y las tablas de secuencias (_seq) generadas automáticamente por el ORM (Hibernate) para la gestión de claves primarias. La entidad site_settings permanece aislada al actuar como un Singleton de configuración global.]
 
 ### **Diagrama de Clases y Templates**
 
