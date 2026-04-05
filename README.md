@@ -319,11 +319,11 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Create Entities](https://github.com/DWS-2026/project-grupo-16/commit/a9a2008ce2c3a975b8c40b27a96088af4de8e49d)  | [User.java, Booking.java, Review.java, Activity.java](URL_archivo_1)   |
+|2| [Create Repository](https://github.com/DWS-2026/project-grupo-16/commit/c0b162bcdc49127a5f6db6ce9ac35dbfe2bd797b)  | [ActivityRepository.java, BookingRepository.java, ReviewRepository.java, UserRepository.java](URL_archivo_2)   |
+|3| [Create DataBase](https://github.com/DWS-2026/project-grupo-16/commit/0a83c91192693f0eed14f5b2cee5ae8a0347ed34)  | [DataBaseInitializer.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/service/DatabaseInitializer.java)   |
+|4| [Controller Users and Stuff](https://github.com/DWS-2026/project-grupo-16/commit/475c601f2fcc1d587639a03c998d5ea4a80295d4)  | [AdminController, MainController](URL_archivo_4)   |
+|5| [Controller Edit Profile](https://github.com/DWS-2026/project-grupo-16/commit/0c8ea92ce54f7cfcfe42ed8f57eb3a2236ad635e)  | [MainController](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/MainController.java)   |
 
 ---
 
