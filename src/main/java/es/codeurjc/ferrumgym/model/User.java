@@ -35,7 +35,7 @@ public class User {
     private String encodedPassword;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles; // ROLE_USER, ROLE_ADMIN [cite: 217, 532]
+    private List<String> roles; // ROLE_USER, ROLE_ADMIN
 
     @Lob
     private byte[] image; // Stored as LONGBLOB in MySQL

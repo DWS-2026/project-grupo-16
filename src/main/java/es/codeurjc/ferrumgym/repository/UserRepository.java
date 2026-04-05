@@ -4,7 +4,7 @@ import es.codeurjc.ferrumgym.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-// Interface for managing User entities in the database [cite: 204]
+// Interface for managing User entities in the database 
 public interface UserRepository extends JpaRepository<User, Long> {
     
     // This method is essential for Spring Security to find users during login 
