@@ -23,12 +23,14 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 2. **Actividad**: El conjunto de las clases ofertadas (crossfit, yoga, pilates, maquinas)
 3. **Reserva**: La inscripcion de un cliente a una actividad
 4. **Reseña**: Valoracion de un cliente sobre una actividad
+5. **SiteSettings**: Configuración general de la página web (nombre del gimnasio, datos de contacto y horarios).
 
 **Relaciones entre entidades:**
 - Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
 - Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
 - Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
 - Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N)
+- Usuario - SiteSettings: Un usuario (con rol de administrador) es el encargado de registrar o actualizar los ajustes del sitio (1:N)
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
@@ -42,8 +44,8 @@ Describir los permisos de cada tipo de usuario e indicar de qué entidades es du
   - Es dueño de: Entidad Usuario (su propio perfil); Entidad Reserva (consulta de las reservas que ha realizado); Entidad Reseña (Las valoraciones que ha escrito (solo él puede editarlas o borrarlas).
 
 * **Administrador**:
-  - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios.
-  - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
+  - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios, y modificar la información de contacto y horarios del gimnasio.
+  - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Entidad SiteSettings (encargado de mantener la información global de la web actualizada); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
@@ -203,7 +205,75 @@ Solo si ha cambiado.
 
 #### **Capturas de Pantalla Actualizadas**
 
-Solo si han cambiado.
+#### **1. Página Principal / Home**
+![Página Principal](images/pagina_principal.png)
+
+> La página principal muestra dinámicamente las actividades del gimnasio obteniendo nombres, imágenes y datos de aforo en tiempo real de la base de datos MySQL. Funciona como el eje central de navegación para consultar detalles de clases, tarifas y acceder al sistema de autenticación.
+
+#### **2. Página de Creación de Cuenta (Register)**
+![Página Principal](images/registrarse.png)
+
+> La página de registro permite la creación de nuevas cuentas incluyendo la subida de imágenes de perfil almacenadas en el servidor. Implementa validaciones de campos tanto en frontend como en backend para garantizar la integridad de los nuevos usuarios.
+
+#### **3. Página de Acceso de Usuario (Login)**
+![Página Principal](images/paginaLogin.png)
+
+> La página de acceso permite la autenticación segura de los usuarios mediante credenciales almacenadas en MySQL. Funciona como el punto de control de acceso principal para gestionar perfiles y reservas privadas en la plataforma.
+
+#### **4. Página de Recuperación de Contraseña**
+![Página Principal](images/recuperacionContraseña.png)
+
+> Este módulo proporciona una interfaz sencilla para que los usuarios soliciten el restablecimiento de su acceso mediante su correo electrónico. Está integrado en el flujo de seguridad para mejorar la experiencia de usuario en caso de pérdida de credenciales.
+
+#### **5. Página de Usuario Registrado (User-profile)**
+![Página Principal](images/perfil.png)
+
+> El perfil de usuario muestra de forma dinámica la información personal y las reservas activas recuperadas de MySQL. Permite visualizar el estado de la membresía y gestionar las clases inscritas con un contador actualizado en tiempo real.
+
+#### **6. Página de Edicion de Usuario (Edit-profile)**
+![Página Principal](images/editarperfil.png)
+
+> Esta interfaz permite modificar los datos del usuario, la biografía y la imagen de perfil, sincronizando los cambios permanentemente en la base de datos. El formulario carga dinámicamente la información actual para facilitar una edición rápida y eficiente.
+
+#### **7. Página de tarifas**
+![Página Principal](images/tarrifas.png)
+
+> Esta sección presenta de forma organizada los distintos planes de suscripción y bonos de clases disponibles en Ferrum Gym. Permite a los usuarios comparar precios y beneficios para elegir la opción que mejor se adapte a sus objetivos deportivos.
+
+#### **8. Página con mas detalles sobre la Actividad**
+![Página Principal](images/actividad_crossfit.png)
+
+> La página de detalle muestra la información completa de una actividad, incluyendo el entrenador, aforo dinámico y valoraciones de usuarios con imágenes. Permite realizar reservas directas o dejar reseñas, actualizando automáticamente el estado de ocupación en el sistema.
+
+#### **9. Página de principal del Administrador**
+![Página Principal](images/admin_principal.png)
+
+> El panel principal de administración ofrece una visión global del gimnasio, permitiendo gestionar clases, ver los últimos usuarios registrados y moderar las reseñas recibidas desde una interfaz centralizada.
+
+#### **10. Página de Configuración del Gimnasio**
+![Página Principal](images/admin_sitesettings.png)
+
+> Esta interfaz centraliza la configuración global del sitio, permitiendo modificar la información de contacto, la dirección y los horarios comerciales que se muestran dinámicamente en toda la plataforma.
+
+#### **11. Página de Gestión de Clases**
+![Página Principal](images/admin_classes.png)
+
+> La gestión de clases permite supervisar la asistencia de los miembros inscritos en actividades específicas y controlar el aforo dinámico para garantizar el correcto funcionamiento de las sesiones. También cuenta con una opción para imprimir los usuarios que van a participar en cada actividad.
+
+#### **12. Página de Gestión de Usuarios**
+![Página Principal](images/admin_users.png)
+
+> Esta sección permite al administrador listar todos los usuarios del sistema, visualizar sus roles (USER/ADMIN) y realizar acciones de edición o borrado permanente en la base de datos.
+
+#### **13. Página de Error 403**
+![Página Principal](images/error_privilegios.png)
+
+> La página personalizada de Error 403 impide que usuarios no autorizados accedan a áreas administrativas restringidas. Mantiene la identidad visual de la plataforma
+
+#### **14. Página de Error 404**
+![Página Principal](images/error_noEncontrado.png)
+
+> La página personalizada de Error 404 gestiona las peticiones a URLs inexistentes, manteniendo la identidad visual de la aplicación.
 
 ### **Instrucciones de Ejecución**
 
@@ -224,24 +294,22 @@ Solo si han cambiado.
 2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
 
 #### **Credenciales de prueba**
-- **Usuario Admin**: usuario: `admin`, contraseña: `admin`
-- **Usuario Registrado**: usuario: `user`, contraseña: `user`
+- **Usuario Admin**: usuario: `admin@ferrumgym.com`, contraseña: `adminpass`
+- **Usuario Registrado**: usuario: `prueba@prueba.com`, contraseña: `prueba`
 
 ### **Diagrama de Entidades de Base de Datos**
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images/database-diagram.png)
+![Diagrama Entidad-Relación](images/EERDiagram_FerrumGym.png)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+> [Descripción: El diagrama EER representa el modelo de datos relacional de la plataforma. Consta de 5 entidades principales (user, activity, booking, review y site_settings). Destacan las entidades intermedias booking y review, que resuelven relaciones N:M entre usuarios y actividades mediante relaciones 1:N. Adicionalmente, el esquema incluye la tabla dependiente user_roles para gestionar los privilegios, y las tablas de secuencias (_seq) generadas automáticamente por el ORM (Hibernate) para la gestión de claves primarias. La entidad site_settings permanece aislada al actuar como un Singleton de configuración global.]
 
 ### **Diagrama de Clases y Templates**
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
 
-![Diagrama de Clases](images/classes-diagram.png)
-
-> [Descripción opcional del diagrama y relaciones principales]
+![Diagrama de Clases](images/DiagramadeClasesyTemplates.png)
 
 ### **Participación de Miembros en la Práctica 2**
 
@@ -251,11 +319,11 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Create Entities](https://github.com/DWS-2026/project-grupo-16/commit/a9a2008ce2c3a975b8c40b27a96088af4de8e49d)  | [User.java, Booking.java, Review.java, Activity.java](URL_archivo_1)   |
+|2| [Create Repository](https://github.com/DWS-2026/project-grupo-16/commit/c0b162bcdc49127a5f6db6ce9ac35dbfe2bd797b)  | [ActivityRepository.java, BookingRepository.java, ReviewRepository.java, UserRepository.java](URL_archivo_2)   |
+|3| [Create DataBase](https://github.com/DWS-2026/project-grupo-16/commit/0a83c91192693f0eed14f5b2cee5ae8a0347ed34)  | [DataBaseInitializer.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/service/DatabaseInitializer.java)   |
+|4| [Controller Users and Stuff](https://github.com/DWS-2026/project-grupo-16/commit/475c601f2fcc1d587639a03c998d5ea4a80295d4)  | [AdminController, MainController](URL_archivo_4)   |
+|5| [Controller Edit Profile](https://github.com/DWS-2026/project-grupo-16/commit/0c8ea92ce54f7cfcfe42ed8f57eb3a2236ad635e)  | [MainController](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/MainController.java)   |
 
 ---
 
