@@ -287,8 +287,8 @@ Solo si ha cambiado.
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/[usuario]/[nombre-repositorio].git
-   cd [nombre-repositorio]
+   git clone https://github.com/DWS-2026/project-grupo-16.git
+   cd [project-grupo-16]
    ```
 
 2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
@@ -350,11 +350,11 @@ Implementación del sistema de seguridad, incluyendo la autenticación conectada
 
 #### **Alumno 3 - Luis Estirado Revuelta**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Desarrollo integral del panel de administración (Admin Dashboard), tanto la lógica de servidor como la interfaz de usuario. Gestión completa de usuarios y actividades, la lógica para prevenir reservas duplicadas mediante tokens CSRF dinámicos, el diseño de fragmentos reutilizables como el navbar-admin y la implementación de una experiencia de usuario robusta mediante páginas de error personalizadas.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|1| [MySQL migration and JPA entities creation for Admin Dashboard](https://github.com/DWS-2026/project-grupo-16/pull/8)  | [AdminController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java) [Activity.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/model/Activity.java) [Booking.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/model/Booking.java) [Review.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/model/Review.java) [User.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/model/User.java) [SecurityConfig.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java) [DatabaseInitializer.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/service/DatabaseInitializer.java) [activity-edit.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/activity-edit.html) [activity-form.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/activity-form.html) [admin-dashboard.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/admin-dashboard.html)|
 |2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
