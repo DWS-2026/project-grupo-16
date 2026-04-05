@@ -311,8 +311,6 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ![Diagrama de Clases](images/DiagramadeClasesyTemplates.png)
 
-> [Descripción opcional del diagrama y relaciones principales]
-
 ### **Participación de Miembros en la Práctica 2**
 
 #### **Alumno 1 - Roberto Acebes Moran**
