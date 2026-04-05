@@ -311,6 +311,13 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ![Diagrama de Clases](images/DiagramadeClasesyTemplates.png)
 
+El flujo de datos va de izquierda a derecha:
+- Vistas (Morado): Plantillas HTML, separadas lógicamente según el nivel de acceso: zona pública (ej. inicio, registro), zona de usuario registrado (ej. perfil, reservas) y zona de administración (ej. panel de control, gestión).
+- Controladores (Verde): Procesan las peticiones web. El MainController maneja las zonas pública y de usuario, mientras que el AdminController gestiona la zona de administración. Destaca el GlobalControllerAdvice, que inyecta los ajustes del sitio en todas las vistas automáticamente.
+- Servicios (Rojo): Centralizan y ejecutan la lógica de negocio.
+- Repositorios (Azul): Se encargan de las consultas y operaciones directas con la base de datos.
+- Modelos/Entidades (Gris): Representan los objetos de dominio (User, Activity, etc.) y las relaciones físicas entre ellos.
+
 ### **Participación de Miembros en la Práctica 2**
 
 #### **Alumno 1 - Roberto Acebes Moran**
@@ -329,7 +336,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 #### **Alumno 2 - Elena González Rodríguez**
 
-[Implementación del sistema de seguridad, incluyendo la autenticación conectada a la base de datos, la protección de contraseñas y la gestión de roles de acceso. Además, comprende el diseño del modelo relacional y la programación de las funcionalidades esenciales de la plataforma, tales como el sistema interactivo de reservas, el manejo de sesiones de usuario y la gestión de imágenes y archivos.]
+Implementación del sistema de seguridad, incluyendo la autenticación conectada a la base de datos, la protección de contraseñas y la gestión de roles de acceso. Además, comprende el diseño del modelo relacional y la programación de las funcionalidades esenciales de la plataforma, tales como el sistema interactivo de reservas, el manejo de sesiones de usuario y la gestión de imágenes y archivos.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
