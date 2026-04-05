@@ -329,15 +329,15 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 #### **Alumno 2 - Elena González Rodríguez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[Implementación del sistema de seguridad, incluyendo la autenticación conectada a la base de datos, la protección de contraseñas y la gestión de roles de acceso. Además, comprende el diseño del modelo relacional y la programación de las funcionalidades esenciales de la plataforma, tales como el sistema interactivo de reservas, el manejo de sesiones de usuario y la gestión de imágenes y archivos.]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1| [Configure authorization rules (Roles) and activate CSRF in accordance with the rubric](https://github.com/DWS-2026/project-grupo-16/commit/a4ceec04a8ef1422550a1c8ad3dacca89218014d)  | [SecurityConfig.java](src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java)   |
 |2| [Connect Spring Security login with JPA using RepositoryUserDetailsService](https://github.com/DWS-2026/project-grupo-16/commit/54711eb46e03d0eed08fbf086054f886c56e9d9d)  | [RepositoryUserDetailsService.java](src/main/java/es/codeurjc/ferrumgym/security/RepositoryUserDetailsService.java)   |
 |3| [Update edit profile, reviews, and cancel bookings to use Principal and POST methods](https://github.com/DWS-2026/project-grupo-16/commit/b381b552fb302877692a8bd7f5a876fd442c38fc)  | [MainController.java](src/main/java/es/codeurjc/ferrumgym/controller/MainController.java)   |
-|4| [Refactor controllers to strictly use services instead of repositories](https://github.com/DWS-2026/project-grupo-16/commit/6c8f511d6f80769daf47ebcee6f97d102b247c2e)  | [AdminController.java, GlobalControllerAdvice.java, MainController.java, BookingService.java, SiteSettingsService.java](URL_archivo_4)   |
-|5| [Allow updating PDF file when editing an activity](https://github.com/DWS-2026/project-grupo-16/commit/5f6c5d891495a59b29fa6e7cd6d4bcb9977426c0)  | [AdminController, activity-edit.html, activity-form.html](URL_archivo_5)   |
+|4| [Refactor controllers to strictly use services instead of repositories](https://github.com/DWS-2026/project-grupo-16/commit/6c8f511d6f80769daf47ebcee6f97d102b247c2e)  | [AdminController.java](src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java) <br> [GlobalControllerAdvice.java](src/main/java/es/codeurjc/ferrumgym/controller/GlobalControllerAdvice.java) <br> [MainController.java](src/main/java/es/codeurjc/ferrumgym/controller/MainController.java) <br> [BookingService.java](src/main/java/es/codeurjc/ferrumgym/service/BookingService.java) <br> [SiteSettingsService.java](src/main/java/es/codeurjc/ferrumgym/service/SiteSettingsService.java)   |
+|5| [Allow updating PDF file when editing an activity](https://github.com/DWS-2026/project-grupo-16/commit/5f6c5d891495a59b29fa6e7cd6d4bcb9977426c0)  | [AdminController](src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java) <br> [activity-edit.html](src/main/resources/templates/activity-edit.html) <br> [activity-form.html](src/main/resources/templates/activity-form.html)   |
 
 ---
 
