@@ -80,7 +80,7 @@ public class Activity {
 
     public String getStatusColor() {
         if (this.capacity == 0) return "bg-secondary";
-        if (this.enrolled >= this.capacity) {
+        if (getEnrolled() >= this.capacity) {
             return "bg-danger";
         } else if (this.enrolled >= this.capacity - 5) {
             return "bg-warning text-dark";
@@ -91,10 +91,10 @@ public class Activity {
 
     public int getPercentage() {
         if (capacity == 0) return 0;
-        return (enrolled * 100) / capacity;
+        return (getEnrolled() * 100) / capacity;
     }
 
     public boolean isFull() {
-        return this.capacity > 0 && this.enrolled >= this.capacity;
+        return this.capacity > 0 && getEnrolled() >= this.capacity;
     }
 }
