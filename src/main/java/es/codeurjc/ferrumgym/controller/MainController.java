@@ -271,7 +271,7 @@ public class MainController {
             model.addAttribute("registerError", true);
             model.addAttribute("errorMessage", "An account with this email already exists.");
         }
-            return "register"; // Asegúrate de que este sea el nombre de tu HTML
+            return "register"; 
     }
 
    // Controlador de registros de usuario
