@@ -309,15 +309,21 @@ public class MainController {
     }
 
     @PostMapping("/forgot-password")
-    public String processForgotPassword(@RequestParam String email, Model model) {
-        // 1. Aquí (en el futuro) buscarías si el email existe en tu userService
-        // User user = userService.findByEmail(email);
-
-        // 2. Aquí generarías el token y enviarías el email real.
-
-        // 3. Por ahora, simulamos el éxito y devolvemos el mensaje a la vista
-        model.addAttribute("message", "If an account with the email " + email + " exists, instructions have been sent.");
-
-        return "forgot-password";
-    }
+    public String processRecovery(@RequestParam String email, Model model) {
+    
+    // 1. Buscamos en la base de datos
+    boolean userExists = userService.findByEmail(email).isPresent();
+        
+        if (userExists) {
+            // Simulamos éxito para el vídeo de la defensa
+            model.addAttribute("success", true);
+            model.addAttribute("message", "A password reset link has been sent to " + email);
+        } else {
+            // Mensaje de error apropiado (Punto 6) 
+            model.addAttribute("error", true);
+            model.addAttribute("message", "We couldn't find an account with that email address.");
+        }
+        
+    return "forgot-password";
+}
 }
