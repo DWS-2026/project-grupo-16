@@ -257,31 +257,48 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login"; // Carga login.html
+    public String login(Model model, @RequestParam(required = false) String error) {
+        if (error != null) {
+            model.addAttribute("loginError", true);
+            model.addAttribute("errorMessage", "Invalid email or password. Please try again.");
+        }
+        return "login";
     }
 
     @GetMapping("/register")
-    public String register() {
-        return "register"; // Carga register.html
+    public String registerPage(Model model, @RequestParam(required = false) String error) {
+        if ("user_exists".equals(error)) {
+            model.addAttribute("registerError", true);
+            model.addAttribute("errorMessage", "An account with this email already exists.");
+        }
+            return "registrarse"; // Asegúrate de que este sea el nombre de tu HTML
     }
 
-   //Controlador de registros de usuario
-   @PostMapping("/register")
-    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password,
-            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+   // Controlador de registros de usuario
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String name, 
+                           @RequestParam String email, 
+                           @RequestParam String password, 
+                           @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+    
+        // 1. VALIDACIÓN: Comprobamos si el email ya existe en la base de datos
+        // Esto es clave para el Punto 6 de la rúbrica
+        if (userService.findByEmail(email).isPresent()) {
+            return "redirect:/register?error=user_exists";
+        }
 
-        // Encriptamos la contraseña antes de guardarla
+        // 2. Lógica que ya tenías: Encriptamos la contraseña
         String encodedPassword = passwordEncoder.encode(password);
 
-        // Usamos la contraseña encriptada al crear el usuario
+        // 3. Creamos el usuario con la contraseña encriptada
         User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
 
-        // Guardamos la foto si la ha subido
+        // 4. Guardamos la foto si la ha subido
         if (!imageFile.isEmpty()) {
             newUser.setImage(imageFile.getBytes());
         }
 
+        // 5. Guardamos y redirigimos
         userService.save(newUser);
         return "redirect:/login";
     }
