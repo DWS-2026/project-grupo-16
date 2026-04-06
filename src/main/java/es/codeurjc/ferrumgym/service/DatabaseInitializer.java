@@ -48,7 +48,6 @@ public class DatabaseInitializer {
             yoga.setTrainer("Mark Perez");
             yoga.setSchedule("Tue-Thu 19:00-20:00");
             yoga.setCapacity(20);
-            yoga.setEnrolled(0);
             yoga.setPdfFilename("Yoga.pdf");
             activityRepository.save(yoga);
 
@@ -59,7 +58,6 @@ public class DatabaseInitializer {
             crossfit.setTrainer("Alicia Garcia");
             crossfit.setSchedule("Mon-Wed 17:00-18:00");
             crossfit.setCapacity(25);
-            crossfit.setEnrolled(1);
             crossfit.setPdfFilename("Crossfit.pdf");
             activityRepository.save(crossfit);
 
@@ -70,7 +68,6 @@ public class DatabaseInitializer {
             zumba.setTrainer("Marta Ruiz");
             zumba.setSchedule("Mon-Wed 20:00-21:00");
             zumba.setCapacity(30);
-            zumba.setEnrolled(0);
             zumba.setPdfFilename("Zumba.pdf");
             activityRepository.save(zumba);
 
@@ -81,7 +78,6 @@ public class DatabaseInitializer {
             spinning.setTrainer("Roberto Soler");
             spinning.setSchedule("Fri 18:00-19:00");
             spinning.setCapacity(15);
-            spinning.setEnrolled(0);
             spinning.setPdfFilename("Spinning.pdf");
             activityRepository.save(spinning);
 

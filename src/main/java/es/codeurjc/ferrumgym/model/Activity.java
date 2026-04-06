@@ -8,7 +8,7 @@ public class Activity {
 
     public Activity() {}
 
-    public Activity(Long id, String name, String description, byte[] image, String trainer, String schedule, int capacity, int enrolled, List<Booking> bookings) {
+    public Activity(Long id, String name, String description, byte[] image, String trainer, String schedule, int capacity, List<Booking> bookings) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -16,7 +16,6 @@ public class Activity {
         this.trainer = trainer;
         this.schedule = schedule;
         this.capacity = capacity;
-        this.enrolled = enrolled;
         this.bookings = bookings;
     }
 
@@ -67,8 +66,8 @@ public class Activity {
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public int getEnrolled() { return enrolled; }
-    public void setEnrolled(int enrolled) { this.enrolled = enrolled; }
+    public int getEnrolled() { return (this.bookings != null) ? this.bookings.size() : 0; }
+    
 
     public List<Booking> getBookings() { return bookings; }
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }

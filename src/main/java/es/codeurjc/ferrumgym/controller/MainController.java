@@ -157,9 +157,6 @@ public class MainController {
                 newBooking.setActivity(activity);
 
                 bookingService.save(newBooking);
-                
-                activity.setEnrolled(activity.getEnrolled() + 1);
-                activityService.save(activity);
 
                 // Redirect to the same page + id
                 return "redirect:/activity/" + id;
@@ -243,13 +240,8 @@ public class MainController {
     @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id) {
         // 1. Buscamos la reserva para saber qué actividad era
-        Booking booking = bookingService.findById(id).orElseThrow();
-        Activity activity = booking.getActivity();
-
-        // 2. Restamos uno al contador de la actividad
-        activity.setEnrolled(activity.getEnrolled() - 1);
-        activityService.save(activity);
-
+        bookingService.findById(id).orElseThrow();
+        
         // 3. Borramos la reserva de MySQL
         bookingService.deleteById(id);
 

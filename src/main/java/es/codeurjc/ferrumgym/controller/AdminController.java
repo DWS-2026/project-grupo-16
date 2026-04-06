@@ -97,12 +97,6 @@ public class AdminController {
     @GetMapping("/admin-class/booking/delete/{bookingId}")
     public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
 
-        Activity activity = activityService.findById(activityId).orElse(null);
-        if (activity != null && activity.getEnrolled() > 0) {
-            activity.setEnrolled(activity.getEnrolled() - 1);
-            activityService.save(activity); 
-        }
-
         bookingService.deleteById(bookingId);
 
         return "redirect:/admin-class?activityId=" + activityId;
@@ -164,7 +158,6 @@ public class AdminController {
             @RequestParam String trainer,
             @RequestParam String schedule,
             @RequestParam int capacity,
-            @RequestParam int enrolled,
             @RequestParam String description,
             @RequestParam("imageField") MultipartFile imageField,
             @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
@@ -175,7 +168,6 @@ public class AdminController {
         newActivity.setTrainer(trainer);
         newActivity.setSchedule(schedule);
         newActivity.setCapacity(capacity);
-        newActivity.setEnrolled(enrolled);
         newActivity.setDescription(description);
 
         if (!imageField.isEmpty()) {
@@ -229,7 +221,6 @@ public class AdminController {
             @RequestParam String trainer,
             @RequestParam String schedule,
             @RequestParam int capacity,
-            @RequestParam int enrolled,
             @RequestParam String description,
             @RequestParam("imageField") MultipartFile imageField,
             @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
@@ -241,7 +232,6 @@ public class AdminController {
             existingActivity.setTrainer(trainer);
             existingActivity.setSchedule(schedule);
             existingActivity.setCapacity(capacity);
-            existingActivity.setEnrolled(enrolled);
             existingActivity.setDescription(description);
 
             if (!imageField.isEmpty()) {
