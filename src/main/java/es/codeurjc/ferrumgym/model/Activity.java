@@ -82,7 +82,7 @@ public class Activity {
         if (this.capacity == 0) return "bg-secondary";
         if (getEnrolled() >= this.capacity) {
             return "bg-danger";
-        } else if (this.enrolled >= this.capacity - 5) {
+        } else if (getEnrolled() >= this.capacity - 5) {
             return "bg-warning text-dark";
         } else {
             return "bg-success";
