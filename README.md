@@ -364,11 +364,11 @@ Desarrollo integral del panel de administración (Admin Dashboard), tanto la ló
 
 #### **Alumno 4 - Jaime Salgado Carballeda**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Incorporación de un acceso directo en la vista de cada actividad para redirigir a la sección de valoraciones, implementación de un sistema para visualizar o descargar un documento PDF informativo asociado a cada clase y adaptación completa de la plataforma, traduciendo todos los textos y elementos visuales al idioma inglés.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|1| Review Access Integration  | [Archivo1](URL_archivo_1)   |
 |2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
