@@ -322,7 +322,7 @@ El flujo de datos va de izquierda a derecha:
 
 #### **Alumno 1 - Roberto Acebes Moran**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Responsable de diseñar e implementar la arquitectura backend fundamental: creación de todas las entidades de la base de datos, repositorios e inicializador de la base de datos. Desarrollar la lógica administrativa principal en AdminController, habilitando la gestión de usuarios y reseñas, incluidas las funcionalidades de borrado.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
