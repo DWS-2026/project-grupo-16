@@ -201,7 +201,7 @@ Creación y desarrollo de las páginas del panel de administración, tales como 
 
 #### **Diagrama de Navegación**
 
-Solo si ha cambiado.
+La navegación no ha cambiado respecto a la práctica 1.
 
 #### **Capturas de Pantalla Actualizadas**
 
@@ -295,7 +295,9 @@ Solo si ha cambiado.
 
 #### **Credenciales de prueba**
 - **Usuario Admin**: usuario: `admin@ferrumgym.com`, contraseña: `adminpass`
-- **Usuario Registrado**: usuario: `prueba@prueba.com`, contraseña: `prueba`
+- **Usuario Registrado 1**: usuario: `j.perez@alumnos.urjc.es`, contraseña: `pass1`
+- **Usuario Registrado 2**: usuario: `m.gomez@alumnos.urjc.es`, contraseña: `pass2`
+
 
 ### **Diagrama de Entidades de Base de Datos**
 
