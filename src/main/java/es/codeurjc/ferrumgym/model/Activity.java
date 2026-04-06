@@ -35,7 +35,6 @@ public class Activity {
     private String trainer;
     private String schedule;
     private int capacity;
-    private int enrolled;
     
     private String pdfFilename;
 
