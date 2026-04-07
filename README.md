@@ -251,7 +251,7 @@ La navegación no ha cambiado respecto a la práctica 1.
 #### **10. Página de Configuración del Gimnasio**
 ![Página Principal](images/admin_sitesettings.png)
 
-> Esta interfaz centraliza la configuración global del sitio, permitiendo modificar la información de contacto, la dirección y los horarios comerciales que se muestran dinámicamente en toda la plataforma.
+> Esta página muestra la información del establecimiento, permitiendo modificar la información de contacto, la dirección y los horarios comerciales.
 
 #### **11. Página de Gestión de Clases**
 ![Página Principal](images/admin_classes.png)
