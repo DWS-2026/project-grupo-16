@@ -23,15 +23,13 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 2. **Actividad**: El conjunto de las clases ofertadas (crossfit, yoga, pilates, maquinas)
 3. **Reserva**: La inscripcion de un cliente a una actividad
 4. **Reseña**: Valoracion de un cliente sobre una actividad
-5. **SiteSettings**: Configuración general de la página web (nombre del gimnasio, datos de contacto y horarios).
 
 **Relaciones entre entidades:**
 - Usuario - Reserva: Un usuario puede tener varias resevas de actividades (1:N)
 - Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
 - Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
 - Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N)
-- Usuario - SiteSettings: Un usuario (con rol de administrador) es el encargado de registrar o actualizar los ajustes del sitio (1:N)
-
+  
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
@@ -44,8 +42,8 @@ Describir los permisos de cada tipo de usuario e indicar de qué entidades es du
   - Es dueño de: Entidad Usuario (su propio perfil); Entidad Reserva (consulta de las reservas que ha realizado); Entidad Reseña (Las valoraciones que ha escrito (solo él puede editarlas o borrarlas).
 
 * **Administrador**:
-  - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios, y modificar la información de contacto y horarios del gimnasio.
-  - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Entidad SiteSettings (encargado de mantener la información global de la web actualizada); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
+  - Permisos: Gestión completa de la plataforma. Puede crear, editar y eliminar actividades (CRUD completo). Tiene capacidad para moderar reseñas inadecuadas y visualizar el listado completo de reservas y usuarios, y modificar la configuración global en memoria de la web (información de contacto y horarios del gimnasio).
+  - Es dueño de: Entidad Actividad (encargado de dar de alta y gestionar las clases); Así mismo, tiene permisos sobre todos los objetos para tareas de mantenimiento del sitio.
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
