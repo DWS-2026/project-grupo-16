@@ -192,7 +192,7 @@ Creación y desarrollo de las páginas del panel de administración, tales como 
 ## 🛠 **Práctica 2: Web con HTML generado en servidor**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://youtu.be/Z_sxmaDXjjM)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/mby09kTXmwk?si=rqp9rrV0fpsNVNIe)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Navegación y Capturas de Pantalla**
