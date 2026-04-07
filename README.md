@@ -314,9 +314,9 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 El flujo de datos va de izquierda a derecha:
 - Vistas (Morado): Plantillas HTML, separadas lógicamente según el nivel de acceso: zona pública (ej. inicio, registro), zona de usuario registrado (ej. perfil, reservas) y zona de administración (ej. panel de control, gestión).
 - Controladores (Verde): Procesan las peticiones web. El MainController maneja las zonas pública y de usuario, mientras que el AdminController gestiona la zona de administración. Destaca el GlobalControllerAdvice, que inyecta los ajustes del sitio en todas las vistas automáticamente.
-- Servicios (Rojo): Centralizan y ejecutan la lógica de negocio.
+- Servicios (Rojo): Centralizan y ejecutan la lógica de negocio. Actúan como puente entre los controladores y el almacenamiento de los datos.
 - Repositorios (Azul): Se encargan de las consultas y operaciones directas con la base de datos.
-- Modelos/Entidades (Gris): Representan los objetos de dominio (User, Activity, etc.) y las relaciones físicas entre ellos.
+- Modelos/Entidades (Gris): Representan los objetos de dominio de la aplicación. Las entidades principales (User, Activity, Booking, Review) reflejan las tablas y relaciones físicas en la base de datos. Por otro lado, SiteSettings actúa como un objeto de configuración en memoria gestionado directamente por su servicio, manteniendo el patrón arquitectónico sin sobrecargar la base de datos con operaciones innecesarias.
 
 ### **Participación de Miembros en la Práctica 2**
 
