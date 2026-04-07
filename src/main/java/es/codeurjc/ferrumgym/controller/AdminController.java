@@ -105,8 +105,7 @@ public class AdminController {
     // --- SITE SETTINGS ---
     @GetMapping("/site-settings")
     public String settings(Model model) {
-        SiteSettings settings = siteSettingsService.findAll().stream().findFirst().orElse(null);
-
+        SiteSettings settings = siteSettingsService.getSettings();
         model.addAttribute("settings", settings);
         model.addAttribute("adminName", "Admin");
         return "site-settings";
@@ -120,10 +119,9 @@ public class AdminController {
             @RequestParam String address,
             @RequestParam String weekdaysHours,
             @RequestParam String weekendsHours,
-            // Añadimos Principal para saber quién es el admin que está haciendo el cambio
-            java.security.Principal principal){
+            java.security.Principal principal) {
 
-        SiteSettings settings = siteSettingsService.findAll().stream().findFirst().orElse(new SiteSettings());
+        SiteSettings settings = siteSettingsService.getSettings();
 
         settings.setGymName(gymName);
         settings.setContactEmail(contactEmail);
@@ -132,15 +130,12 @@ public class AdminController {
         settings.setWeekdaysHours(weekdaysHours);
         settings.setWeekendsHours(weekendsHours);
 
-        // Buscamos al admin conectado y lo enganchamos a los ajustes 
         if (principal != null) {
-            String email = principal.getName();
-            // Buscamos el usuario en la base de datos usando el UserService
-            User admin = userService.findByEmail(email).orElse(null);
-            settings.setUpdatedBy(admin); // Aquí se crea la relación en MySQL
+            // Guardamos el nombre del admin directamente como String
+            settings.setUpdatedBy(principal.getName());
         }
 
-        siteSettingsService.save(settings);
+        siteSettingsService.saveSettings(settings);
 
         return "redirect:/site-settings";
     }

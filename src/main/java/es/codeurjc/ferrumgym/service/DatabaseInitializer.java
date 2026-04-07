@@ -31,9 +31,6 @@ public class DatabaseInitializer {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private SiteSettingsRepository siteSettingsRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder; // RECUPERADO
 
     @PostConstruct
@@ -119,15 +116,6 @@ public class DatabaseInitializer {
             review.setActivity(crossfit);
             review.setHasImage(false);
             reviewRepository.save(review);
-
-            SiteSettings settings = new SiteSettings();
-            settings.setGymName("Ferrum Gym");
-            settings.setContactEmail("info@ferrumgym.com");
-            settings.setContactPhone("+34 912 345 678");
-            settings.setAddress("Calle Tulipán s/n. 28933 Móstoles (Madrid)");
-            settings.setWeekdaysHours("07:00 - 23:00");
-            settings.setWeekendsHours("09:00 - 21:00");
-            siteSettingsRepository.save(settings);
         }
     }
 

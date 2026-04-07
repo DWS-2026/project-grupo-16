@@ -1,35 +1,20 @@
 package es.codeurjc.ferrumgym.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
-@Entity
 public class SiteSettings {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String gymName;
-    private String contactEmail;
-    private String contactPhone;
-    private String address;
-    private String weekdaysHours;
-    private String weekendsHours;
+// Valores por defecto (se cargarán automáticamente al arrancar la app)
+    private String gymName = "Ferrum Gym";
+    private String contactEmail = "info@ferrumgym.com";
+    private String contactPhone = "+34 912 345 678";
+    private String address = "Calle Tulipán s/n. 28933 Móstoles (Madrid)";
+    private String weekdaysHours = "07:00 - 23:00";
+    private String weekendsHours = "09:00 - 21:00";
     
-    @ManyToOne
-    private User updatedBy; // El administrador que guardó los ajustes
+    private String updatedBy = "Sistema";
 
-    // Constructor
     public SiteSettings() {}
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
+    // --- GETTERS Y SETTERS ---
     public String getGymName() { return gymName; }
     public void setGymName(String gymName) { this.gymName = gymName; }
 
@@ -48,6 +33,6 @@ public class SiteSettings {
     public String getWeekendsHours() { return weekendsHours; }
     public void setWeekendsHours(String weekendsHours) { this.weekendsHours = weekendsHours; }
 
-    public User getUpdatedBy() { return updatedBy; }
-    public void setUpdatedBy(User updatedBy) { this.updatedBy = updatedBy; }
+    public String getUpdatedBy() { return updatedBy; }
+    public void setUpdatedBy(String updatedBy) { this.updatedBy = updatedBy; }
 }
