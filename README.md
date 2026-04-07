@@ -301,9 +301,10 @@ La navegación no ha cambiado respecto a la práctica 1.
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images/EERDiagram_FerrumGym.png)
+![Diagrama Entidad-Relación](images/DiagramaEntidades.png)
 
-> [Descripción: El diagrama EER representa el modelo de datos relacional de la plataforma. Consta de 5 entidades principales (user, activity, booking, review y site_settings). Destacan las entidades intermedias booking y review, que resuelven relaciones N:M entre usuarios y actividades mediante relaciones 1:N. Adicionalmente, el esquema incluye la tabla dependiente user_roles para gestionar los privilegios, y las tablas de secuencias (_seq) generadas automáticamente por el ORM (Hibernate) para la gestión de claves primarias. La entidad site_settings permanece aislada al actuar como un Singleton de configuración global.]
+> [Descripción: El diagrama EER representa el modelo de datos relacional de la plataforma, el cual consta de 5 entidades principales (user, activity, booking, review y site_settings). Destacan las entidades intermedias booking y review, que resuelven de forma eficiente las relaciones N:M entre usuarios y actividades mediante relaciones 1:N.
+La entidad site_settings está vinculada a la entidad user a través de la clave foránea updated_by_id, lo que permite auditar qué usuario administrador ha realizado modificaciones en la configuración del gimnasio. Adicionalmente, el esquema incluye la tabla dependiente user_roles para gestionar los privilegios de acceso, y las tablas de secuencias (_seq), generadas automáticamente por el ORM (Hibernate) para la correcta gestión e incremento de las claves primarias.]
 
 ### **Diagrama de Clases y Templates**
 
