@@ -237,12 +237,25 @@ public class MainController {
         return "redirect:/user-profile";
     }
 
-    @GetMapping("/booking/cancel/{id}")
-    public String cancelBooking(@PathVariable Long id) {
-        // 1. Buscamos la reserva para saber qué actividad era
-        bookingService.findById(id).orElseThrow();
-        
-        // 3. Borramos la reserva de MySQL
+@GetMapping("/booking/cancel/{id}")
+    public String cancelBooking(@PathVariable Long id, Principal principal) {
+
+        Optional<Booking> bookingOpt = bookingService.findById(id);
+
+        // If the booking doesn't exist, show 404
+        if (bookingOpt.isEmpty()) {
+            return "error/404";
+        }
+
+        Booking booking = bookingOpt.get();
+
+        // IDOR Protection: only the user who made the booking can cancel it
+        String currentUserEmail = principal.getName();
+        if (!booking.getUser().getEmail().equals(currentUserEmail)) {
+            return "error/403";
+        }
+
+        //If we reach this point, it means the user is authorized to cancel the booking
         bookingService.deleteById(id);
 
         return "redirect:/user-profile";
@@ -263,16 +276,16 @@ public class MainController {
             model.addAttribute("registerError", true);
             model.addAttribute("errorMessage", "An account with this email already exists.");
         }
-            return "register"; 
+            return "register";
     }
 
    // Controlador de registros de usuario
     @PostMapping("/register")
-    public String registerUser(@RequestParam String name, 
-                           @RequestParam String email, 
-                           @RequestParam String password, 
+    public String registerUser(@RequestParam String name,
+                           @RequestParam String email,
+                           @RequestParam String password,
                            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
-    
+
         // 1. VALIDACIÓN: Comprobamos si el email ya existe en la base de datos
         // Esto es clave para el Punto 6 de la rúbrica
         if (userService.findByEmail(email).isPresent()) {
@@ -302,20 +315,20 @@ public class MainController {
 
     @PostMapping("/forgot-password")
     public String processRecovery(@RequestParam String email, Model model) {
-    
+
     // 1. Buscamos en la base de datos
     boolean userExists = userService.findByEmail(email).isPresent();
-        
+
         if (userExists) {
             // Simulamos éxito para el vídeo de la defensa
             model.addAttribute("success", true);
             model.addAttribute("message", "A password reset link has been sent to " + email);
         } else {
-            // Mensaje de error apropiado (Punto 6) 
+            // Mensaje de error apropiado (Punto 6)
             model.addAttribute("error", true);
             model.addAttribute("message", "We couldn't find an account with that email address.");
         }
-        
+
     return "forgot-password";
 }
 }
