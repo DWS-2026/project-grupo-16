@@ -41,10 +41,10 @@ public class AdminController {
     private ReviewService reviewService;
 
     @Autowired
-    private SiteSettingsService siteSettingsService; 
+    private SiteSettingsService siteSettingsService;
 
-    @Autowired 
-    private BookingService bookingService; 
+    @Autowired
+    private BookingService bookingService;
 
 
     // --- DASHBOARD ---
@@ -55,7 +55,7 @@ public class AdminController {
         model.addAttribute("reviews", reviewService.findAll());
 
         List<User> allUsers = userService.findAll();
-        Collections.reverse(allUsers); 
+        Collections.reverse(allUsers);
         List<User> recentUsers = allUsers.stream().limit(5).collect(Collectors.toList());
 
         model.addAttribute("recentUsers", recentUsers);
@@ -253,7 +253,7 @@ public class AdminController {
 
         return "redirect:/admin-dashboard";
     }
-    
+
     // Delete users
     @GetMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {

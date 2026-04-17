@@ -35,7 +35,7 @@ public class Activity {
     private String trainer;
     private String schedule;
     private int capacity;
-    
+
     private String pdfFilename;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
@@ -66,7 +66,7 @@ public class Activity {
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
     public int getEnrolled() { return (this.bookings != null) ? this.bookings.size() : 0; }
-    
+
 
     public List<Booking> getBookings() { return bookings; }
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
