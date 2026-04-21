@@ -66,26 +66,26 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
             // 2. ARCHIVOS ESTÁTICOS Y PÚBLICOS (Para que la web no se vea sin estilos)
             .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
-            
+
+			// Broken Access Control (Priority 2: only admin can access these routes)
+            .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings").hasRole("ADMIN")
+            .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
+            .requestMatchers("/admin/user/**", "/review/delete/**").hasRole("ADMIN")
+
             // 3. RUTAS DE VISITANTES (No logueados)
             .requestMatchers("/", "/prices", "/register", "/login", "/forgot-password").permitAll()
             .requestMatchers(HttpMethod.GET, "/activity/**").permitAll() // Ver detalles de actividad
             .requestMatchers(HttpMethod.GET, "/user/*/image").permitAll() // Ver avatares en las reseñas
             .requestMatchers(HttpMethod.GET, "/review/*/image").permitAll() // Para ver las fotos de reseñas
-            
+
             // 4. RUTAS DE USUARIOS REGISTRADOS (User y Admin)
             .requestMatchers("/user-profile", "/edit-profile/**", "/booking/cancel/**").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/activity/*/review", "/activity/*/book").hasAnyRole("USER", "ADMIN")
-            
-            // 5. RUTAS DEL ADMINISTRADOR (¡BLINDADAS!)
-            .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings").hasRole("ADMIN")
-            .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
-            .requestMatchers("/admin/user/**", "/review/delete/**").hasRole("ADMIN")
-            
+
             // 6. CUALQUIER OTRA COSA (Por seguridad, pedimos login)
             .anyRequest().authenticated()
         )
@@ -102,8 +102,6 @@ public class SecurityConfig {
             .logoutSuccessUrl("/") // Volver a la home al salir
             .permitAll()
         );
-
-        // Ya NO desactivamos el CSRF. Lo dejamos activo por defecto para cumplir la rúbrica.
 
         return http.build();
     }
