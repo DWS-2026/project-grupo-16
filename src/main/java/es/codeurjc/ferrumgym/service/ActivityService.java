@@ -4,6 +4,8 @@ import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,4 +31,8 @@ public class ActivityService {
     public void deleteById(Long id) {
         activityRepository.deleteById(id);
     }
+
+	public Page<Activity> findAll(Pageable pageable) {
+    return activityRepository.findAll(pageable);
+}
 }
