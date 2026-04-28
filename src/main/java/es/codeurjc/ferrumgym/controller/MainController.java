@@ -1,5 +1,7 @@
 package es.codeurjc.ferrumgym.controller;
 
+import es.codeurjc.ferrumgym.dto.BookingDTO;
+import es.codeurjc.ferrumgym.dto.ReviewDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.Review;
@@ -101,7 +103,7 @@ public class MainController {
                 review.setHasImage(true);
             }
 
-            reviewService.save(review);
+            reviewService.save(new ReviewDTO(review));
         }
 
         // Redirige de vuelta a la página de detalles
@@ -156,7 +158,7 @@ public class MainController {
                 newBooking.setUser(currentUser);
                 newBooking.setActivity(activity);
 
-                bookingService.save(newBooking);
+                bookingService.save(new BookingDTO(newBooking));
 
                 // Redirect to the same page + id
                 return "redirect:/activity/" + id;
