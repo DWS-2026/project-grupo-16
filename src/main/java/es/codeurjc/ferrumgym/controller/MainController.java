@@ -1,14 +1,11 @@
 package es.codeurjc.ferrumgym.controller;
 
 import es.codeurjc.ferrumgym.dto.BookingDTO;
-import es.codeurjc.ferrumgym.dto.ReviewDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
-import es.codeurjc.ferrumgym.model.Review;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
-import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -23,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
@@ -32,9 +31,6 @@ public class MainController {
 
     @Autowired
     private ActivityService activityService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     @Autowired
     private UserService userService;
@@ -76,40 +72,6 @@ public class MainController {
         }
     }
 
-    // POST Method to handle the "Add Review" form submission
-    @PostMapping("/activity/{id}/review")
-    public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating,
-                            @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException {
-        Optional<Activity> activity = activityService.findById(id);
-
-        if (activity.isPresent()) {
-            Review review = new Review();
-            review.setComment(comment);
-            review.setRating(rating);
-            review.setActivity(activity.get());
-
-            // 1. Sacamos el email del usuario de la sesión actual
-            String email = principal.getName();
-
-            // 2. Buscamos a ESE usuario en la base de datos
-            User currentUser = userService.findByEmail(email).orElseThrow();
-
-            // 3. Le asignamos la reseña al autor real
-            review.setUser(currentUser);
-
-            // Si el usuario ha subido una foto, la guardamos
-            if (!imageFile.isEmpty()) {
-                review.setImageFile(imageFile.getBytes());
-                review.setHasImage(true);
-            }
-
-            reviewService.save(new ReviewDTO(review));
-        }
-
-        // Redirige de vuelta a la página de detalles
-        return "redirect:/activity/" + id;
-    }
-
     @GetMapping("/activity/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) {
         Optional<Activity> activity = activityService.findById(id);
@@ -122,17 +84,25 @@ public class MainController {
         }
     }
 
-    @GetMapping("/review/{id}/image")
-    public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
-        Optional<Review> review = reviewService.findById(id);
-        if (review.isPresent() && review.get().getHasImage() && review.get().getImageFile() != null) {
-            return ResponseEntity.ok()
-                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                    .body(review.get().getImageFile());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/activity/{id}/pdf")
+    public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id) throws java.net.MalformedURLException {
+    // 1. Buscamos la actividad para saber el nombre del archivo
+    Activity activity = activityService.findById(id).orElseThrow();
+    String fileName = activity.getPdfFilename();
+
+    if (fileName == null || fileName.isEmpty()) {
+        return ResponseEntity.notFound().build();
     }
+
+    // 2. Ruta donde están guardados (la misma que usamos para guardar)
+    Path filePath = Paths.get("src/main/resources/static/docs/").resolve(fileName);
+    org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
+
+    // 3. Devolvemos el archivo para que el navegador lo abra
+    return ResponseEntity.ok()
+            .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
+            .body(pdf);
+}
 
 // Booking Controller POST method
     @PostMapping("/activity/{id}/book")

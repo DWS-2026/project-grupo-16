@@ -310,13 +310,6 @@ public class AdminController {
         return "admin-users";
     }
 
-    // --- REVIEW MANAGEMENT ---
-    @GetMapping("/review/delete/{id}")
-    public String deleteReview(@PathVariable Long id) {
-        reviewService.deleteById(id);
-        return "redirect:/admin-dashboard";
-    }
-
     // --- SAVE ATTENDANCE ---
     @PostMapping("/admin-class/attendance")
     public String saveAttendance(
