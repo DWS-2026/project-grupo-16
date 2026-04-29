@@ -10,96 +10,90 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // --- 1. CONFIGURACIÓN PARA LA API REST ---
     @Bean
-	@Order(1)
-	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
-		http
-				.securityMatcher("/api/**");
-				//.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
+        http
+            .securityMatcher("/api/v1/**") // Punto 20: Prefijo obligatorio /api/v1/ 
+            .authorizeHttpRequests(authorize -> authorize
+                // Endpoints públicos de la API
+                .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll() // Registro
+                
+                // Endpoints de Administrador en la API
+                .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/activities/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
+                
+                // Endpoints de Usuarios registrados
+                .requestMatchers(HttpMethod.POST, "/api/v1/bookings/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+                
+                .anyRequest().authenticated()
+            );
 
-		http
-				.authorizeHttpRequests(authorize -> authorize
-						// PRIVATE ENDPOINTS
-						// Images
-						//.requestMatchers(HttpMethod.PUT, "/api/images/*/media").hasRole("USER")
-						//.requestMatchers(HttpMethod.DELETE, "/api/books/*/images/*").hasRole("USER")
-						// Books
-						//.requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("USER")
-						//.requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("USER")
-						//.requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
-						// Shops
-						//.requestMatchers(HttpMethod.PUT, "/api/shops/**").hasRole("ADMIN")
-						//.requestMatchers(HttpMethod.PUT, "/api/shops/**").hasRole("ADMIN")
-						//.requestMatchers(HttpMethod.DELETE, "/api/shops/**").hasRole("ADMIN")
-						// PUBLIC ENDPOINTS
-						.anyRequest().permitAll());
+        // Punto 23: Desactivar CSRF solo en la API REST [cite: 503, 718]
+        http.csrf(csrf -> csrf.disable());
 
-		// Disable Form login Authentication
-		http.formLogin(formLogin -> formLogin.disable());
+        // Habilitar Autenticación Básica para probar con Postman 
+        http.httpBasic(Customizer.withDefaults());
 
-		// Disable CSRF protection (it is difficult to implement in REST APIs)
-		http.csrf(csrf -> csrf.disable());
+        // API sin estado (No guarda sesiones en el servidor)
+        http.sessionManagement(management -> 
+            management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		// Disable Basic Authentication
-		http.httpBasic(httpBasic -> httpBasic.disable());
+        // Desactivar el formulario de login para la API
+        http.formLogin(form -> form.disable());
 
-		// Stateless session
-		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }
 
-		// Add JWT Token filter
-		//http.addFilterBefore(new JwtRequestFilter(userDetailService, jwtTokenProvider),
-				//UsernamePasswordAuthenticationFilter.class);
-
-		return http.build();
-	}
-
+    // --- 2. CONFIGURACIÓN PARA LA INTERFAZ WEB ---
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
-            // 2. ARCHIVOS ESTÁTICOS Y PÚBLICOS (Para que la web no se vea sin estilos)
+            // Archivos estáticos
             .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
 
-			// Broken Access Control (Priority 2: only admin can access these routes)
+            // Control de acceso para administradores (Web) 
             .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings").hasRole("ADMIN")
             .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
-            .requestMatchers("/admin/user/**", "/review/delete/**").hasRole("ADMIN")
 
-            // 3. RUTAS DE VISITANTES (No logueados)
+            // Rutas públicas web
             .requestMatchers("/", "/prices", "/register", "/login", "/forgot-password").permitAll()
-            .requestMatchers(HttpMethod.GET, "/activity/**").permitAll() // Ver detalles de actividad
-            .requestMatchers(HttpMethod.GET, "/user/*/image").permitAll() // Ver avatares en las reseñas
-            .requestMatchers(HttpMethod.GET, "/review/*/image").permitAll() // Para ver las fotos de reseñas
+            .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
 
-            // 4. RUTAS DE USUARIOS REGISTRADOS (User y Admin)
+            // Rutas para usuarios registrados (Web)
             .requestMatchers("/user-profile", "/edit-profile/**", "/booking/cancel/**").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/activity/*/review", "/activity/*/book").hasAnyRole("USER", "ADMIN")
 
-            // 6. CUALQUIER OTRA COSA (Por seguridad, pedimos login)
             .anyRequest().authenticated()
         )
-        // 7. CONFIGURACIÓN DEL LOGIN AUTOMÁTICO DE SPRING
+        // Punto 23: CSRF sigue activo por defecto para la web 
         .formLogin(formLogin -> formLogin
-            .loginPage("/login") // Le decimos que use nuestro HTML, no el feo por defecto
-            .failureUrl("/login?error") // A dónde ir si falla la contraseña
-            .defaultSuccessUrl("/", true) // A dónde ir si acierta
+            .loginPage("/login")
+            .failureUrl("/login?error")
+            .defaultSuccessUrl("/", true)
             .permitAll()
         )
-        // 8. CONFIGURACIÓN DEL LOGOUT
         .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/") // Volver a la home al salir
+            .logoutSuccessUrl("/")
             .permitAll()
         );
 
