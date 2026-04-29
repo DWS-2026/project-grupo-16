@@ -80,4 +80,8 @@ public class BookingService {
     public boolean existsByUserAndActivity(User user, Activity activity) {
         return bookingRepository.existsByUserAndActivity(user, activity);
     }
+
+    public Optional<BookingDTO> findByIdDTO(Long id) {
+        return bookingRepository.findById(id).map(BookingDTO::new);
+    }
 }
