@@ -46,6 +46,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews; // Ownership of reviews
 
+    public String getPassword() {
+        return this.encodedPassword;
+    }
+
+    public void setPassword(String password) {
+        this.encodedPassword = password;
+    }
+    
     public Long getId() {
         return id;
     }

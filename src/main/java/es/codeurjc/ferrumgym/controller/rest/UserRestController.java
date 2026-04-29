@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,45 +24,27 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    // 3. Paginated endpoint to list all users
-    @GetMapping("/")
+    // 3. Listado paginado (Usa tu UserResponseDTO)
+    @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUsers(@PageableDefault(size = 10) Pageable pageable) {
         Page<User> users = userService.findAll(pageable);
-
-        // Map Entity to DTO to hide sensitive data like passwords (Rubric point 22)
-        Page<UserResponseDTO> response = users.map(UserResponseDTO::new);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(users.map(UserResponseDTO::new));
     }
 
-    // 4. Endpoint to get details of a specific user
+    // 4. Detalle de usuario
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-
-        if (user.isPresent()) {
-            return ResponseEntity.ok(new UserResponseDTO(user.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return userService.findById(id)
+                .map(user -> ResponseEntity.ok(new UserResponseDTO(user)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // 2. & 5. Signup / User creation endpoint
-    @PostMapping("/")
+    // 2. & 5. Registro / Creación (La lógica de cifrado se va al Service)
+    @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody User user) {
-
-        // Encode password before saving to the database
-        user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-
-        // Set default role for new signups
-        user.setRoles(List.of("USER"));
-
+        // Delegamos el cifrado y los roles al userService.save() que arreglamos antes
         userService.save(user);
 
-        // 19. Return 'Location' header with the URI of the newly created resource
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -71,30 +54,31 @@ public class UserRestController {
         return ResponseEntity.created(location).body(new UserResponseDTO(user));
     }
 
-    // 7. Endpoint to delete a user
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-
-        if (user.isPresent()) {
-            userService.deleteById(id);
-            return ResponseEntity.noContent().build(); // HTTP 204 No Content
-        } else {
-            return ResponseEntity.notFound().build();  // HTTP 404 Not Found
-        }
+    // NUEVO: Endpoint para editar perfil (Conecta con la lógica IDOR del Service)
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
+        UserResponseDTO updated = userService.update(id, userDto);
+        return ResponseEntity.ok(updated);
     }
 
-    // 9. Endpoint to visualize user images
+    // 7. Borrado de usuario
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") // Solo el admin debería poder borrar usuarios completos
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteById(id); // El service ya lanza 404 si no existe
+        return ResponseEntity.noContent().build();
+    }
+
+    // 9. Imágenes de usuario
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
         Optional<User> user = userService.findById(id);
 
         if (user.isPresent() && user.get().getImage() != null) {
             return ResponseEntity.ok()
-                    .header("Content-Type", "image/jpeg")
+                    .header("Content-Type", "image/jpeg") // O el tipo que uses
                     .body(user.get().getImage());
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
     }
 }

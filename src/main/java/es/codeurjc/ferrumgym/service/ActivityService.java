@@ -5,8 +5,10 @@ import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,10 +50,20 @@ public class ActivityService {
     }
 
     public void deleteById(Long id) {
+        // Si no existe, lanzamos 404 en JSON (Punto 12)
+        if (!activityRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La actividad no existe");
+        }
         activityRepository.deleteById(id);
     }
 
     public Page<Activity> findAll(Pageable pageable) {
         return activityRepository.findAll(pageable);
+    }
+
+    public ActivityDTO findByIdDTO(Long id) {
+        return activityRepository.findById(id)
+            .map(ActivityDTO::new)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
     }
 }
