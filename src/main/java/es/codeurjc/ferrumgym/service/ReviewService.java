@@ -20,7 +20,7 @@ import java.util.Optional;
 public class ReviewService {
 
     @Autowired
-    private UserRepository userRepository; // ¡Esta línea te falta!
+    private UserRepository userRepository;
 
     @Autowired
     private ActivityRepository activityRepository;
