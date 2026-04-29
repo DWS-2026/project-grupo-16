@@ -3,6 +3,8 @@ package es.codeurjc.ferrumgym.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Activity {
 
@@ -39,9 +41,11 @@ public class Activity {
     private String pdfFilename;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Booking> bookings;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Review> reviews;
 
     public Long getId() { return id; }

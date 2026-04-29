@@ -2,6 +2,8 @@ package es.codeurjc.ferrumgym.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 
@@ -41,9 +43,11 @@ public class User {
     private byte[] image; // Stored as LONGBLOB in MySQL
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Booking> bookings; // Ownership of bookings
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Review> reviews; // Ownership of reviews
 
     public String getPassword() {
@@ -53,7 +57,7 @@ public class User {
     public void setPassword(String password) {
         this.encodedPassword = password;
     }
-    
+
     public Long getId() {
         return id;
     }
