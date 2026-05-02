@@ -1,0 +1,160 @@
+{
+  "info": {
+    "_postman_id": "b92169f1-6ef8-4933-b17b-a292abb06fea",
+    "name": "Ferrum Gym API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54473033"
+  },
+  "item": [
+    {
+      "name": "Get Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Activity",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Boxing\", \"description\": \"Boxing Class offer\", \"trainer\": \"Lucía Martín\", \"schedule\": \"Monday 10:00-11:00\", \"capacity\": 20, \"enrolledCount\": 0}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Activity",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/153",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "153"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Activities",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Activity",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"capacity\":22,\"description\":\"Relaxing sessions for mind and body.\",\"enrolledCount\":0,\"id\":1,\"name\":\"Yoga\",\"pdfFilename\":\"Yoga.pdf\",\"schedule\":\"Mon-Thu 19:00-20:00\",\"trainer\":\"Mark Perez\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Activity ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "admin@ferrumgym.com",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "adminpass",
+        "type": "string"
+      }
+    ]
+  }
+}
