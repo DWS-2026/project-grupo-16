@@ -47,5 +47,17 @@ public class ActivityRestController {
     public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
         activityService.deleteById(id);
         return ResponseEntity.noContent().build(); // 204 No Content
+
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable long id, @RequestBody ActivityDTO activityDto) {
+        // Forzamos que el DTO tenga el ID de la URL para que el Service sepa que es un
+        // UPDATE
+        activityDto.setId(id);
+
+        ActivityDTO updated = activityService.save(activityDto);
+        return ResponseEntity.ok(updated);
     }
 }

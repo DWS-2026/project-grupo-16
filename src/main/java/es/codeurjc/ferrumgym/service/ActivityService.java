@@ -28,24 +28,32 @@ public class ActivityService {
     }
 
     public ActivityDTO save(ActivityDTO activityDto) {
-        // 1. Crear la entidad a partir del DTO (Conversión DTO -> Entidad)
-        Activity activity = new Activity();
+        Activity activity;
 
-        // Si el DTO tiene ID, es una actualización; si no, es una creación
+        // 1. ¿Es una actualización? Intentamos recuperar la actividad original
         if (activityDto.getId() != null) {
-            activity.setId(activityDto.getId());
+            activity = activityRepository.findById(activityDto.getId())
+                    .orElse(new Activity()); // Si no existe, creamos una nueva
+        } else {
+            activity = new Activity();
         }
 
+        // 2. Volcamos los datos del DTO a la Entidad
         activity.setName(activityDto.getName());
         activity.setDescription(activityDto.getDescription());
         activity.setCapacity(activityDto.getCapacity());
-        // Añade aquí el resto de campos que tenga tu entidad Activity
+        activity.setTrainer(activityDto.getTrainer());
+        activity.setSchedule(activityDto.getSchedule());
 
-        // 2. Guardar la entidad en la base de datos usando el repositorio
+        // Mantenemos el nombre del PDF si viene en el DTO
+        if (activityDto.getPdfFilename() != null) {
+            activity.setPdfFilename(activityDto.getPdfFilename());
+        }
+
+        // 3. Guardar (Spring decide si es INSERT o UPDATE por el ID)
         Activity savedActivity = activityRepository.save(activity);
 
-        // 3. Devolver el resultado convertido de nuevo a DTO (Conversión Entidad ->
-        // DTO)
+        // 4. Devolver el resultado convertido de nuevo a DTO
         return new ActivityDTO(savedActivity);
     }
 
@@ -63,7 +71,7 @@ public class ActivityService {
 
     public ActivityDTO findByIdDTO(Long id) {
         return activityRepository.findById(id)
-            .map(ActivityDTO::new)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
+                .map(ActivityDTO::new)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
     }
 }

@@ -10,6 +10,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.config.Customizer;
 
 @Configuration
@@ -26,32 +29,46 @@ public class SecurityConfig {
     @Order(0)
     public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .securityMatcher("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
+    // --- CADENA 1: API REST ---
     // --- CADENA 1: API REST ---
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/api/v1/**")
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/activities/**").hasRole("ADMIN")
-                .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/v1/bookings/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated()
-            )
-            .csrf(csrf -> csrf.disable())
-            .httpBasic(Customizer.withDefaults())
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .securityMatcher("/api/v1/**")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/activities/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/activities/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(Customizer.withDefaults())
+                // CONFIGURACIÓN ANTI-HTML PARA LA API
+                .exceptionHandling(ex -> ex
+                        // Si NO está logueado -> 401
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"No estas autenticado\"}");
+                        })
+                        // Si está logueado pero no es ADMIN -> 403
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"No tienes permisos de administrador\"}");
+                        }))
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
     }
 
@@ -60,19 +77,17 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
-                .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
-                .requestMatchers("/", "/login", "/register", "/prices").permitAll()
-                .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
-            .logout(out -> out.logoutSuccessUrl("/").permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
+                        .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/login", "/register", "/prices").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll())
+                .logout(out -> out.logoutSuccessUrl("/").permitAll());
         return http.build();
     }
 }
