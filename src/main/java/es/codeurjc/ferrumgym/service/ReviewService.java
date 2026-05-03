@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +43,7 @@ public class ReviewService {
     public ReviewDTO save(ReviewDTO reviewDto) {
         User user = userRepository.findById(reviewDto.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-        
+
         Activity activity = activityRepository.findById(reviewDto.getActivityId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
 
@@ -50,7 +52,7 @@ public class ReviewService {
         review.setRating(reviewDto.getRating());
         review.setUser(user);
         review.setActivity(activity);
-        
+
         // Si la reseña tiene imagen, aquí deberías gestionar los bytes si los incluyes en el DTO
 
         Review savedReview = reviewRepository.save(review);
@@ -59,7 +61,7 @@ public class ReviewService {
 
     public void saveImage(Review review, MultipartFile imageFile) throws IOException {
     review.setImageFile(imageFile.getBytes()); // Guardamos los bytes
-    review.setHasImage(true);                  
+    review.setHasImage(true);
     reviewRepository.save(review);
     }
 
@@ -80,5 +82,10 @@ public class ReviewService {
             // Error 403 en formato JSON para la API
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para borrar esta reseña");
         }
+    }
+
+	// Method to get all reviews with pagination, returning Page<Review> instead of List<Review>
+	public Page<Review> findAll(Pageable pageable) {
+        return reviewRepository.findAll(pageable);
     }
 }

@@ -3,6 +3,9 @@ package es.codeurjc.ferrumgym.controller.rest;
 import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,5 +31,11 @@ public class BookingRestController {
     public ResponseEntity<Void> cancelBooking(@PathVariable Long id) {
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+	// Paginated endpoint to get all bookings, returning DTOs instead of entities
+    @GetMapping
+    public ResponseEntity<Page<BookingDTO>> getBookings(@PageableDefault(size = 10) Pageable page) {
+        return ResponseEntity.ok(bookingService.findAll(page).map(BookingDTO::new));
     }
 }
