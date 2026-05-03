@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +25,7 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private UserRepository userRepository; 
+    private UserRepository userRepository;
 
     @Autowired
     private ActivityRepository activityRepository;
@@ -67,12 +69,12 @@ public class BookingService {
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // 3. CONTROL DE DUEÑO 
+        // 3. CONTROL DE DUEÑO
         // Solo borra si el usuario es el dueño O si tiene rol de ADMIN
         if (booking.getUser().equals(currentUser) || currentUser.getRoles().contains("ADMIN")) {
             bookingRepository.deleteById(id);
         } else {
-            // Si no es el dueño, devolvemos 403 Forbidden en JSON 
+            // Si no es el dueño, devolvemos 403 Forbidden en JSON
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para borrar esta reserva");
         }
     }
@@ -84,4 +86,9 @@ public class BookingService {
     public Optional<BookingDTO> findByIdDTO(Long id) {
         return bookingRepository.findById(id).map(BookingDTO::new);
     }
+
+	// Method to get all bookings with pagination, returning Page<Booking> instead of List<Booking>
+	public Page<Booking> findAll(Pageable pageable) {
+    return bookingRepository.findAll(pageable);
+}
 }

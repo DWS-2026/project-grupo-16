@@ -3,13 +3,14 @@ package es.codeurjc.ferrumgym.controller.rest;
 import es.codeurjc.ferrumgym.dto.ReviewDTO;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-
 
 @RestController
 @RequestMapping("/api/v1/reviews")
@@ -17,6 +18,12 @@ public class ReviewRestController {
 
     @Autowired
     private ReviewService reviewService;
+
+	// Paginated endpoint to get all reviews, returning DTOs instead of entities
+	@GetMapping
+    public ResponseEntity<Page<ReviewDTO>> getReviews(@PageableDefault(size = 10) Pageable page) {
+        return ResponseEntity.ok(reviewService.findAll(page).map(ReviewDTO::new));
+    }
 
     @PostMapping
     public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDto) {
@@ -36,7 +43,7 @@ public class ReviewRestController {
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getReviewImage(@PathVariable Long id) {
         return reviewService.findById(id)
-                .filter(review -> review.getImageFile() != null) 
+                .filter(review -> review.getImageFile() != null)
             .map(review -> ResponseEntity.ok()
                     .header("Content-Type", "image/jpeg")
                     .body(review.getImageFile()))
