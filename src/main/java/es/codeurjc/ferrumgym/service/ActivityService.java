@@ -74,4 +74,9 @@ public class ActivityService {
                 .map(ActivityDTO::new)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
     }
+
+    public void saveImage(Activity activity, org.springframework.web.multipart.MultipartFile imageFile) throws java.io.IOException {
+    activity.setImage(imageFile.getBytes());
+    activityRepository.save(activity);
+    }
 }

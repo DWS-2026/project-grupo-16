@@ -12,6 +12,7 @@ public class ActivityDTO {
     private int capacity;
     private int enrolledCount;
     private String pdfFilename;
+    private String imageUrl;
 
     // Constructor vacío
     public ActivityDTO() {}
@@ -26,6 +27,14 @@ public class ActivityDTO {
         this.capacity = activity.getCapacity();
         this.enrolledCount = activity.getEnrolled();
         this.pdfFilename = activity.getPdfFilename();
+        if (activity.getImage() != null) {
+        this.imageUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/v1/activities/")
+                .path(activity.getId().toString())
+                .path("/image")
+                .toUriString();
+        }
     }
 
     // Getters y Setters en inglés (Punto 24 de la rúbrica)
@@ -52,4 +61,11 @@ public class ActivityDTO {
 
     public String getPdfFilename() { return pdfFilename; }
     public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
+
+    public String getImageUrl() { 
+        return imageUrl; 
+    }
+    public void setImageUrl(String imageUrl) { 
+        this.imageUrl = imageUrl; 
+    }
 }

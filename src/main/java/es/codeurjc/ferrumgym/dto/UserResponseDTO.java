@@ -23,8 +23,6 @@ public class UserResponseDTO {
         this.name = user.getName();
         this.email = user.getEmail();
         this.roles = user.getRoles();
-
-        // Generamos la URL del endpoint de imagen de forma dinámica
         if (user.getImage() != null) {
             this.imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/api/v1/users/")
@@ -70,7 +68,6 @@ public class UserResponseDTO {
     public String getImageUrl() { 
         return imageUrl; 
     }
-
     public void setImageUrl(String imageUrl) { 
         this.imageUrl = imageUrl; 
     }

@@ -24,7 +24,7 @@ public class User {
     public User(String name, String email, String password, List<String> roles) {
         this.name = name;
         this.email = email;
-        this.encodedPassword = password; // We use plain text as requested
+        this.encodedPassword = password;
         this.roles = roles;
     }
 

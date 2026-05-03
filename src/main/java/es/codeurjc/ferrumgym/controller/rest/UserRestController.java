@@ -37,19 +37,23 @@ public class UserRestController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // 2. & 5. Registro / Creación (La lógica de cifrado se va al Service)
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody User user) {
-        // Delegamos el cifrado y los roles al userService.save() que arreglamos antes
-        userService.save(user);
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody java.util.Map<String, String> request) {
+    
+        // Extraemos los datos del mapa (el JSON que llega de Postman)
+        String name = request.get("name");
+        String email = request.get("email");
+        String password = request.get("password");
+
+        User newUser = new User(name, email, password, java.util.List.of("ROLE_USER"));
+        userService.save(newUser); 
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(user.getId())
+                .buildAndExpand(newUser.getId())
                 .toUri();
-
-        return ResponseEntity.created(location).body(new UserResponseDTO(user));
+        return ResponseEntity.created(location).body(new UserResponseDTO(newUser));
     }
 
     // NUEVO: Endpoint para editar perfil (Conecta con la lógica IDOR del Service)

@@ -11,6 +11,7 @@ public class ReviewDTO {
     private String userName;
     private Long activityId;
     private String activityName;
+    private String imageUrl;
     private boolean hasImage;
 
     // Constructor vacío para serialización
@@ -31,6 +32,15 @@ public class ReviewDTO {
         if (review.getActivity() != null) {
             this.activityId = review.getActivity().getId();
             this.activityName = review.getActivity().getName();
+        }
+
+        if (review.getImageFile() != null) {
+        this.imageUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/v1/reviews/")
+                .path(review.getId().toString())
+                .path("/image")
+                .toUriString();
         }
     }
 
@@ -55,6 +65,13 @@ public class ReviewDTO {
 
     public String getActivityName() { return activityName; }
     public void setActivityName(String activityName) { this.activityName = activityName; }
+
+    public String getImageUrl() { 
+        return imageUrl; 
+    }
+    public void setImageUrl(String imageUrl) { 
+        this.imageUrl = imageUrl; 
+    }
 
     public boolean isHasImage() { return hasImage; }
     public void setHasImage(boolean hasImage) { this.hasImage = hasImage; }
