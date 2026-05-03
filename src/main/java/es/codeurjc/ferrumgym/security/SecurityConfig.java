@@ -1,9 +1,12 @@
 package es.codeurjc.ferrumgym.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -11,17 +14,28 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import es.codeurjc.ferrumgym.security.jwt.JwtRequestFilter;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     // --- CADENA 0: EXCLUSIVA PARA SWAGGER (Máxima prioridad) ---
@@ -37,15 +51,17 @@ public class SecurityConfig {
     }
 
     // --- CADENA 1: API REST ---
-    // --- CADENA 1: API REST ---
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/v1/**")
+                .securityMatcher("/api/**") //Abarca /api/v1 y /api/auth
                 .authorizeHttpRequests(auth -> auth
+                        // Rutas públicas de la API - Permitimos el login y las consultas públicas
+                        .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        // Rutas protegidas (ADMIN)
                         .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/activities/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/activities/**").hasRole("ADMIN")
@@ -67,7 +83,13 @@ public class SecurityConfig {
                             response.setContentType("application/json");
                             response.getWriter().write("{\"error\": \"No tienes permisos de administrador\"}");
                         }))
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            
+            // DESACTIVAMOS Basic Auth: Ahora solo queremos que entre por JWT
+            .httpBasic(basic -> basic.disable());
+
+        // AÑADIMOS EL FILTRO JWT
+        http.addFilterBefore(jwtRequestFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
