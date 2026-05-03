@@ -23,7 +23,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Vital para el Punto 22
+    private PasswordEncoder passwordEncoder;
 
     // --- MÉTODOS PARA LA WEB (Usan Entidades) ---
     
