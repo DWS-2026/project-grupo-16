@@ -32,4 +32,14 @@ public class ReviewRestController {
         reviewService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getReviewImage(@PathVariable Long id) {
+        return reviewService.findById(id)
+                .filter(review -> review.getImageFile() != null) 
+            .map(review -> ResponseEntity.ok()
+                    .header("Content-Type", "image/jpeg")
+                    .body(review.getImageFile()))
+            .orElse(ResponseEntity.notFound().build());
+    }
 }

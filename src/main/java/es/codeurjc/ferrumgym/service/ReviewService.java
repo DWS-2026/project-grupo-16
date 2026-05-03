@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.io.IOException;
 
 @Service
 public class ReviewService {
@@ -53,6 +55,12 @@ public class ReviewService {
 
         Review savedReview = reviewRepository.save(review);
         return new ReviewDTO(savedReview);
+    }
+
+    public void saveImage(Review review, MultipartFile imageFile) throws IOException {
+    review.setImageFile(imageFile.getBytes()); // Guardamos los bytes
+    review.setHasImage(true);                  
+    reviewRepository.save(review);
     }
 
     public void deleteById(Long id) {

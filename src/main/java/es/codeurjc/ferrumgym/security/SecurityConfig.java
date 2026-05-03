@@ -61,6 +61,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        // LOS NUEVOS MATCHERS PARA IMÁGENES
+                        .requestMatchers(HttpMethod.GET, "/api/v1/activities/*/image").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews/*/image").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/*/image").permitAll()
                         // Rutas protegidas (ADMIN)
                         .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/activities/**").hasRole("ADMIN")

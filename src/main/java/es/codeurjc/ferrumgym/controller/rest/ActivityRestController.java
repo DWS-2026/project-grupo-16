@@ -60,4 +60,15 @@ public class ActivityRestController {
         ActivityDTO updated = activityService.save(activityDto);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getActivityImage(@PathVariable Long id) {
+        // Buscamos la entidad (no el DTO) para acceder al campo de la imagen
+        return activityService.findById(id) 
+                .filter(activity -> activity.getImage() != null)
+                .map(activity -> ResponseEntity.ok()
+                        .header("Content-Type", "image/jpeg") // O "image/png"
+                        .body(activity.getImage()))
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

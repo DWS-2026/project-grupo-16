@@ -1,6 +1,9 @@
 package es.codeurjc.ferrumgym.dto;
 
 import java.util.List;
+
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import es.codeurjc.ferrumgym.model.User;
 
 public class UserResponseDTO {
@@ -9,6 +12,7 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private List<String> roles;
+    private String imageUrl;
 
     // Constructor vacío necesario para la serialización de JSON
     public UserResponseDTO() {}
@@ -19,6 +23,15 @@ public class UserResponseDTO {
         this.name = user.getName();
         this.email = user.getEmail();
         this.roles = user.getRoles();
+
+        // Generamos la URL del endpoint de imagen de forma dinámica
+        if (user.getImage() != null) {
+            this.imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/api/v1/users/")
+                    .path(user.getId().toString())
+                    .path("/image")
+                    .toUriString();
+        }
     }
 
     // Getters y Setters (En inglés según el punto 24 de la rúbrica)
@@ -52,5 +65,13 @@ public class UserResponseDTO {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getImageUrl() { 
+        return imageUrl; 
+    }
+
+    public void setImageUrl(String imageUrl) { 
+        this.imageUrl = imageUrl; 
     }
 }
