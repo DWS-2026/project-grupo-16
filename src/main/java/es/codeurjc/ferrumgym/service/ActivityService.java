@@ -86,7 +86,7 @@ public class ActivityService {
         String fileName = fileService.saveFile(imageFile);
 
         // 2. Guardamos el nombre (String) en la entidad
-        activity.setImageFile(fileName);
+        activity.setImageFilename(fileName);
 
         // 3. Actualizamos en la base de datos
         activityRepository.save(activity);
