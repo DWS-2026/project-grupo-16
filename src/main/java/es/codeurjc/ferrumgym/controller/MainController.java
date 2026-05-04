@@ -49,16 +49,17 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        // 1. Buscamos las entidades en la base de datos
+        // 1. Buscamos las actividades (entidades)
         List<Activity> activitiesEntity = activityRepository.findAll();
 
-        // 2. Las convertimos a DTO (esto limpia cualquier problema de Hibernate)
-        List<ActivityDTO> activities = activitiesEntity.stream()
-                .map(ActivityDTO::new)
+        // 2. Convertimos a DTO (esto es lo que pide tu rúbrica y lo que arregla el
+        // error)
+        List<ActivityDTO> activitiesDTO = activitiesEntity.stream()
+                .map(ActivityDTO::new) // Esto usa el constructor que ya tienes en ActivityDTO
                 .toList();
 
-        // 3. Enviamos la lista de DTOs a la web
-        model.addAttribute("activities", activities);
+        // 3. Pasamos los DTOs a la web
+        model.addAttribute("activities", activitiesDTO);
 
         return "index";
     }

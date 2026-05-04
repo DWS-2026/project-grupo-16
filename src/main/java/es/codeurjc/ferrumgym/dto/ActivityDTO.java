@@ -12,7 +12,7 @@ public class ActivityDTO {
     private int capacity;
     private int enrolled;
     private String pdfFilename;
-    private String imageFilename;
+    private String image;
     private String imageUrl; // URL completa para la API
 
     public ActivityDTO() {}
@@ -26,7 +26,7 @@ public class ActivityDTO {
         this.capacity = activity.getCapacity();
         this.enrolled = activity.getEnrolled();
         this.pdfFilename = activity.getPdfFilename();
-        this.imageFilename = activity.getImageFilename();
+        this.image = activity.getImageFilename();
 
         // Si hay nombre de archivo, generamos la URL dinámica
         if (activity.getImageFilename() != null) {
@@ -64,12 +64,12 @@ public class ActivityDTO {
     public String getPdfFilename() { return pdfFilename; }
     public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
 
-    public String getImageFilename() { 
-        return imageFilename; 
+    public String getImage() { 
+        return image; 
     }
 
-    public void setImageFilename(String imageFilename) {
-        this.imageFilename = imageFilename;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getImageUrl() { 
