@@ -3,6 +3,8 @@ package es.codeurjc.ferrumgym.controller.rest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,24 @@ public class ApiErrorController {
 @RestControllerAdvice(basePackages = "es.codeurjc.ferrumgym.controller.rest")
 class ApiExceptionHandler {
 
-    // Catches any unhandled Exception thrown within the REST API
+    // NUEVO: Interceptor específico para errores de validación en los DTOs
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        Map<String, Object> errorJson = new HashMap<>();
+        errorJson.put("status", HttpStatus.BAD_REQUEST.value());
+        errorJson.put("error", "Validation Error");
+        
+        Map<String, String> fieldErrors = new HashMap<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            fieldErrors.put(error.getField(), error.getDefaultMessage());
+        }
+        
+        errorJson.put("message", fieldErrors);
+        errorJson.put("path", request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorJson);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex, HttpServletRequest request) {
         Map<String, Object> errorJson = new HashMap<>();
