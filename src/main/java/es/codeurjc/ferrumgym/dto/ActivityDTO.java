@@ -1,19 +1,29 @@
 package es.codeurjc.ferrumgym.dto;
 
 import es.codeurjc.ferrumgym.model.Activity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class ActivityDTO {
 
     private Long id;
+    
+    @NotBlank(message = "Activity name is required")
     private String name;
+    
+    @NotBlank(message = "Description is required")
     private String description;
+    
     private String trainer;
     private String schedule;
+    
+    @PositiveOrZero(message = "Capacity must be zero or a positive number")
     private int capacity;
+    
     private int enrolled;
     private String pdfFilename;
     private String image;
-    private String imageUrl; // URL completa para la API
+    private String imageUrl;
 
     public ActivityDTO() {}
 
@@ -64,18 +74,9 @@ public class ActivityDTO {
     public String getPdfFilename() { return pdfFilename; }
     public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
 
-    public String getImage() { 
-        return image; 
-    }
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getImageUrl() { 
-        return imageUrl; 
-    }
-    public void setImageUrl(String imageUrl) { 
-        this.imageUrl = imageUrl; 
-    }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

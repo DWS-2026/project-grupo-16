@@ -1,12 +1,21 @@
 package es.codeurjc.ferrumgym.dto;
 
 import es.codeurjc.ferrumgym.model.Review;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public class ReviewDTO {
 
     private Long id;
+    
+    @NotBlank(message = "Comment cannot be empty")
     private String comment;
+    
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 5, message = "Rating cannot exceed 5")
     private int rating;
+    
     private Long userId;
     private String userName;
     private Long activityId;
@@ -66,12 +75,8 @@ public class ReviewDTO {
     public String getActivityName() { return activityName; }
     public void setActivityName(String activityName) { this.activityName = activityName; }
 
-    public String getImageUrl() { 
-        return imageUrl; 
-    }
-    public void setImageUrl(String imageUrl) { 
-        this.imageUrl = imageUrl; 
-    }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public boolean isHasImage() { return hasImage; }
     public void setHasImage(boolean hasImage) { this.hasImage = hasImage; }

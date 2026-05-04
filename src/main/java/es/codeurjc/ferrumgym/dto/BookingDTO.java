@@ -2,13 +2,20 @@ package es.codeurjc.ferrumgym.dto;
 
 import java.time.LocalDateTime;
 import es.codeurjc.ferrumgym.model.Booking;
+import jakarta.validation.constraints.NotNull;
 
 public class BookingDTO {
 
     private Long id;
+    
+    @NotNull(message = "User ID is mandatory for a booking")
     private Long userId;
+    
     private String userName;
+    
+    @NotNull(message = "Activity ID is mandatory for a booking")
     private Long activityId;
+    
     private String activityName;
     private LocalDateTime bookingDate;
     private boolean attended;
