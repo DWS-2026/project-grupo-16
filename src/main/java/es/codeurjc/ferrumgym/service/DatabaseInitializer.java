@@ -41,7 +41,7 @@ public class DatabaseInitializer {
             Activity yoga = new Activity();
             yoga.setName("Yoga");
             yoga.setDescription("Relaxing sessions for mind and body.");
-            yoga.setImage(loadImage("src/main/resources/static/assets/Yoga.jpg"));
+            yoga.setImageFilename("Yoga.jpg");
             yoga.setTrainer("Mark Perez");
             yoga.setSchedule("Tue-Thu 19:00-20:00");
             yoga.setCapacity(20);
@@ -51,7 +51,7 @@ public class DatabaseInitializer {
             Activity crossfit = new Activity();
             crossfit.setName("Crossfit");
             crossfit.setDescription("High intensity interval training.");
-            crossfit.setImage(loadImage("src/main/resources/static/assets/crossfit.avif"));
+            crossfit.setImageFilename("crossfit.avif");
             crossfit.setTrainer("Alicia Garcia");
             crossfit.setSchedule("Mon-Wed 17:00-18:00");
             crossfit.setCapacity(25);
@@ -61,7 +61,7 @@ public class DatabaseInitializer {
             Activity zumba = new Activity();
             zumba.setName("Zumba");
             zumba.setDescription("Dance and fitness to high-energy music.");
-            zumba.setImage(loadImage("src/main/resources/static/assets/Zumba.webp"));
+            zumba.setImageFilename("Zumba.webp");
             zumba.setTrainer("Marta Ruiz");
             zumba.setSchedule("Mon-Wed 20:00-21:00");
             zumba.setCapacity(30);
@@ -71,7 +71,7 @@ public class DatabaseInitializer {
             Activity spinning = new Activity();
             spinning.setName("Spinning");
             spinning.setDescription("Intense indoor cycling workout.");
-            spinning.setImage(loadImage("src/main/resources/static/assets/spinning.jpg"));
+            spinning.setImageFilename("spinning.jpg");
             spinning.setTrainer("Roberto Soler");
             spinning.setSchedule("Fri 18:00-19:00");
             spinning.setCapacity(15);

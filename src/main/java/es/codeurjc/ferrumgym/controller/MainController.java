@@ -1,10 +1,13 @@
 package es.codeurjc.ferrumgym.controller;
 
+import es.codeurjc.ferrumgym.dto.ActivityDTO;
 import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.repository.ActivityRepository;
+
 import es.codeurjc.ferrumgym.service.BookingService;
 import es.codeurjc.ferrumgym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +36,9 @@ public class MainController {
     private ActivityService activityService;
 
     @Autowired
+    private ActivityRepository activityRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -43,8 +49,17 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        // Activities
-        model.addAttribute("activities", activityService.findAll());
+        // 1. Buscamos las entidades en la base de datos
+        List<Activity> activitiesEntity = activityRepository.findAll();
+
+        // 2. Las convertimos a DTO (esto limpia cualquier problema de Hibernate)
+        List<ActivityDTO> activities = activitiesEntity.stream()
+                .map(ActivityDTO::new)
+                .toList();
+
+        // 3. Enviamos la lista de DTOs a la web
+        model.addAttribute("activities", activities);
+
         return "index";
     }
 
@@ -75,36 +90,37 @@ public class MainController {
     @GetMapping("/activity/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) {
         Optional<Activity> activity = activityService.findById(id);
-        if (activity.isPresent() && activity.get().getImage() != null) {
+        if (activity.isPresent() && activity.get().getImageFilename() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                    .body(activity.get().getImage());
+                    .body(activity.get().getImageFilename());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/activity/{id}/pdf")
-    public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id) throws java.net.MalformedURLException {
-    // 1. Buscamos la actividad para saber el nombre del archivo
-    Activity activity = activityService.findById(id).orElseThrow();
-    String fileName = activity.getPdfFilename();
+    public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id)
+            throws java.net.MalformedURLException {
+        // 1. Buscamos la actividad para saber el nombre del archivo
+        Activity activity = activityService.findById(id).orElseThrow();
+        String fileName = activity.getPdfFilename();
 
-    if (fileName == null || fileName.isEmpty()) {
-        return ResponseEntity.notFound().build();
+        if (fileName == null || fileName.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // 2. Ruta donde están guardados (la misma que usamos para guardar)
+        Path filePath = Paths.get("src/main/resources/static/docs/").resolve(fileName);
+        org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
+
+        // 3. Devolvemos el archivo para que el navegador lo abra
+        return ResponseEntity.ok()
+                .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
+                .body(pdf);
     }
 
-    // 2. Ruta donde están guardados (la misma que usamos para guardar)
-    Path filePath = Paths.get("src/main/resources/static/docs/").resolve(fileName);
-    org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
-
-    // 3. Devolvemos el archivo para que el navegador lo abra
-    return ResponseEntity.ok()
-            .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
-            .body(pdf);
-}
-
-// Booking Controller POST method
+    // Booking Controller POST method
     @PostMapping("/activity/{id}/book")
     public String bookClass(@PathVariable Long id, Principal principal, Model model) {
         Activity activity = activityService.findById(id).orElseThrow();
@@ -120,7 +136,8 @@ public class MainController {
         }
 
         if (isEnrolled) {
-            // Redirect to the same page with an error message indicating the user is already enrolled
+            // Redirect to the same page with an error message indicating the user is
+            // already enrolled
             return "redirect:/activity/" + id + "?error=already_booked";
         } else {
             if (activity.getEnrolled() < activity.getCapacity()) {
@@ -139,7 +156,7 @@ public class MainController {
         }
     }
 
-    //Gestion de imagenes de usuario
+    // Gestion de imagenes de usuario
     @GetMapping("/user/{id}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
         Optional<User> user = userService.findById(id);
@@ -209,7 +226,7 @@ public class MainController {
         return "redirect:/user-profile";
     }
 
-@GetMapping("/booking/cancel/{id}")
+    @GetMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id, Principal principal) {
 
         Optional<Booking> bookingOpt = bookingService.findById(id);
@@ -227,7 +244,7 @@ public class MainController {
             return "error/403";
         }
 
-        //If we reach this point, it means the user is authorized to cancel the booking
+        // If we reach this point, it means the user is authorized to cancel the booking
         bookingService.deleteById(id);
 
         return "redirect:/user-profile";
@@ -248,15 +265,15 @@ public class MainController {
             model.addAttribute("registerError", true);
             model.addAttribute("errorMessage", "An account with this email already exists.");
         }
-            return "register";
+        return "register";
     }
 
-   // Controlador de registros de usuario
+    // Controlador de registros de usuario
     @PostMapping("/register")
     public String registerUser(@RequestParam String name,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam("formFile") MultipartFile imageFile) throws IOException {
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
 
         // 1. VALIDACIÓN: Comprobamos si el email ya existe en la base de datos
         // Esto es clave para el Punto 6 de la rúbrica
@@ -288,8 +305,8 @@ public class MainController {
     @PostMapping("/forgot-password")
     public String processRecovery(@RequestParam String email, Model model) {
 
-    // 1. Buscamos en la base de datos
-    boolean userExists = userService.findByEmail(email).isPresent();
+        // 1. Buscamos en la base de datos
+        boolean userExists = userService.findByEmail(email).isPresent();
 
         if (userExists) {
             // Simulamos éxito para el vídeo de la defensa
@@ -301,6 +318,6 @@ public class MainController {
             model.addAttribute("message", "We couldn't find an account with that email address.");
         }
 
-    return "forgot-password";
-}
+        return "forgot-password";
+    }
 }

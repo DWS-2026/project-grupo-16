@@ -8,6 +8,7 @@ import es.codeurjc.ferrumgym.model.SiteSettings;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.BookingService;
+import es.codeurjc.ferrumgym.service.FileService;
 import es.codeurjc.ferrumgym.service.ReviewService;
 import es.codeurjc.ferrumgym.service.SiteSettingsService;
 import es.codeurjc.ferrumgym.service.UserService;
@@ -22,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +45,8 @@ public class AdminController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private FileService fileService;
 
     // --- DASHBOARD ---
     @GetMapping("/admin-dashboard")
@@ -159,34 +158,31 @@ public class AdminController {
             @RequestParam("imageField") MultipartFile imageField,
             @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
 
+        // 1. Creamos la entidad y rellenamos los campos de texto
         Activity newActivity = new Activity();
-
         newActivity.setName(name);
         newActivity.setTrainer(trainer);
         newActivity.setSchedule(schedule);
         newActivity.setCapacity(capacity);
         newActivity.setDescription(description);
 
+        // 2. AQUÍ PONES EL CÓDIGO DE LA IMAGEN
         if (!imageField.isEmpty()) {
-            newActivity.setImage(imageField.getBytes());
+            // Guardamos el archivo físicamente y obtenemos el nombre único
+            String fileName = fileService.saveFile(imageField);
+            // Guardamos ese nombre (String) en la entidad
+            newActivity.setImageFilename(fileName);
         }
 
+        // 3. AQUÍ PONES EL CÓDIGO DEL PDF (También con fileService)
         if (pdfFile != null && !pdfFile.isEmpty()) {
-            String originalFilename = pdfFile.getOriginalFilename();
-            newActivity.setPdfFilename(originalFilename);
-
-            String uploadDir = "src/main/resources/static/docs/";
-            Path uploadPath = Paths.get(uploadDir);
-
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            Path filePath = uploadPath.resolve(originalFilename);
-            Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            String pdfName = fileService.saveFile(pdfFile);
+            newActivity.setPdfFilename(pdfName);
         }
 
+        // 4. Guardamos todo usando el Service y el DTO
         activityService.save(new ActivityDTO(newActivity));
+
         return "redirect:/admin-dashboard";
     }
 
@@ -221,34 +217,34 @@ public class AdminController {
             @RequestParam("imageField") MultipartFile imageField,
             @RequestParam(value = "pdfFile", required = false) MultipartFile pdfFile) throws IOException {
 
+        // 1. Buscamos la actividad existente
         Activity existingActivity = activityService.findById(id).orElse(null);
 
         if (existingActivity != null) {
+            // 2. Actualizamos los campos básicos
             existingActivity.setName(name);
             existingActivity.setTrainer(trainer);
             existingActivity.setSchedule(schedule);
             existingActivity.setCapacity(capacity);
             existingActivity.setDescription(description);
 
+            // 3. Gestión de la IMAGEN (solo si se ha subido una nueva)
             if (!imageField.isEmpty()) {
-                existingActivity.setImage(imageField.getBytes());
+                // Guardamos el archivo físicamente y obtenemos el nombre único
+                String fileName = fileService.saveFile(imageField);
+                // Guardamos el nombre (String) en la entidad
+                existingActivity.setImageFilename(fileName);
             }
 
+            // 4. Gestión del PDF (solo si se ha subido uno nuevo)
             if (pdfFile != null && !pdfFile.isEmpty()) {
-                String originalFilename = pdfFile.getOriginalFilename();
-                existingActivity.setPdfFilename(originalFilename);
-
-                String uploadDir = "src/main/resources/static/docs/";
-                Path uploadPath = Paths.get(uploadDir);
-
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                Path filePath = uploadPath.resolve(originalFilename);
-                Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                // Usamos el servicio de archivos también para el PDF
+                String pdfName = fileService.saveFile(pdfFile);
+                existingActivity.setPdfFilename(pdfName);
             }
 
+            // 5. Guardamos la actividad actualizada
+            // Nota: Tu service parece estar diseñado para recibir el DTO según tu snippet
             activityService.save(new ActivityDTO(existingActivity));
         }
 

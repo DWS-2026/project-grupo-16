@@ -10,14 +10,13 @@ public class ActivityDTO {
     private String trainer;
     private String schedule;
     private int capacity;
-    private int enrolledCount;
+    private int enrolled;
     private String pdfFilename;
-    private String imageUrl;
+    private String imageFilename;
+    private String imageUrl; // URL completa para la API
 
-    // Constructor vacío
     public ActivityDTO() {}
 
-    // Constructor desde Entidad (Punto 21 de la rúbrica)
     public ActivityDTO(Activity activity) {
         this.id = activity.getId();
         this.name = activity.getName();
@@ -25,15 +24,18 @@ public class ActivityDTO {
         this.trainer = activity.getTrainer();
         this.schedule = activity.getSchedule();
         this.capacity = activity.getCapacity();
-        this.enrolledCount = activity.getEnrolled();
+        this.enrolled = activity.getEnrolled();
         this.pdfFilename = activity.getPdfFilename();
-        if (activity.getImage() != null) {
-        this.imageUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/v1/activities/")
-                .path(activity.getId().toString())
-                .path("/image")
-                .toUriString();
+        this.imageFilename = activity.getImageFilename();
+
+        // Si hay nombre de archivo, generamos la URL dinámica
+        if (activity.getImageFilename() != null) {
+            this.imageUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/v1/activities/")
+                    .path(activity.getId().toString())
+                    .path("/image")
+                    .toUriString();
         }
     }
 
@@ -56,11 +58,19 @@ public class ActivityDTO {
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public int getEnrolledCount() { return enrolledCount; }
-    public void setEnrolledCount(int enrolledCount) { this.enrolledCount = enrolledCount; }
+    public int getEnrolled() { return enrolled; }
+    public void setEnrolledt(int enrolledCount) { this.enrolled = enrolledCount; }
 
     public String getPdfFilename() { return pdfFilename; }
     public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
+
+    public String getImageFilename() { 
+        return imageFilename; 
+    }
+
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
+    }
 
     public String getImageUrl() { 
         return imageUrl; 

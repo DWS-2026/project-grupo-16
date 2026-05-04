@@ -8,19 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Activity {
 
-    public Activity() {}
-
-    public Activity(Long id, String name, String description, byte[] image, String trainer, String schedule, int capacity, List<Booking> bookings) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.trainer = trainer;
-        this.schedule = schedule;
-        this.capacity = capacity;
-        this.bookings = bookings;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,15 +17,13 @@ public class Activity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] image;
+    // HEMOS CAMBIADO ESTO: De byte[] a String
+    private String imageFilename; 
+    private String pdfFilename;
 
     private String trainer;
     private String schedule;
     private int capacity;
-
-    private String pdfFilename;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -47,6 +32,21 @@ public class Activity {
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Review> reviews;
+
+    // Constructor vacío (Obligatorio para JPA)
+    public Activity() {}
+
+    // Constructor actualizado (Sin los bytes de imagen)
+    public Activity(Long id, String name, String description, String imageFilename, String pdfFilename, String trainer, String schedule, int capacity) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageFilename = imageFilename;
+        this.pdfFilename = pdfFilename;
+        this.trainer = trainer;
+        this.schedule = schedule;
+        this.capacity = capacity;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -57,8 +57,8 @@ public class Activity {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public byte[] getImage() { return image; }
-    public void setImage(byte[] image) { this.image = image; }
+    public String getImageFilename() { return imageFilename; }
+    public void setImageFilename(String image) { this.imageFilename = image; }
 
     public String getTrainer() { return trainer; }
     public void setTrainer(String trainer) { this.trainer = trainer; }

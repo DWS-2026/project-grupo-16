@@ -55,7 +55,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**") //Abarca /api/v1 y /api/auth
+                .securityMatcher("/api/**") // Abarca /api/v1 y /api/auth
                 .authorizeHttpRequests(auth -> auth
                         // Rutas públicas de la API - Permitimos el login y las consultas públicas
                         .requestMatchers("/api/auth/login").permitAll()
@@ -88,12 +88,13 @@ public class SecurityConfig {
                             response.getWriter().write("{\"error\": \"No tienes permisos de administrador\"}");
                         }))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            
-            // DESACTIVAMOS Basic Auth: Ahora solo queremos que entre por JWT
-            .httpBasic(basic -> basic.disable());
+
+                // DESACTIVAMOS Basic Auth: Ahora solo queremos que entre por JWT
+                .httpBasic(basic -> basic.disable());
 
         // AÑADIMOS EL FILTRO JWT
-        http.addFilterBefore(jwtRequestFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtRequestFilter,
+                org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -104,16 +105,33 @@ public class SecurityConfig {
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
-                        .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
-                        .requestMatchers("/", "/login", "/register", "/prices").permitAll()
+                        // 1. RECURSOS ESTÁTICOS Y SUBIDAS (Lo primero, siempre libre)
+                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**", "/uploads/**", "/favicon.ico")
+                        .permitAll()
+
+                        // 2. PÁGINAS PÚBLICAS
+                        // Añadimos "/error" porque si algo falla, Spring te redirige ahí y el login te
+                        // bloquea el error
+                        .requestMatchers("/", "/index", "/login", "/register", "/prices", "/error").permitAll()
+
+                        // 3. CONSULTAS PÚBLICAS (Ver actividades)
                         .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
+
+                        // 4. RUTAS DE ADMINISTRADOR (Protegidas)
+                        .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
+                        .requestMatchers("/activity/new", "/activity/edit/**", "/activity/delete/**").hasRole("ADMIN")
+
+                        // 5. CUALQUIER OTRA COSA REQUIERE LOGIN
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/", true) // El 'true' obliga a ir a la home tras loguearse
                         .permitAll())
-                .logout(out -> out.logoutSuccessUrl("/").permitAll());
+                .logout(out -> out
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll());
+
         return http.build();
     }
 }

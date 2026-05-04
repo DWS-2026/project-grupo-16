@@ -3,8 +3,11 @@ package es.codeurjc.ferrumgym.service;
 import es.codeurjc.ferrumgym.dto.ActivityDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.repository.ActivityRepository;
+import io.jsonwebtoken.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,9 @@ public class ActivityService {
 
     @Autowired
     private ActivityRepository activityRepository;
+
+    @Autowired
+    private FileService fileService;
 
     public List<Activity> findAll() {
         return activityRepository.findAll();
@@ -75,8 +81,14 @@ public class ActivityService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
     }
 
-    public void saveImage(Activity activity, org.springframework.web.multipart.MultipartFile imageFile) throws java.io.IOException {
-    activity.setImage(imageFile.getBytes());
-    activityRepository.save(activity);
+    public void saveImage(Activity activity, MultipartFile imageFile) throws IOException {
+        // 1. Guardamos el archivo físicamente y obtenemos su nombre único
+        String fileName = fileService.saveFile(imageFile);
+
+        // 2. Guardamos el nombre (String) en la entidad
+        activity.setImageFile(fileName);
+
+        // 3. Actualizamos en la base de datos
+        activityRepository.save(activity);
     }
 }

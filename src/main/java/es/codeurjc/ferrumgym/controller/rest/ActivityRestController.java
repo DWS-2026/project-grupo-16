@@ -3,6 +3,8 @@ package es.codeurjc.ferrumgym.controller.rest;
 import es.codeurjc.ferrumgym.dto.ActivityDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.service.ActivityService;
+import es.codeurjc.ferrumgym.service.FileService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,6 +29,9 @@ public class ActivityRestController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private FileService fileService;
 
     @GetMapping
     public ResponseEntity<Page<ActivityDTO>> getActivities(Pageable page) {
@@ -71,18 +76,25 @@ public class ActivityRestController {
     }
 
     @GetMapping("/{id}/image")
-    public ResponseEntity<byte[]> getActivityImage(@PathVariable Long id) {
-        // Buscamos la entidad (no el DTO) para acceder al campo de la imagen
-        return activityService.findById(id)
-                .filter(activity -> activity.getImage() != null)
-                .map(activity -> ResponseEntity.ok()
-                        .header("Content-Type", "image/jpeg") // O "image/png"
-                        .body(activity.getImage()))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws MalformedURLException {
+        // Buscamos la actividad
+        Activity activity = activityService.findById(id).orElseThrow();
+
+        // CAMBIO: Ahora comprobamos imageFilename (el String)
+        if (activity.getImageFilename() != null) {
+            // Usamos el fileService que creamos para cargar el recurso
+            Resource file = fileService.loadFile(activity.getImageFilename());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // O el tipo que sea
+                    .body(file);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-	// Endpoint to download the file (PDF) from disk (Not from DB)
-	@GetMapping("/{id}/pdf")
+    // Endpoint to download the file (PDF) from disk (Not from DB)
+    @GetMapping("/{id}/pdf")
     public ResponseEntity<Resource> downloadActivityPdf(@PathVariable Long id) {
         Optional<Activity> activityOpt = activityService.findById(id);
 
@@ -98,7 +110,8 @@ public class ActivityRestController {
                 if (resource.exists() && resource.isReadable()) {
                     return ResponseEntity.ok()
                             // Prompt file download with original filename
-                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                            .header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "attachment; filename=\"" + resource.getFilename() + "\"")
                             .contentType(MediaType.APPLICATION_PDF)
                             .body(resource);
                 }
