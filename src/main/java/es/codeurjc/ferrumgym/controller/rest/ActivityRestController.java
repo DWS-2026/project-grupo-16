@@ -5,6 +5,7 @@ import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.FileService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -24,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/activities") // Plural y prefijo obligatorio [cite: 487, 490]
+@RequestMapping("/api/v1/activities")
 public class ActivityRestController {
 
     @Autowired
@@ -49,28 +50,24 @@ public class ActivityRestController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDto) {
+    public ResponseEntity<ActivityDTO> createActivity(@Valid @RequestBody ActivityDTO activityDto) {
         ActivityDTO saved = activityService.save(activityDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(saved.getId()).toUri();
-        return ResponseEntity.created(location).body(saved); // 201 Created + Location
+        return ResponseEntity.created(location).body(saved);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
         activityService.deleteById(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
-
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable long id, @RequestBody ActivityDTO activityDto) {
-        // Forzamos que el DTO tenga el ID de la URL para que el Service sepa que es un
-        // UPDATE
+    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable long id, @Valid @RequestBody ActivityDTO activityDto) {
         activityDto.setId(id);
-
         ActivityDTO updated = activityService.save(activityDto);
         return ResponseEntity.ok(updated);
     }
@@ -84,9 +81,8 @@ public class ActivityRestController {
         if (activity.getImageFilename() != null) {
             // Usamos el fileService que creamos para cargar el recurso
             Resource file = fileService.loadFile(activity.getImageFilename());
-
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // O el tipo que sea
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
                     .body(file);
         } else {
             return ResponseEntity.notFound().build();

@@ -2,6 +2,7 @@ package es.codeurjc.ferrumgym.controller.rest;
 
 import es.codeurjc.ferrumgym.dto.ReviewDTO;
 import es.codeurjc.ferrumgym.service.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,14 +20,13 @@ public class ReviewRestController {
     @Autowired
     private ReviewService reviewService;
 
-	// Paginated endpoint to get all reviews, returning DTOs instead of entities
-	@GetMapping
+    @GetMapping
     public ResponseEntity<Page<ReviewDTO>> getReviews(@PageableDefault(size = 10) Pageable page) {
         return ResponseEntity.ok(reviewService.findAll(page).map(ReviewDTO::new));
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDto) {
+    public ResponseEntity<ReviewDTO> createReview(@Valid @RequestBody ReviewDTO reviewDto) {
         ReviewDTO saved = reviewService.save(reviewDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(saved.getId()).toUri();

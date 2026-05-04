@@ -3,6 +3,7 @@ package es.codeurjc.ferrumgym.controller.rest;
 import es.codeurjc.ferrumgym.dto.UserResponseDTO;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,18 +57,16 @@ public class UserRestController {
         return ResponseEntity.created(location).body(new UserResponseDTO(newUser));
     }
 
-    // NUEVO: Endpoint para editar perfil (Conecta con la lógica IDOR del Service)
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserResponseDTO userDto) {
         UserResponseDTO updated = userService.update(id, userDto);
         return ResponseEntity.ok(updated);
     }
 
-    // 7. Borrado de usuario
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // Solo el admin debería poder borrar usuarios completos
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteById(id); // El service ya lanza 404 si no existe
+        userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -78,7 +77,7 @@ public class UserRestController {
 
         if (user.isPresent() && user.get().getImage() != null) {
             return ResponseEntity.ok()
-                    .header("Content-Type", "image/jpeg") // O el tipo que uses
+                    .header("Content-Type", "image/jpeg")
                     .body(user.get().getImage());
         }
         return ResponseEntity.notFound().build();

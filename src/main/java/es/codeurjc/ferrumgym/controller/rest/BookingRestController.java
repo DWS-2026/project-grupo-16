@@ -2,6 +2,7 @@ package es.codeurjc.ferrumgym.controller.rest;
 
 import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public class BookingRestController {
     private BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDto) {
+    public ResponseEntity<BookingDTO> createBooking(@Valid @RequestBody BookingDTO bookingDto) {
         BookingDTO saved = bookingService.save(bookingDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(saved.getId()).toUri();
