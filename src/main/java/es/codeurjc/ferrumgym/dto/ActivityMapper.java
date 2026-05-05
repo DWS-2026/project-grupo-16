@@ -3,27 +3,29 @@ package es.codeurjc.ferrumgym.dto;
 import es.codeurjc.ferrumgym.model.Activity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy; // Importante
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Collection;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+// Añadimos unmappedTargetPolicy para que no se queje de lo que falte
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ActivityMapper {
 
     // --- De Entidad a DTO (Salida) ---
-    @Mapping(target = "enrolledCount", source = "enrolled") // Mapeo de nombres distintos
+    // Cambiamos ActivityDTO por ActivityResponseDTO si seguiste mi consejo de nombres
+    @Mapping(target = "enrolledCount", source = "enrolled") 
     @Mapping(target = "imageUrl", expression = "java(generateImageUrl(activity))")
     ActivityDTO toDTO(Activity activity);
 
     // --- De DTO a Entidad (Entrada) ---
-    // Hacemos el mapeo inverso: de enrolledCount a enrolled
-    @Mapping(target = "enrolled", source = "enrolledCount")
+    // ¡OJO! Ignoramos 'enrolled' porque es un campo calculado/relación que no tiene Setter
+    @Mapping(target = "enrolled", ignore = true) 
     Activity toEntity(ActivityDTO dto);
 
     List<ActivityDTO> toDTOs(Collection<Activity> activities);
 
-    //Genera la URL absoluta para la imagen de la actividad
     default String generateImageUrl(Activity activity) {
         if (activity.getImage() == null) return null;
         return ServletUriComponentsBuilder.fromCurrentContextPath()
