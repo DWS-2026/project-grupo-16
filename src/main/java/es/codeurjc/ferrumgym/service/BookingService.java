@@ -1,14 +1,12 @@
 package es.codeurjc.ferrumgym.service;
 
-import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.repository.*;
+import es.codeurjc.ferrumgym.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import es.codeurjc.ferrumgym.model.User;
 import org.springframework.stereotype.Service;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
@@ -27,11 +25,14 @@ public class BookingService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ActivityRepository activityRepository;
+    // --- MÉTODOS DE LECTURA ---
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
+    }
+
+    public Page<Booking> findAll(Pageable pageable) {
+        return bookingRepository.findAll(pageable);
     }
 
     public List<Booking> findByActivityId(Long activityId) {
@@ -42,25 +43,20 @@ public class BookingService {
         return bookingRepository.findById(id);
     }
 
-    public BookingDTO save(BookingDTO bookingDto) {
-        // 1. Buscamos las entidades relacionadas (User y Activity)
-        User user = userRepository.findById(bookingDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Activity activity = activityRepository.findById(bookingDto.getActivityId())
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
-
-        // 2. Creamos la entidad Booking
-        Booking booking = new Booking();
-        booking.setUser(user);
-        booking.setActivity(activity);
-
-        // 3. Guardamos y devolvemos el DTO
-        Booking savedBooking = bookingRepository.save(booking);
-        return new BookingDTO(savedBooking);
+    public boolean existsByUserAndActivity(User user, Activity activity) {
+        return bookingRepository.existsByUserAndActivity(user, activity);
     }
 
+    // --- MÉTODOS DE PERSISTENCIA (Solo Entidades) ---
+
+    //Guarda la reserva directamente como entidad
+    public Booking save(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    //Borrado con protección de dueño (IDOR) y rol de ADMIN
     public void deleteById(Long id) {
-        // 1. Buscamos la reserva o lanzamos 404 en JSON
+        // 1. Buscamos la reserva o lanzamos 404
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
 
@@ -69,26 +65,11 @@ public class BookingService {
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // 3. CONTROL DE DUEÑO
-        // Solo borra si el usuario es el dueño O si tiene rol de ADMIN
+        // 3. CONTROL DE DUEÑO: Solo borra si es el dueño O si es ADMIN
         if (booking.getUser().equals(currentUser) || currentUser.getRoles().contains("ADMIN")) {
             bookingRepository.deleteById(id);
         } else {
-            // Si no es el dueño, devolvemos 403 Forbidden en JSON
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para borrar esta reserva");
         }
     }
-
-    public boolean existsByUserAndActivity(User user, Activity activity) {
-        return bookingRepository.existsByUserAndActivity(user, activity);
-    }
-
-    public Optional<BookingDTO> findByIdDTO(Long id) {
-        return bookingRepository.findById(id).map(BookingDTO::new);
-    }
-
-	// Method to get all bookings with pagination, returning Page<Booking> instead of List<Booking>
-	public Page<Booking> findAll(Pageable pageable) {
-    return bookingRepository.findAll(pageable);
-}
 }

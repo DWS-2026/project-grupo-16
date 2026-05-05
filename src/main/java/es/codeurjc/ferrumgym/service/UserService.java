@@ -1,6 +1,5 @@
 package es.codeurjc.ferrumgym.service;
 
-import es.codeurjc.ferrumgym.dto.UserResponseDTO;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -25,10 +23,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // --- MÉTODOS PARA LA WEB (Usan Entidades) ---
+    // --- MÉTODOS DE BÚSQUEDA (Usan Entidades) ---
     
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public Optional<User> findById(Long id) {
@@ -39,39 +41,39 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    // --- MÉTODOS DE PERSISTENCIA Y LÓGICA ---
+
+    //Guarda el usuario y cifra la contraseña si es necesario
     public void save(User user) {
-    // Solo ciframos si la contraseña no está ya cifrada (los hashes de BCrypt empiezan por $2a$)
-    if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
-        String passwordCifrada = passwordEncoder.encode(user.getPassword());
-        user.setPassword(passwordCifrada);
-    }
-    userRepository.save(user);
-}
-
-    // --- MÉTODOS PARA LA API (Usan DTOs) ---
-
-    public List<UserResponseDTO> findAllDTOs() {
-        return userRepository.findAll().stream()
-                .map(UserResponseDTO::new)
-                .collect(Collectors.toList());
+        if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
+            String passwordCifrada = passwordEncoder.encode(user.getPassword());
+            user.setPassword(passwordCifrada);
+        }
+        userRepository.save(user);
     }
 
-    public UserResponseDTO update(Long id, UserResponseDTO userDto) {
-        // 1. Buscamos al usuario que se quiere editar
+    //Actualiza los datos del usuario con control de permisos (Dueño o Admin)
+    //Recibe y devuelve la entidad pura
+    public User update(Long id, User updatedUserData) {
+        // 1. Buscamos al usuario original
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
-        // 2. CONTROL DE DUEÑO (Punto 11): ¿Quién está logueado?
+        // 2. Control de seguridad (Punto 11 de la rúbrica)[cite: 10]
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // Solo puede editar si es su propio perfil O es ADMIN
         if (user.getEmail().equals(currentEmail) || currentUser.getRoles().contains("ADMIN")) {
-            user.setName(userDto.getName());
-            // No actualizamos email ni password aquí para evitar problemas de seguridad críticos
-            User saved = userRepository.save(user);
-            return new UserResponseDTO(saved);
+            // Actualizamos solo los campos permitidos
+            user.setName(updatedUserData.getName());
+            
+            // Si el admin cambia roles o imagen, se gestionaría aquí
+            if (updatedUserData.getRoles() != null) {
+                user.setRoles(updatedUserData.getRoles());
+            }
+
+            return userRepository.save(user);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para editar este perfil");
         }
@@ -82,9 +84,5 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         userRepository.deleteById(id);
-    }
-
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
     }
 }

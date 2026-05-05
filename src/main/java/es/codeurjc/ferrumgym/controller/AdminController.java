@@ -1,7 +1,5 @@
 package es.codeurjc.ferrumgym.controller;
 
-import es.codeurjc.ferrumgym.dto.ActivityDTO;
-import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.SiteSettings;
@@ -186,7 +184,7 @@ public class AdminController {
             Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        activityService.save(new ActivityDTO(newActivity));
+        activityService.save(newActivity);
         return "redirect:/admin-dashboard";
     }
 
@@ -248,8 +246,7 @@ public class AdminController {
                 Path filePath = uploadPath.resolve(originalFilename);
                 Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             }
-
-            activityService.save(new ActivityDTO(existingActivity));
+            activityService.save(existingActivity);
         }
 
         return "redirect:/admin-dashboard";
@@ -326,8 +323,7 @@ public class AdminController {
                 booking.setAttended(false);
             }
 
-            // Cambiado a bookingService
-            bookingService.save(new BookingDTO(booking));
+            bookingService.save(booking);
         }
 
         return "redirect:/admin-class?activityId=" + activityId;

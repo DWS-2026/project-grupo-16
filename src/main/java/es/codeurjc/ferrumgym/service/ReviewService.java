@@ -1,7 +1,5 @@
 package es.codeurjc.ferrumgym.service;
 
-import es.codeurjc.ferrumgym.dto.ReviewDTO;
-import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.repository.*;
 
@@ -27,9 +25,6 @@ public class ReviewService {
     private UserRepository userRepository;
 
     @Autowired
-    private ActivityRepository activityRepository;
-
-    @Autowired
     private ReviewRepository reviewRepository;
 
     public List<Review> findAll() {
@@ -40,23 +35,8 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public ReviewDTO save(ReviewDTO reviewDto) {
-        User user = userRepository.findById(reviewDto.getUserId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-
-        Activity activity = activityRepository.findById(reviewDto.getActivityId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actividad no encontrada"));
-
-        Review review = new Review();
-        review.setComment(reviewDto.getComment());
-        review.setRating(reviewDto.getRating());
-        review.setUser(user);
-        review.setActivity(activity);
-
-        // Si la reseña tiene imagen, aquí deberías gestionar los bytes si los incluyes en el DTO
-
-        Review savedReview = reviewRepository.save(review);
-        return new ReviewDTO(savedReview);
+    public Review save(Review review) {
+        return reviewRepository.save(review);
     }
 
     public void saveImage(Review review, MultipartFile imageFile) throws IOException {

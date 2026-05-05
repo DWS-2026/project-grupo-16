@@ -1,6 +1,5 @@
 package es.codeurjc.ferrumgym.controller;
 
-import es.codeurjc.ferrumgym.dto.BookingDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Booking;
 import es.codeurjc.ferrumgym.model.User;
@@ -128,7 +127,7 @@ public class MainController {
                 newBooking.setUser(currentUser);
                 newBooking.setActivity(activity);
 
-                bookingService.save(new BookingDTO(newBooking));
+                bookingService.save(newBooking);
 
                 // Redirect to the same page + id
                 return "redirect:/activity/" + id;

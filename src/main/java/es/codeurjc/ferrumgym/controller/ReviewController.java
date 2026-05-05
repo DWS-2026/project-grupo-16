@@ -1,6 +1,5 @@
 package es.codeurjc.ferrumgym.controller;
 
-import es.codeurjc.ferrumgym.dto.ReviewDTO;
 import es.codeurjc.ferrumgym.model.Activity;
 import es.codeurjc.ferrumgym.model.Review;
 import es.codeurjc.ferrumgym.model.User;
@@ -59,7 +58,7 @@ public class ReviewController {
                 review.setHasImage(true);
             }
 
-            reviewService.save(new ReviewDTO(review));
+            reviewService.save(review);
         }
 
         // Redirige de vuelta a la página de detalles

@@ -1,8 +1,14 @@
 package es.codeurjc.ferrumgym.controller.rest;
 
+import es.codeurjc.ferrumgym.dto.UserMapper;
 import es.codeurjc.ferrumgym.dto.UserResponseDTO;
 import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -22,65 +28,84 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    // 3. Listado paginado (Usa tu UserResponseDTO)
+    @Autowired
+    private UserMapper userMapper;
+
+    @Operation(summary = "Get a list of all users paginated")
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUsers(@PageableDefault(size = 10) Pageable pageable) {
         Page<User> users = userService.findAll(pageable);
-        return ResponseEntity.ok(users.map(UserResponseDTO::new));
+        // El servicio devuelve entidades, el controlador mapea a DTO
+        return ResponseEntity.ok(users.map(userMapper::toDTO));
     }
 
-    // 4. Detalle de usuario
+    @Operation(summary = "Get a user by its id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Found the user",
+            content = { @Content(mediaType = "application/json",
+            schema = @Schema(implementation = UserResponseDTO.class)) }),
+        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         return userService.findById(id)
-                .map(user -> ResponseEntity.ok(new UserResponseDTO(user)))
+                .map(user -> ResponseEntity.ok(userMapper.toDTO(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Create a new user")
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody java.util.Map<String, String> request) {
-    
-        // Extraemos los datos del mapa (el JSON que llega de Postman)
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody Map<String, String> request) {
         String name = request.get("name");
         String email = request.get("email");
         String password = request.get("password");
 
         User newUser = new User(name, email, password, java.util.List.of("ROLE_USER"));
-        userService.save(newUser); 
+        userService.save(newUser);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(newUser.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(new UserResponseDTO(newUser));
+        
+        return ResponseEntity.created(location).body(userMapper.toDTO(newUser));
     }
 
-    // NUEVO: Endpoint para editar perfil (Conecta con la lógica IDOR del Service)
+    @Operation(summary = "Update an existing user profile")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User updated successfully"),
+        @ApiResponse(responseCode = "403", description = "Forbidden: Not the owner or admin"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
-        UserResponseDTO updated = userService.update(id, userDto);
-        return ResponseEntity.ok(updated);
+        // 1. Usamos el mapper para convertir el Record de entrada a Entidad
+        User userDetails = userMapper.toEntity(userDto);
+        
+        // 2. El servicio ahora recibe y devuelve una Entidad pura
+        User updatedUser = userService.update(id, userDetails);
+        
+        // 3. Mapeamos la entidad resultante de vuelta al Record de respuesta
+        return ResponseEntity.ok(userMapper.toDTO(updatedUser));
     }
 
-    // 7. Borrado de usuario
+    @Operation(summary = "Delete a user by id")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // Solo el admin debería poder borrar usuarios completos
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteById(id); // El service ya lanza 404 si no existe
+        userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // 9. Imágenes de usuario
+    @Operation(summary = "Get the user's profile image")
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-
-        if (user.isPresent() && user.get().getImage() != null) {
-            return ResponseEntity.ok()
-                    .header("Content-Type", "image/jpeg") // O el tipo que uses
-                    .body(user.get().getImage());
-        }
-        return ResponseEntity.notFound().build();
+        return userService.findById(id)
+                .filter(user -> user.getImage() != null)
+                .map(user -> ResponseEntity.ok()
+                        .header("Content-Type", "image/jpeg")
+                        .body(user.getImage()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
