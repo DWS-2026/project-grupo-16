@@ -10823,4 +10823,29 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
+  .activity-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* --- Estilos necesarios para cumplir con la CSP --- */
+.activity-detail-img {
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.progress-thick {
+    height: 25px;
+}
+
+.review-detail-img {
+    max-height: 200px;
+}
+
+.input-rating {
+    max-width: 120px;
+}
 }

@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="/">Ferrum Gym</a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,23 +9,23 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" href="/">Activities</a></li>
                 <li class="nav-item"><a class="nav-link" href="/prices">Tariffs</a></li>
-                
+
                 {{#logged}}
                 <li class="nav-item"><a class="nav-link" href="/user-profile">My Profile</a></li>
                 {{/logged}}
-                
+
                 {{#admin}}
-                <li class="nav-item"><a class="nav-link fw-bold" href="/admin-dashboard" style="color: red;">Admin</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold text-danger" href="/admin-dashboard">Admin</a></li>
                 {{/admin}}
             </ul>
-            
+
             <div class="d-flex">
                 {{^logged}}
                     <a href="/login" class="btn btn-outline-dark">
-                        <i class="bi-person-fill me-1"></i> Login/Register
+                        <i class="bi bi-person-fill me-1"></i> Login/Register
                     </a>
                 {{/logged}}
-                
+
                 {{#logged}}
                     <form action="/logout" method="POST" class="m-0">
                         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />

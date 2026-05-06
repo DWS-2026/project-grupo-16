@@ -88,7 +88,7 @@ public class SecurityConfig {
                             response.getWriter().write("{\"error\": \"No tienes permisos de administrador\"}");
                         }))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            
+
             // DESACTIVAMOS Basic Auth: Ahora solo queremos que entre por JWT
             .httpBasic(basic -> basic.disable());
 
@@ -99,12 +99,28 @@ public class SecurityConfig {
     }
 
     // --- CADENA 2: WEB (Mustache) ---
+// --- CADENA 2: WEB (Mustache/Thymeleaf) ---
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
+                // SECURITY FIX: Add Content Security Policy (CSP) header
+                // SECURITY FIX: Add Strict Content Security Policy (CSP) header
+                // SECURITY FIX: Add Strict Content Security Policy (CSP) header
+                .headers(headers -> headers
+                    .contentSecurityPolicy(csp -> csp
+                        .policyDirectives("default-src 'self'; " +
+                                          "script-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
+                                          "style-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
+                                          "img-src 'self' data: blob:; " +
+                                          "font-src 'self' https://cdn.jsdelivr.net data:; " +
+                                          "frame-ancestors 'self'; " +
+                                          "form-action 'self';")
+                    )
+                )
+                // --- End of CSP header ---
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/assets/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
                         .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
                         .requestMatchers("/", "/login", "/register", "/prices").permitAll()
                         .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()

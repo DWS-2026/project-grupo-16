@@ -67,7 +67,7 @@ public class MainController {
 
             return "activity-detail";
         } else {
-            return "404";
+            return "error/404";
         }
     }
 

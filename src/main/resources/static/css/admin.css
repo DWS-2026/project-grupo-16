@@ -165,3 +165,20 @@
 .btn-home:hover {
 	background-color: #0056b3;
 }
+
+/* --- CSP Blocked Classes --- */
+.admin-user-avatar {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
+
+.admin-review-image {
+    max-height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.progress-thin {
+    height: 5px;
+}
