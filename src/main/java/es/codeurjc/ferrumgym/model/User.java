@@ -1,5 +1,9 @@
 package es.codeurjc.ferrumgym.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,8 +36,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Name cannot be empty")
     private String name;
+
+    @Email(message = "Email must be valid")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
+
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String encodedPassword;
 
     @ElementCollection(fetch = FetchType.EAGER)

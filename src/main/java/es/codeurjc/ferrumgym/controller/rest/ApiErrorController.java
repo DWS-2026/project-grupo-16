@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatusCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,5 +46,26 @@ class ApiExceptionHandler {
         errorJson.put("path", request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorJson);
+    }
+
+    // Handles manual validation and security exceptions (ResponseStatusException).
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> handleResponseStatusException(ResponseStatusException ex,
+            HttpServletRequest request) {
+        Map<String, Object> errorJson = new HashMap<>();
+        // We obtain the numeric code (e.g., 400)
+        HttpStatusCode status = ex.getStatusCode();
+        errorJson.put("status", status.value());
+        // We try to get the error name (e.g., "Bad Request")
+        String errorName = "Error";
+        if (status instanceof HttpStatus httpStatus) {
+            errorName = httpStatus.getReasonPhrase();
+        }
+        errorJson.put("error", errorName);
+        // Your personalized message ("Name is required", etc.)
+        errorJson.put("message", ex.getReason());
+        errorJson.put("path", request.getRequestURI());
+
+        return ResponseEntity.status(status).body(errorJson);
     }
 }
