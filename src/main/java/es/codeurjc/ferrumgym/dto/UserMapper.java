@@ -18,7 +18,7 @@ public interface UserMapper {
 
     // Lógica para generar la URL de la imagen
     default String generateImageUrl(User user) {
-        if (user.getImage() == null) return null;
+        if (user == null || user.getId() == null || user.getImage() == null) { return null;}
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/v1/users/")
                 .path(user.getId().toString())
