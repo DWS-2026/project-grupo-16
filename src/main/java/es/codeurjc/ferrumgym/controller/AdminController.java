@@ -173,7 +173,7 @@ public class AdminController {
             String originalFilename = pdfFile.getOriginalFilename();
             newActivity.setPdfFilename(originalFilename);
 
-            String uploadDir = "src/main/resources/static/docs/";
+            String uploadDir = "uploads/docs/";
             Path uploadPath = Paths.get(uploadDir);
 
             if (!Files.exists(uploadPath)) {
@@ -236,7 +236,7 @@ public class AdminController {
                 String originalFilename = pdfFile.getOriginalFilename();
                 existingActivity.setPdfFilename(originalFilename);
 
-                String uploadDir = "src/main/resources/static/docs/";
+                String uploadDir = "uploads/docs/";
                 Path uploadPath = Paths.get(uploadDir);
 
                 if (!Files.exists(uploadPath)) {

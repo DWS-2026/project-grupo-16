@@ -104,7 +104,7 @@ public class SecurityConfig {
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
                         .requestMatchers("/", "/login", "/register", "/prices").permitAll()
                         .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()

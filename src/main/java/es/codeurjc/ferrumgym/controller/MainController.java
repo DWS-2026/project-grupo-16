@@ -60,7 +60,7 @@ public class MainController {
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
 
-            // ¡NUEVO! Si viene con el error de duplicado por la URL, preparamos el mensaje
+            // Si viene con el error de duplicado por la URL, preparamos el mensaje
             if ("already_booked".equals(error)) {
                 model.addAttribute("errorMessage", "You are already enrolled in this class!");
             }
@@ -94,7 +94,7 @@ public class MainController {
     }
 
     // 2. Ruta donde están guardados (la misma que usamos para guardar)
-    Path filePath = Paths.get("src/main/resources/static/docs/").resolve(fileName);
+    Path filePath = Paths.get("uploads/docs/").resolve(fileName);
     org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
 
     // 3. Devolvemos el archivo para que el navegador lo abra
@@ -287,19 +287,39 @@ public class MainController {
     @PostMapping("/forgot-password")
     public String processRecovery(@RequestParam String email, Model model) {
 
-    // 1. Buscamos en la base de datos
-    boolean userExists = userService.findByEmail(email).isPresent();
+        // 1. Buscamos en la base de datos
+        boolean userExists = userService.findByEmail(email).isPresent();
 
         if (userExists) {
             // Simulamos éxito para el vídeo de la defensa
             model.addAttribute("success", true);
             model.addAttribute("message", "A password reset link has been sent to " + email);
         } else {
-            // Mensaje de error apropiado (Punto 6)
+            // Mensaje de error apropiado
             model.addAttribute("error", true);
             model.addAttribute("message", "We couldn't find an account with that email address.");
         }
 
-    return "forgot-password";
-}
+        return "forgot-password";
+    }
+
+    @GetMapping("/download/pdf/{fileName}")
+    public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable String fileName) {
+        try {
+            Path path = Paths.get("uploads/docs/").resolve(fileName);
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(path.toUri());
+
+            if (resource.exists()) {
+                return ResponseEntity.ok()
+                        .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
+                        .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+                                "inline; filename=\"" + fileName + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

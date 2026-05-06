@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/activities")
@@ -62,5 +64,32 @@ public class ActivityRestController {
                         .header("Content-Type", "image/jpeg")
                         .body(activity.getImage()))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Download the information PDF of an activity")
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<org.springframework.core.io.Resource> getActivityPdf(@PathVariable Long id)
+            throws java.net.MalformedURLException {
+        Activity activity = activityService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
+
+        String fileName = activity.getPdfFilename();
+        if (fileName == null || fileName.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Path where files are stored on disk
+        java.nio.file.Path filePath = java.nio.file.Paths.get("uploads/docs/").resolve(fileName);
+        org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
+
+        if (!pdf.exists() || !pdf.isReadable()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The PDF file does not exist on the server disk");
+        }
+
+        return ResponseEntity.ok()
+                .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
+                .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileName + "\"")
+                .body(pdf);
     }
 }

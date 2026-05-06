@@ -76,8 +76,8 @@
                             {{/activity.isFull}}
 
                             {{#activity.pdfFilename}}
-                            <a href="/activity/{{activity.id}}/pdf" target="_blank" class="btn btn-info flex-shrink-0">
-                                <i class="bi-file-earmark-pdf-fill me-1"></i> Download Info
+                            <a href="/download/pdf/{{activity.pdfFilename}}" class="btn btn-outline-primary" target="_blank">
+                                <i class="bi bi-file-earmark-pdf"></i> Download Info PDF
                             </a>
                             {{/activity.pdfFilename}}
                         </div>

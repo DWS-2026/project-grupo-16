@@ -78,7 +78,7 @@ public class Activity {
     public List<Review> getReviews() { return reviews; }
     public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
-    public String getPdfFilename() { return pdfFilename; }
+    public String getPdfFilename() { return pdfFilename;}
     public void setPdfFilename(String pdfFilename) { this.pdfFilename = pdfFilename; }
 
     public String getStatusColor() {
