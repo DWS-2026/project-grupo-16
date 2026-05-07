@@ -10,16 +10,16 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BookingMapper {
 
-    // --- De Entidad a DTO (Salida) ---
-    // Extraemos campos específicos de las entidades relacionadas para evitar ciclos
+    // --- From Entity to DTO (Output) ---
+    // Extracts specific fields from related entities to prevent infinite recursion cycles
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "userName", source = "user.name")
     @Mapping(target = "activityId", source = "activity.id")
     @Mapping(target = "activityName", source = "activity.name")
     BookingDTO toDTO(Booking booking);
 
-    // --- De DTO a Entidad (Entrada) ---
-    // Este método permite convertir el DTO que viene de la API de vuelta a la Entidad
+    // --- From DTO to Entity (Input) ---
+    // This method allows converting the DTO received from the API back into a persistence Entity
     Booking toEntity(BookingDTO dto);
 
     List<BookingDTO> toDTOs(Collection<Booking> bookings);

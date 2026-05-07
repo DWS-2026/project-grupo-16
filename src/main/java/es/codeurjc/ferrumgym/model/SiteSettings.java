@@ -2,7 +2,7 @@ package es.codeurjc.ferrumgym.model;
 
 public class SiteSettings {
 
-// Valores por defecto (se cargarán automáticamente al arrancar la app)
+// Default values ​​(will be loaded automatically when the app starts)
     private String gymName = "Ferrum Gym";
     private String contactEmail = "info@ferrumgym.com";
     private String contactPhone = "+34 912 345 678";

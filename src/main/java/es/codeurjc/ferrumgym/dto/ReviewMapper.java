@@ -11,19 +11,19 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-    // --- De Entidad a DTO (Salida) ---
+    // --- From Entity to DTO (Output) ---
     @Mapping(target = "userName", source = "user.name")
     @Mapping(target = "activityName", source = "activity.name")
     @Mapping(target = "imageUrl", expression = "java(generateImageUrl(review))")
     ReviewDTO toDTO(Review review);
 
-    // --- De DTO a Entidad (Entrada) ---
-    // MapStruct generará el código para convertir el DTO de vuelta a la Entidad
+    // --- From DTO to Entity (Input) ---
+    // MapStruct will automatically generate the code to convert the DTO back to the Entity
     Review toEntity(ReviewDTO dto);
 
     List<ReviewDTO> toDTOs(Collection<Review> reviews);
 
-    //Genera la URL para acceder a la imagen de la reseña
+    // Generates the HTTP URL to access the image associated with the review
     default String generateImageUrl(Review review) {
         if (review.getImageFile() == null) return null; 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
