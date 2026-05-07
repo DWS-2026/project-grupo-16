@@ -12,13 +12,13 @@ public class CSRFHandlerInterceptor {
 
     @ModelAttribute
     public void addGlobalAttributes(Model model, HttpServletRequest request) {
-        // 1. El token CSRF (Lo que ya tenías)
+        // 1. The CSRF token (Existing functionality to protect web forms)
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         if (csrfToken != null) {
             model.addAttribute("_csrf", csrfToken);
         }
 
-        // 2. Variables mágicas para saber si estamos logueados y nuestro rol
+        // 2. Magic variables to check if the user is logged in and their role (Used in Thymeleaf templates)
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
             model.addAttribute("logged", true);

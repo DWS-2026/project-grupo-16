@@ -23,7 +23,7 @@ public class AuthRestController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
         
-        // 1. Intentamos autenticar al usuario con sus credenciales
+        // 1. Attempt to authenticate the user with their provided credentials
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.username(), 
@@ -31,10 +31,10 @@ public class AuthRestController {
                 )
         );
 
-        // 2. Si llegamos aquí es que las credenciales son válidas. Generamos el token
+        // 2. If execution reaches here, credentials are valid. Generate the JWT token
         String token = jwtTokenProvider.generateToken(authentication);
 
-        // 3. Devolvemos el token en un formato JSON estándar
+        // 3. Return the token in a standard JSON format
         Map<String, String> response = new HashMap<>();
         response.put("accessToken", token);
         response.put("tokenType", "Bearer");
@@ -43,4 +43,5 @@ public class AuthRestController {
     }
 }
 
+// DTO for capturing login credentials
 record LoginRequest(String username, String password) {}

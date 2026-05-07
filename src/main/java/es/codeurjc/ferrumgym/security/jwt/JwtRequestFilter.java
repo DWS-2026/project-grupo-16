@@ -28,39 +28,39 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // 1. Buscamos el token en la cabecera "Authorization"
+        // 1. Look for the token in the "Authorization" header
         final String header = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
 
-        // El token debe empezar por "Bearer "
+        // The token must start with "Bearer " prefix
         if (header != null && header.startsWith("Bearer ")) {
             jwt = header.substring(7);
             try {
                 username = jwtTokenProvider.getUsernameFromToken(jwt);
             } catch (Exception e) {
-                logger.error("No se pudo extraer el usuario del token: " + e.getMessage());
+                logger.error("Could not extract user from token: " + e.getMessage());
             }
         }
 
-        // 2. Si tenemos usuario y no está ya autenticado en esta petición
+        // 2. If we have a user and they are not already authenticated in this request
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // 3. Si el token es válido, lo metemos en el contexto de seguridad
+            // 3. If the token is valid, put it in the security context
             if (jwtTokenProvider.validateToken(jwt)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 
-                // Aquí es donde el portero le da las llaves al usuario para esta petición
+                // This is where the user is granted access for this specific request
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
-        // 4. Continuar con la petición
+        // 4. Continue with the filter chain execution
         filterChain.doFilter(request, response);
     }
 }

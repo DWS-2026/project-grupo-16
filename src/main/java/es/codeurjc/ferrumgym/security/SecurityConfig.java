@@ -28,17 +28,19 @@ public class SecurityConfig {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    // Defines the password encoding algorithm (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Exposes the AuthenticationManager as a Bean for the AuthRestController
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
-    // --- CADENA 0: EXCLUSIVA PARA SWAGGER (Máxima prioridad) ---
+    // --- CHAIN 0: EXCLUSIVE FOR SWAGGER (Highest priority) ---
     @Bean
     @Order(0)
     public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
@@ -50,22 +52,22 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // --- CADENA 1: API REST ---
+    // --- CHAIN 1: REST API ---
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**") //Abarca /api/v1 y /api/auth
+                .securityMatcher("/api/**") // Covers /api/v1 and /api/auth endpoints
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas de la API - Permitimos el login y las consultas públicas
+                        // Public API routes - Allow login and public queries
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/activities/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                        // LOS NUEVOS MATCHERS PARA IMÁGENES
+                        // NEW MATCHERS FOR IMAGES - Allow public access to images
                         .requestMatchers(HttpMethod.GET, "/api/v1/activities/*/image").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/reviews/*/image").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/*/image").permitAll()
-                        // Rutas protegidas (ADMIN)
+                        // Protected routes (ADMIN only)
                         .requestMatchers(HttpMethod.POST, "/api/v1/activities/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/activities/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/activities/**").hasRole("ADMIN")
@@ -73,15 +75,15 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
-                // CONFIGURACIÓN ANTI-HTML PARA LA API
+                // ANTI-HTML CONFIGURATION FOR THE API - Returns JSON errors instead of HTML pages
                 .exceptionHandling(ex -> ex
-                        // Si NO está logueado -> 401
+                        // If NOT logged in -> Return 401 Unauthorized
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json");
                             response.getWriter().write("{\"error\": \"You are not authenticated\"}");
                         })
-                        // Si está logueado pero no es ADMIN -> 403
+                        // If logged in but NOT ADMIN -> Return 403 Forbidden
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json");
@@ -89,27 +91,26 @@ public class SecurityConfig {
                         }))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // DESACTIVAMOS Basic Auth: Ahora solo queremos que entre por JWT
+            // DISABLE Basic Auth: Now we only want JWT authentication for the API
             .httpBasic(basic -> basic.disable());
 
-        // AÑADIMOS EL FILTRO JWT
+        // ADD JWT FILTER - Intercepts requests to validate the token before proceeding
         http.addFilterBefore(jwtRequestFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    // --- CHAIN 2: WEB INTERFACE ---
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
-                // SECURITY FIX: Add Content Security Policy (CSP) header
-                // SECURITY FIX: Add Strict Content Security Policy (CSP) header
                 // SECURITY FIX: Add Strict Content Security Policy (CSP) header
 				.headers(headers -> headers
 									.contentSecurityPolicy(csp -> csp
 										.policyDirectives("default-src 'self'; " +
 														"script-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
-														// Añadido 'unsafe-inline' solo a los estilos para que Quill pueda dibujarse
+														// Added 'unsafe-inline' only to styles so Quill editor can be rendered properly
 														"style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
 														"img-src 'self' data: blob:; " +
 														"font-src 'self' https://cdn.jsdelivr.net data:; " +

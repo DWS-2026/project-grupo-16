@@ -86,11 +86,11 @@ public class ActivityRestController {
     public ResponseEntity<Void> updateActivityPdf(@PathVariable Long id, @RequestParam MultipartFile pdfFile)
             throws IOException {
 
-        // 1. Buscamos la actividad
+        // 1. We search the activity
         Activity activity = activityService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. Validación básica
+        // 2. Basic validation
         if (pdfFile.isEmpty() || !pdfFile.getContentType().equals("application/pdf")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File must be a valid PDF");
         }
