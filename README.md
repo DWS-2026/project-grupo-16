@@ -396,19 +396,19 @@ Incorporación de un acceso directo en la vista de cada actividad para redirigir
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](images/Diagrama_DrawIO.png)
 
 #### **Credenciales de Usuarios de Ejemplo**
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
-| Administrador | admin | admin123 |
-| Usuario Registrado | user1 | user123 |
-| Usuario Registrado | user2 | user123 |
+| Administrador | admin@ferrumgym.com | adminpass |
+| Usuario Registrado | j.perez@alumnos.urjc.es | pass1 |
+| Usuario Registrado | m.gomez@alumnos.urjc.es | pass2 |
 
 ### **Participación de Miembros en la Práctica 3**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Roberto Acebes Moran**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -422,7 +422,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - Elena González Rodríguez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -436,7 +436,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - Luis Estirado Revuelta**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -450,7 +450,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - Jaime Salgado Carballeda**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
