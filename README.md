@@ -29,7 +29,7 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 - Usuario - Reseña: Un usuario puede escribir varias reseñas (1:N)
 - Actividad - Reserva: Una actividad puede ser reservada por multiples usuarios (1:N)
 - Actividad - Reseña: Una actividad puede recibir muchas reseñas por parte de un usuario (1:N)
-  
+
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
@@ -438,15 +438,15 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 #### **Alumno 3 - Luis Estirado Revuelta**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Desarrollo del controlador REST de usuarios, implementación de paginación en los endpoints y configuración de un gestor global de errores JSON. Integración del editor de texto enriquecido Quill.js en el frontend para las descripciones. A nivel de ciberseguridad, realización de pruebas de pentesting y auditoría mediante las herramientas OWASP ZAP y Burp Suite, corrigiendo las vulnerabilidades críticas mostradas en las mismas: prevención de ataques IDOR en la eliminación de reservas de otros usuarios, corrección de Broken Access Control en las rutas de administración, y blindaje del servidor contra la subida de ficheros maliciosos (Unrestricted File Upload) y Path Traversal.
 
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+| Nº | Commits | Files |
+|:---:|:---|:---|
+| **1** | [Implement UserRestController and add pagination to UserService](https://github.com/DWS-2026/project-grupo-16/commit/366018ad607bce9bfb7b0efe918d0c7958f4c514)<br><br>[Add pagination to Booking and Review REST controllers](https://github.com/DWS-2026/project-grupo-16/commit/2f0c6c68e68f0be28440754d9f9d410c36ba77b5)<br><br>[Implement global JSON error handling for REST endpoints](https://github.com/DWS-2026/project-grupo-16/commit/eb32bd01d1bb53f6bea1eb622d816be6e46a0a86) | [UserRestController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.java)<br>[BookingRestController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/rest/BookingRestController.java)<br>[ReviewRestController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/rest/ReviewRestController.java)<br>[ApiErrorController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/rest/ApiErrorController.java) <br>[ActivityService.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/service/ActivityService.java) ||
+| **2** | [Implement rich text editor and fix rendering/form bugs (Quill.js)](https://github.com/DWS-2026/project-grupo-16/commit/65483dd8ea011ffda4215243b60bf0e7e94db0af) | [activity-form.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/activity-form.html)<br>[activity-edit.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/activity-edit.html)<br>[activity-detail.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/activity-detail.html) |
+| **3** | [Fix Broken Access Control - Protect Admin Routes](https://github.com/DWS-2026/project-grupo-16/commit/a27ebd7f3fa96a38a9cf0a4c383e01dd2104530e)<br><br>[Correct request matcher order to prevent unauthorized access](https://github.com/DWS-2026/project-grupo-16/commit/fe022335b7ca4ddf6e7e80f9f77f3d7a1145f3ac) | [SecurityConfig.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java)<br>[AdminController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java) |
+| **4** | [Fix IDOR protection in Bookings management](https://github.com/DWS-2026/project-grupo-16/commit/66b31853e7db6ebfd7235c0484223c6c89f91e90) | [MainController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/MainController.java)<br>[BookingService.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/service/BookingService.java) |
+| **5** | [Security Fix: Prevent Unrestricted File Upload and Path Traversal](https://github.com/DWS-2026/project-grupo-16/commit/300eb16d60c3d1501fe3523ab02ca076247e708a)<br><br>[Security: Fix OWASP ZAP vulnerabilities and implement strict CSP](https://github.com/DWS-2026/project-grupo-16/commit/a71012788952ba6c0fc561bd671daad7628c8eae) | [AdminController.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java)<br>[SecurityConfig.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java)<br>[scripts.js](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/static/js/scripts.js)<br>[header.html](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/resources/templates/fragments/header.html) // all html files and CSS files |
 
 ---
 
