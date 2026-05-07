@@ -300,7 +300,7 @@ public class AdminController {
             @RequestParam String role,
             @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
 
-        // Cambiado a userService
+        
         User existingUser = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
@@ -313,7 +313,6 @@ public class AdminController {
             existingUser.setImage(imageField.getBytes());
         }
 
-        // Cambiado a userService
         userService.save(existingUser);
 
         return "redirect:/admin-users";
@@ -333,7 +332,6 @@ public class AdminController {
             @RequestParam Long activityId,
             @RequestParam(required = false) List<Long> attendedBookingIds) {
 
-        // Cambiado a bookingService
         List<Booking> bookings = bookingService.findByActivityId(activityId);
 
         for (Booking booking : bookings) {

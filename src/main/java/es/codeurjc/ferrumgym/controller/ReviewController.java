@@ -43,16 +43,16 @@ public class ReviewController {
             review.setRating(rating);
             review.setActivity(activity.get());
 
-            // 1. Sacamos el email del usuario de la sesión actual
+            
             String email = principal.getName();
 
-            // 2. Buscamos a ESE usuario en la base de datos
+            
             User currentUser = userService.findByEmail(email).orElseThrow();
 
-            // 3. Le asignamos la reseña al autor real
+            
             review.setUser(currentUser);
 
-            // Si el usuario ha subido una foto, la guardamos
+            
             if (!imageFile.isEmpty()) {
                 review.setImageFile(imageFile.getBytes());
                 review.setHasImage(true);
@@ -61,7 +61,6 @@ public class ReviewController {
             reviewService.save(review);
         }
 
-        // Redirige de vuelta a la página de detalles
         return "redirect:/activity/" + id;
     }
 

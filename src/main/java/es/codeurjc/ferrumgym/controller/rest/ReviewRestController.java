@@ -1,9 +1,13 @@
 package es.codeurjc.ferrumgym.controller.rest;
 
 import es.codeurjc.ferrumgym.dto.ReviewDTO;
-import es.codeurjc.ferrumgym.dto.ReviewMapper;   
+import es.codeurjc.ferrumgym.dto.ReviewMapper;
+import es.codeurjc.ferrumgym.model.Activity;
+import es.codeurjc.ferrumgym.model.User;
 import es.codeurjc.ferrumgym.model.Review;
+import es.codeurjc.ferrumgym.service.ActivityService;
 import es.codeurjc.ferrumgym.service.ReviewService;
+import es.codeurjc.ferrumgym.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,13 +19,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/reviews")
 public class ReviewRestController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @Autowired
     private ReviewMapper reviewMapper;
@@ -32,6 +43,41 @@ public class ReviewRestController {
         Page<Review> reviews = reviewService.findAll(pageable);
         // Transformación de Entidad a Record en la salida
         return ResponseEntity.ok(reviews.map(reviewMapper::toDTO));
+    }
+
+    @Operation(summary = "Create a new review for an activity")
+    @PostMapping("/activity/{activityId}")
+    public ResponseEntity<ReviewDTO> createReview(
+            @PathVariable Long activityId,
+            @RequestParam String comment,
+            @RequestParam int rating,
+            @RequestParam(required = false) MultipartFile imageFile) throws java.io.IOException {
+        
+        // 1. Identificar al usuario actual por el Token
+        String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED));
+
+        // 2. Buscar la actividad
+        Activity activity = activityService.findById(activityId)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Activity not found"));
+
+        // 3. Crear la entidad Review
+        Review review = new Review();
+        review.setComment(comment);
+        review.setRating(rating);
+        review.setUser(currentUser);
+        review.setActivity(activity);
+
+        // 4. Gestionar la imagen si existe
+        if (imageFile != null && !imageFile.isEmpty()) {
+            review.setImageFile(imageFile.getBytes());
+            review.setHasImage(true);
+        }
+
+        Review savedReview = reviewService.save(review);
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED)
+                .body(reviewMapper.toDTO(savedReview));
     }
 
     @Operation(summary = "Get a review by its id")
@@ -59,10 +105,6 @@ public class ReviewRestController {
                 .orElse(ResponseEntity.notFound().build()); 
     }
 
-    /**
-     * Nuevo: Método para borrar reseñas desde la API
-     * Aprovecha la lógica de seguridad (Dueño/Admin) que escribimos en el Service.
-     */
     @Operation(summary = "Delete a review (Owner or Admin only)")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Review deleted"),

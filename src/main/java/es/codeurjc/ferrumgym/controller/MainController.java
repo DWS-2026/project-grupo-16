@@ -49,8 +49,6 @@ public class MainController {
 
     @GetMapping("/prices")
     public String prices() {
-        // Al no haber base de datos, Spring simplemente busca
-        // el archivo "prices.html" en la carpeta templates y lo lanza.
         return "prices";
     }
 
@@ -60,7 +58,6 @@ public class MainController {
         if (activity.isPresent()) {
             model.addAttribute("activity", activity.get());
 
-            // Si viene con el error de duplicado por la URL, preparamos el mensaje
             if ("already_booked".equals(error)) {
                 model.addAttribute("errorMessage", "You are already enrolled in this class!");
             }
@@ -85,7 +82,7 @@ public class MainController {
 
     @GetMapping("/activity/{id}/pdf")
     public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id) throws java.net.MalformedURLException {
-    // 1. Buscamos la actividad para saber el nombre del archivo
+    
     Activity activity = activityService.findById(id).orElseThrow();
     String fileName = activity.getPdfFilename();
 
@@ -93,11 +90,10 @@ public class MainController {
         return ResponseEntity.notFound().build();
     }
 
-    // 2. Ruta donde están guardados (la misma que usamos para guardar)
+    
     Path filePath = Paths.get("uploads/docs/").resolve(fileName);
     org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
 
-    // 3. Devolvemos el archivo para que el navegador lo abra
     return ResponseEntity.ok()
             .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
             .body(pdf);
@@ -138,7 +134,7 @@ public class MainController {
         }
     }
 
-    //Gestion de imagenes de usuario
+
     @GetMapping("/user/{id}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long id) {
         Optional<User> user = userService.findById(id);
@@ -152,17 +148,13 @@ public class MainController {
 
     @GetMapping("/user-profile")
     public String userProfile(Model model, HttpServletRequest request) {
-        // 1. Sacamos el email del usuario que ha iniciado sesión
+
         String email = request.getUserPrincipal().getName();
 
-        // 2. Buscamos a ESE usuario en la base de datos
         User currentUser = userService.findByEmail(email).orElseThrow();
 
-        // 3. Pasamos los datos del usuario a la vista
         model.addAttribute("user", currentUser);
 
-        // 4. Pasamos SUS reservas a la vista
-        // Como tu entidad User ya tiene una lista de Bookings, es así de fácil:
         List<Booking> myBookings = currentUser.getBookings();
         model.addAttribute("bookings", myBookings);
         model.addAttribute("bookingCount", myBookings.size());
@@ -170,36 +162,30 @@ public class MainController {
         return "user-profile";
     }
 
-    // 1. Mostrar la página de editar perfil con TUS datos
     @GetMapping("/edit-profile")
     public String editProfile(Model model, Principal principal) {
-        // Sacamos tu email de la sesión
+    
         String email = principal.getName();
-        // Buscamos tu usuario en la base de datos
+        
         User currentUser = userService.findByEmail(email).orElseThrow();
 
-        // Pasamos TU usuario a la vista
         model.addAttribute("user", currentUser);
         return "edit-profile";
     }
 
-    // 2. Guardar los cambios en TU perfil
     @PostMapping("/edit-profile/save")
     public String saveProfile(
             @RequestParam String fullName,
             @RequestParam String userEmail,
             @RequestParam("userAvatar") MultipartFile imageFile,
-            Principal principal) throws IOException { // Añadimos Principal aquí también
+            Principal principal) throws IOException {
 
-        // Sacamos quién eres a través de la sesión de Spring Security
         String currentEmail = principal.getName();
         User currentUser = userService.findByEmail(currentEmail).orElseThrow();
 
-        // Actualizamos TUS datos
         currentUser.setName(fullName);
         currentUser.setEmail(userEmail);
 
-        // Si has subido una foto nueva, la guardamos
         if (!imageFile.isEmpty()) {
             currentUser.setImage(imageFile.getBytes());
         }
@@ -250,38 +236,35 @@ public class MainController {
             return "register";
     }
 
-   // Controlador de registros de usuario
+   
     @PostMapping("/register")
     public String registerUser(@RequestParam String name,
                            @RequestParam String email,
                            @RequestParam String password,
                            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
 
-        // 1. VALIDACIÓN: Comprobamos si el email ya existe en la base de datos
-        // Esto es clave para el Punto 6 de la rúbrica
         if (userService.findByEmail(email).isPresent()) {
             return "redirect:/register?error=user_exists";
         }
 
-        // 2. Lógica que ya tenías: Encriptamos la contraseña
+       
         String encodedPassword = passwordEncoder.encode(password);
 
-        // 3. Creamos el usuario con la contraseña encriptada
+    
         User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
 
-        // 4. Guardamos la foto si la ha subido
+
         if (!imageFile.isEmpty()) {
             newUser.setImage(imageFile.getBytes());
         }
 
-        // 5. Guardamos y redirigimos
         userService.save(newUser);
         return "redirect:/login";
     }
 
     @GetMapping("/forgot-password")
     public String forgotPassword() {
-        return "forgot-password"; // Carga forgot-password.html
+        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
@@ -291,7 +274,6 @@ public class MainController {
         boolean userExists = userService.findByEmail(email).isPresent();
 
         if (userExists) {
-            // Simulamos éxito para el vídeo de la defensa
             model.addAttribute("success", true);
             model.addAttribute("message", "A password reset link has been sent to " + email);
         } else {

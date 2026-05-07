@@ -36,6 +36,44 @@ public class ActivityRestController {
         return ResponseEntity.ok(activities.map(activityMapper::toDTO));
     }
 
+    @Operation(summary = "Create a new activity")
+    @PostMapping
+    public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDto) {
+        Activity activity = activityMapper.toEntity(activityDto);
+        activityService.save(activity);
+        
+        java.net.URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(activity.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(activityMapper.toDTO(activity));
+    }
+
+    @Operation(summary = "Update an existing activity")
+    @PutMapping("/{id}")
+    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody ActivityDTO activityDto) {
+        Activity existingActivity = activityService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
+
+        Activity updatedDetails = activityMapper.toEntity(activityDto);
+        
+        // 3. El servicio se encarga de la lógica de guardado
+        Activity savedActivity = activityService.update(id, updatedDetails);
+        
+        return ResponseEntity.ok(activityMapper.toDTO(savedActivity));
+    }
+
+    @Operation(summary = "Delete an activity")
+    @DeleteMapping("/{id}")
+    // El Punto 7: Borrado de una actividad
+    // Además, esto está protegido por @PreAuthorize o por SecurityConfig
+    public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
+        activityService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Get an activity by its id")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Activity found",
@@ -92,4 +130,6 @@ public class ActivityRestController {
                         "attachment; filename=\"" + fileName + "\"")
                 .body(pdf);
     }
+
+
 }

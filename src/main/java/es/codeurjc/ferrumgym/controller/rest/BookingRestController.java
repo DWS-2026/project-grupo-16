@@ -34,6 +34,21 @@ public class BookingRestController {
         return ResponseEntity.ok(bookings.map(bookingMapper::toDTO));
     }
 
+    @Operation(summary = "Create a new booking with specific date and time")
+    @PostMapping
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody java.util.Map<String, Object> request) {
+        // 1. Extraemos los datos del JSON de Postman
+        Long activityId = Long.valueOf(request.get("activityId").toString());
+        String bookingDateStr = (String) request.get("bookingDate"); // Ejemplo: "2026-05-12T19:00:00"
+
+        // 2. Llamamos al servicio para validar y guardar
+        Booking newBooking = bookingService.save(activityId, bookingDateStr);
+
+        // 3. Devolvemos el DTO de la reserva creada
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED)
+                .body(bookingMapper.toDTO(newBooking));
+    }
+
     @Operation(summary = "Get a booking by its id")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Booking found",

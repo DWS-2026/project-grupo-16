@@ -20,6 +20,9 @@ import java.util.Optional;
 public class BookingService {
 
     @Autowired
+    private ActivityRepository activityRepository;
+
+    @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
@@ -47,14 +50,59 @@ public class BookingService {
         return bookingRepository.existsByUserAndActivity(user, activity);
     }
 
-    // --- MÉTODOS DE PERSISTENCIA (Solo Entidades) ---
+    // --- MÉTODOS DE PERSISTENCIA ---
 
-    //Guarda la reserva directamente como entidad
+    /**
+     * 1. MÉTODO PARA LA WEB (No lo borres ni cambies)
+     * Lo usan MainController y AdminController.
+     * Recibe el objeto ya montado desde el formulario.
+     */
     public Booking save(Booking booking) {
-        return bookingRepository.save(booking);
+        return bookingRepository.save(booking); //
     }
 
-    //Borrado con protección de dueño (IDOR) y rol de ADMIN
+    /**
+     * 2. NUEVO MÉTODO PARA LA API REST
+     * Lo usa BookingRestController.
+     * Solo recibe el ID de la actividad y busca al usuario en la sesión.
+     */
+    public Booking save(Long activityId, String dateStr) {
+        // 1. Buscamos al usuario y la actividad específica
+        String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated"));
+
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
+
+        // 2. Parseamos la fecha que envías desde Postman
+        java.time.LocalDateTime selectedDate = java.time.LocalDateTime.parse(dateStr);
+
+        // 3. VALIDACIÓN DINÁMICA
+        // Sacamos las iniciales del día (Mon, Tue, Wed...) y la hora (17, 19...)
+        String dayAbbreviation = selectedDate.getDayOfWeek().name().substring(0, 3).toLowerCase(); // "mon", "tue"...
+        String hourStr = String.format("%02d:00", selectedDate.getHour()); // "17:00", "19:00"...
+
+        String schedule = activity.getSchedule().toLowerCase(); // Cogemos el horario de la DB
+
+        // Comprobamos si el día Y la hora elegidos están escritos en el horario de esa
+        // actividad
+        if (!schedule.contains(dayAbbreviation) || !schedule.contains(hourStr)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid slot. This activity is only available at: " + activity.getSchedule());
+        }
+
+        // 4. Si todo coincide, creamos la reserva
+        Booking newBooking = new Booking();
+        newBooking.setUser(currentUser);
+        newBooking.setActivity(activity);
+        newBooking.setBookingDate(selectedDate);
+        newBooking.setAttended(false);
+
+        return bookingRepository.save(newBooking);
+    }
+
+    // Borrado con protección de dueño (IDOR) y rol de ADMIN
     public void deleteById(Long id) {
         // 1. Buscamos la reserva o lanzamos 404
         Booking booking = bookingRepository.findById(id)

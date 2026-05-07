@@ -37,7 +37,7 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUsers(@PageableDefault(size = 10) Pageable pageable) {
         Page<User> users = userService.findAll(pageable);
-        // El servicio devuelve entidades, el controlador mapea a DTO
+        // Service return entities, controller mapper to DTO
         return ResponseEntity.ok(users.map(userMapper::toDTO));
     }
 
@@ -62,7 +62,7 @@ public class UserRestController {
         String name = request.get("name");
         String email = request.get("email");
         String password = request.get("password");
-        // 2. MANUAL VALIDATION
+        // 2. Validation
         if (name == null || name.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
         }

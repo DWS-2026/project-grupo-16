@@ -43,8 +43,4 @@ public class AuthRestController {
     }
 }
 
-/**
- * Clase record (Java 14+) para recibir los datos de login de forma concisa.
- * Si tu versión de Java es antigua, usa una clase normal con getters/setters.
- */
 record LoginRequest(String username, String password) {}
