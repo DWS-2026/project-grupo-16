@@ -452,12 +452,11 @@ Desarrollo del controlador REST de usuarios, implementación de paginación en l
 
 #### **Alumno 4 - Jaime Salgado Carballeda**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[Creación de reglas en los archivos DTO y REST para poder adaptar la validación de campos. Implementación de sistema de respuestas en el controlador REST de errores. Traducción completa de los archivos al inglés.]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Validación de campos DTO](https://github.com/DWS-2026/dws-2026-project-base/commit/5d41b92728fbc92b94721c7ca463090351a585c5)  | [ActivityDTO.java](https://github.com/DWS-2026/dws-2026-project-base/blob/5d41b92728fbc92b94721c7ca463090351a585c5/src/main/java/es/codeurjc/ferrumgym/dto/ActivityDTO.java)<br>[BookingDTO.java](https://github.com/DWS-2026/dws-2026-project-base/blob/5d41b92728fbc92b94721c7ca463090351a585c5/src/main/java/es/codeurjc/ferrumgym/dto/BookingDTO.java)<br>[ReviewDTO.java](https://github.com/DWS-2026/dws-2026-project-base/blob/5d41b92728fbc92b94721c7ca463090351a585c5/src/main/java/es/codeurjc/ferrumgym/dto/ReviewDTO.java)   |
+|2| [Validación de campos REST](https://github.com/DWS-2026/dws-2026-project-base/commit/583a1f494ff5446702aa5707e201280f9df3cc04)  | [ActivityRestController.java](https://github.com/DWS-2026/dws-2026-project-base/blob/583a1f494ff5446702aa5707e201280f9df3cc04/src/main/java/es/codeurjc/ferrumgym/controller/rest/ActivityRestController.java)<br>[BookingRestController.java](https://github.com/DWS-2026/dws-2026-project-base/blob/583a1f494ff5446702aa5707e201280f9df3cc04/src/main/java/es/codeurjc/ferrumgym/controller/rest/BookingRestController.java)<br>[ReviewRestController.java](https://github.com/DWS-2026/dws-2026-project-base/blob/583a1f494ff5446702aa5707e201280f9df3cc04/src/main/java/es/codeurjc/ferrumgym/controller/rest/ReviewRestController.java)<br>[UserRestController.java](https://github.com/DWS-2026/dws-2026-project-base/blob/583a1f494ff5446702aa5707e201280f9df3cc04/src/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.java)   |
+|3| [ErrorController responses](https://github.com/DWS-2026/dws-2026-project-base/commit/02eba9b37eeb0012e66dd707583cbd0e30892e1e)  | [ApiErrorController.java](https://github.com/DWS-2026/dws-2026-project-base/blob/02eba9b37eeb0012e66dd707583cbd0e30892e1e/src/main/java/es/codeurjc/ferrumgym/controller/rest/ApiErrorController.java)   |
+|4| [Security Translations](https://github.com/DWS-2026/dws-2026-project-base/commit/485c4fb9966774705a4da64b7af116b664cf146b)<br>[Service Translations](https://github.com/DWS-2026/dws-2026-project-base/commit/f570b026735a55289a2542f31ab2e97266b2d1f8)<br>[DTOs Translations](https://github.com/DWS-2026/dws-2026-project-base/commit/d9157fb40255ab1466893210d0fbc9c990d1f217)<br>[Controller Translations](https://github.com/DWS-2026/dws-2026-project-base/commit/37b31296f1da5516b4f7481d55bb05857d7d6992)  | [All .java files]  |
