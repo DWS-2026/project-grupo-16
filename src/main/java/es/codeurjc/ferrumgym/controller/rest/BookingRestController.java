@@ -29,12 +29,39 @@ public class BookingRestController {
     @Operation(summary = "Get all bookings paginated")
     @GetMapping
     public ResponseEntity<Page<BookingDTO>> getAllBookings(@PageableDefault(size = 10) Pageable pageable) {
-        // Paginated endpoint to get all bookings, mapping Entities to DTOs for safe output
         Page<Booking> bookings = bookingService.findAll(pageable);
+        // El Mapper transforma la Entidad en el Record de respuesta
         return ResponseEntity.ok(bookings.map(bookingMapper::toDTO));
     }
 
-    // ... (Other endpoints remain unchanged)
+    @Operation(summary = "Create a new booking with specific date and time")
+    @PostMapping
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody java.util.Map<String, Object> request) {
+        // 1. Extraemos los datos del JSON de Postman
+        Long activityId = Long.valueOf(request.get("activityId").toString());
+        String bookingDateStr = (String) request.get("bookingDate"); // Ejemplo: "2026-05-12T19:00:00"
+
+        // 2. Llamamos al servicio para validar y guardar
+        Booking newBooking = bookingService.save(activityId, bookingDateStr);
+
+        // 3. Devolvemos el DTO de la reserva creada
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED)
+                .body(bookingMapper.toDTO(newBooking));
+    }
+
+    @Operation(summary = "Get a booking by its id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Booking found",
+            content = { @Content(mediaType = "application/json",
+            schema = @Schema(implementation = BookingDTO.class)) }), 
+        @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content)
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<BookingDTO> getBookingById(@PathVariable Long id) {
+        return bookingService.findById(id)
+                .map(booking -> ResponseEntity.ok(bookingMapper.toDTO(booking)))
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @Operation(summary = "Cancel/Delete a booking")
     @ApiResponses(value = {
@@ -44,10 +71,8 @@ public class BookingRestController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelBooking(@PathVariable Long id) {
-        // The service layer handles security logic (IDOR protection) and physical deletion
+        // El servicio gestiona la lógica de seguridad y el borrado físico
         bookingService.deleteById(id);
-        
-        // Returns 204 No Content indicating success without an explicit body
         return ResponseEntity.noContent().build();
     }
 }

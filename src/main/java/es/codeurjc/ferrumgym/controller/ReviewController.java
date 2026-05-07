@@ -35,7 +35,6 @@ public class ReviewController {
     @PostMapping("/activity/{id}/review")
     public String addReview(@PathVariable long id, @RequestParam String comment, @RequestParam int rating,
                             @RequestParam("imageFile") MultipartFile imageFile, Principal principal) throws IOException {
-        
         Optional<Activity> activity = activityService.findById(id);
 
         if (activity.isPresent()) {
@@ -44,16 +43,16 @@ public class ReviewController {
             review.setRating(rating);
             review.setActivity(activity.get());
 
-            // 1. Get the email of the current authenticated user from the session
+            
             String email = principal.getName();
 
-            // 2. Fetch the corresponding user entity from the database
+            
             User currentUser = userService.findByEmail(email).orElseThrow();
 
-            // 3. Assign the review to the actual author to ensure data integrity
+            
             review.setUser(currentUser);
 
-            // 4. Save the uploaded image as a byte array if provided
+            
             if (!imageFile.isEmpty()) {
                 review.setImageFile(imageFile.getBytes());
                 review.setHasImage(true);
@@ -62,18 +61,16 @@ public class ReviewController {
             reviewService.save(review);
         }
 
-        // Redirects the user back to the activity details page
         return "redirect:/activity/" + id;
     }
 
-    // Delete review (Admin only route mapped via SecurityConfig)
-    @GetMapping("/review/delete/{id}")
+    // Delete review (Admin only)
+   @GetMapping("/review/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
         reviewService.deleteById(id);
         return "redirect:/admin-dashboard";
     }
-
-    // Serve review images to the frontend
+    // Serve review images
     @GetMapping("/review/{id}/image")
     public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
         Optional<Review> review = reviewService.findById(id);
