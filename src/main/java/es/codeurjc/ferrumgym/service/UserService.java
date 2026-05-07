@@ -23,8 +23,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // --- MÉTODOS DE BÚSQUEDA (Usan Entidades) ---
-    
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -43,7 +41,7 @@ public class UserService {
 
     // --- MÉTODOS DE PERSISTENCIA Y LÓGICA ---
 
-    //Guarda el usuario y cifra la contraseña si es necesario
+    // Guarda el usuario y cifra la contraseña si es necesario
     public void save(User user) {
         if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
             String passwordCifrada = passwordEncoder.encode(user.getPassword());
@@ -52,28 +50,42 @@ public class UserService {
         userRepository.save(user);
     }
 
-    //Actualiza los datos del usuario con control de permisos (Dueño o Admin)
-    //Recibe y devuelve la entidad pura
     public User update(Long id, User updatedUserData) {
-        // 1. Buscamos al usuario original
+        // 1. Buscamos al usuario original en la DB
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        // 2. Control de seguridad (Punto 11 de la rúbrica)[cite: 10]
+        // 2. Control de seguridad
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        if (user.getEmail().equals(currentEmail) || currentUser.getRoles().contains("ADMIN")) {
-            // Actualizamos solo los campos permitidos
+        // IMPORTANTE: Usamos ROLE_ADMIN y comparamos el email del dueño
+        boolean isOwner = user.getEmail().equals(currentEmail);
+        boolean isAdmin = currentUser.getRoles().contains("ROLE_ADMIN");
+
+        if (isOwner || isAdmin) {
             user.setName(updatedUserData.getName());
-            
-            // Si el admin cambia roles o imagen, se gestionaría aquí
-            if (updatedUserData.getRoles() != null) {
+
+            // B. Actualizamos el Email (¡Esta línea te faltaba!)
+            user.setEmail(updatedUserData.getEmail());
+
+
+            // C. Actualizamos la Contraseña (¡Solo si el usuario envía una nueva!)
+            // Asumo que en tu entidad el campo se llama encodedPassword
+            if (updatedUserData.getEncodedPassword() != null && !updatedUserData.getEncodedPassword().isEmpty()) {
+                String newHash = passwordEncoder.encode(updatedUserData.getEncodedPassword());
+                user.setEncodedPassword(newHash);
+            }
+
+            // D. Solo el Admin puede cambiar Roles
+            if (isAdmin && updatedUserData.getRoles() != null) {
                 user.setRoles(updatedUserData.getRoles());
             }
 
+            // 3. Guardamos los cambios
             return userRepository.save(user);
+
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para editar este perfil");
         }

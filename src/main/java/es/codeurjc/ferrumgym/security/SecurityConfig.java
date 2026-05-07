@@ -98,8 +98,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // --- CADENA 2: WEB (Mustache) ---
-// --- CADENA 2: WEB (Mustache/Thymeleaf) ---
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
@@ -124,7 +122,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings/**", "/activity/edit/**", "/activity/new/**", "/admin/user/edit/**").hasRole("ADMIN")
                         .requestMatchers("/", "/login", "/register", "/prices").permitAll()
                         .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/review/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/review/*/image").permitAll()
+                        .requestMatchers("/review/delete/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

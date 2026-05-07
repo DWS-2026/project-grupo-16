@@ -17,9 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
@@ -84,12 +86,34 @@ public class UserRestController {
         return ResponseEntity.created(location).body(userMapper.toDTO(newUser));
     }
 
+    // --- NUEVO: MÉTODO PARA SUBIR/EDITAR LA IMAGEN ---
+    @Operation(summary = "Upload or update a profile image for a user")
+    @PutMapping("/{id}/image") 
+    public ResponseEntity<Void> updateUserImage(@PathVariable Long id, @RequestParam MultipartFile imageFile) throws java.io.IOException {
+        
+        // 1. Buscamos si el usuario existe
+        User user = userService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        
+        // 2. Extraemos los bytes de la imagen y los guardamos en la entidad
+        if (!imageFile.isEmpty()) {
+            user.setImage(imageFile.getBytes());
+            userService.save(user); // Guardamos el usuario con su nueva foto
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The image file is empty");
+        }
+        
+        // 3. Devolvemos 204 (No Content) porque todo ha ido bien
+        return ResponseEntity.noContent().build();
+    }
+    
     @Operation(summary = "Update an existing user profile")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User updated successfully"),
         @ApiResponse(responseCode = "403", description = "Forbidden: Not the owner or admin"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
+    
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
         // 1. We use the mapper to convert the input Record to an Entity

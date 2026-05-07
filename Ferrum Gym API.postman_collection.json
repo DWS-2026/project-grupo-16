@@ -7,8 +7,74 @@
   },
   "item": [
     {
-      "name": "Get Users",
+      "name": "Endpoint Register",
       "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Robertito\", \r\n    \"email\": \"robertito@ejemplo.com\" ,\r\n    \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"m.gomez@alumnos.urjc.es\", \"password\": \"pass2\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Listado Users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTUzNTAzLCJleHAiOjE3NzgxNTcxMDN9.idtvHV2vgoRmrwP6KfpSfAcYRBHVQrAgo7dcUeoCtSxl_pC7BPNXuD3lJU42jmgwFN72dOle-9dFvt4SBV5Yxw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -26,13 +92,297 @@
       "response": []
     },
     {
-      "name": "Create Activity",
+      "name": "Endpoint Listado Activities",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTUzNTAzLCJleHAiOjE3NzgxNTcxMDN9.idtvHV2vgoRmrwP6KfpSfAcYRBHVQrAgo7dcUeoCtSxl_pC7BPNXuD3lJU42jmgwFN72dOle-9dFvt4SBV5Yxw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Listado Bookings",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTUzNTAzLCJleHAiOjE3NzgxNTcxMDN9.idtvHV2vgoRmrwP6KfpSfAcYRBHVQrAgo7dcUeoCtSxl_pC7BPNXuD3lJU42jmgwFN72dOle-9dFvt4SBV5Yxw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/bookings",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Listado Reviews",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint control de acceso por rol",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlckBlamVtcGxvLmNvbSIsImlhdCI6MTc3ODE1Mzk1MCwiZXhwIjoxNzc4MTU3NTUwfQ.s_4VBw9Fo1NlmfpFupgFP0PqR7UuV5P8hPdeXsLYQCUAKvNnCQw51lw4Gr4-MFDVFx68xGdgJpDo5u_Y-2j-eA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Detalle Users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTU0MTcxLCJleHAiOjE3NzgxNTc3NzF9.cs9-KwMnRcd5Q-2a4zCc1Ns6C21h8bmPuus9gzn4oDks9JQXt_Lka5h4oR650gatSXtviPuKsl4eYCdVonnq7Q",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users/2",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Detalle Activities",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTU0MTcxLCJleHAiOjE3NzgxNTc3NzF9.cs9-KwMnRcd5Q-2a4zCc1Ns6C21h8bmPuus9gzn4oDks9JQXt_Lka5h4oR650gatSXtviPuKsl4eYCdVonnq7Q",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Detalle Bookings",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTU0MTcxLCJleHAiOjE3NzgxNTc3NzF9.cs9-KwMnRcd5Q-2a4zCc1Ns6C21h8bmPuus9gzn4oDks9JQXt_Lka5h4oR650gatSXtviPuKsl4eYCdVonnq7Q",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/bookings/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "bookings",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Detalle Reviews",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/reviews/52",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "reviews",
+            "52"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Creacion Users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTU0MTcxLCJleHAiOjE3NzgxNTc3NzF9.cs9-KwMnRcd5Q-2a4zCc1Ns6C21h8bmPuus9gzn4oDks9JQXt_Lka5h4oR650gatSXtviPuKsl4eYCdVonnq7Q",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\"name\": \"Boxing\", \"description\": \"Boxing Class offer\", \"trainer\": \"Lucía Martín\", \"schedule\": \"Monday 10:00-11:00\", \"capacity\": 20, \"enrolledCount\": 0}",
+          "raw": "{\"name\": \"Elena\", \"email\": \"elena@ejemplo.com\", \"password\": \"elena13\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Creacion Activities",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Pilates\",\r\n    \"description\": \"Class Intensity\",\r\n    \"capacity\": 20,\r\n    \"trainer\": \"Marcos\",\r\n    \"schedule\": \"Martes y Jueves 19:00\"\r\n}   ",
           "options": {
             "raw": {
               "language": "json"
@@ -54,12 +404,152 @@
       "response": []
     },
     {
-      "name": "Delete Activity",
+      "name": "Endpoint Creacion Bookings",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlckBlamVtcGxvLmNvbSIsImlhdCI6MTc3ODE3MzcyMywiZXhwIjoxNzc4MTc3MzIzfQ.vmiG2iBIIx77QfQt1Gy1E0J2ICEHFs3ypm8tP_wlf6vyx5Ek8y0h29QzqmDaJfW0PQlCHXufml5ej_k-jKmwNg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"activityId\": 1,\r\n    \"bookingDate\": \"2026-05-11T19:00:00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/bookings",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Creacion Reseñas",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlckBlamVtcGxvLmNvbSIsImlhdCI6MTc3ODE1NjQ3NCwiZXhwIjoxNzc4MTYwMDc0fQ.Ydk9sPph2qU6yAjofnEFfhtLpdsf3UcS6iIzxGbpUhH9KIltuvZ0P0qnVn0KpVpFUUgF9ss5RQC7tpQeghShYw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "comment",
+              "value": "\"Yoga is incredible\"",
+              "type": "text",
+              "id": 0
+            },
+            {
+              "key": "rating",
+              "value": "5",
+              "type": "text",
+              "id": 1
+            },
+            {
+              "key": "imageFile",
+              "type": "file",
+              "id": 2,
+              "fileUploadError": "",
+              "src": [
+                "c:\\Users\\rober\\Downloads\\admin_users.png"
+              ]
+            }
+          ],
+          "options": {
+            "formdata": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/reviews/activity/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "reviews",
+            "activity",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Borrado Users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTczMTcyLCJleHAiOjE3NzgxNzY3NzJ9.rs78j41yB4oyRhtGnyrsFfJkxKRpLxW2aS-d6gWq315Ocr-0UMu8o3cSp-8uaketoDMKn2Zks8VExgAezabqLQ",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/activities/153",
+          "raw": "{{baseUrl}}/api/v1/users/55",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "55"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Borrado Activities",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTczMTcyLCJleHAiOjE3NzgxNzY3NzJ9.rs78j41yB4oyRhtGnyrsFfJkxKRpLxW2aS-d6gWq315Ocr-0UMu8o3cSp-8uaketoDMKn2Zks8VExgAezabqLQ",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/202",
           "host": [
             "{{baseUrl}}"
           ],
@@ -67,39 +557,90 @@
             "api",
             "v1",
             "activities",
-            "153"
+            "202"
           ]
         }
       },
       "response": []
     },
     {
-      "name": "Get Activities",
+      "name": "Endpoint Borrado Bookings",
       "request": {
-        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtLmdvbWV6QGFsdW1ub3MudXJqYy5lcyIsImlhdCI6MTc3ODE3NTI5MiwiZXhwIjoxNzc4MTc4ODkyfQ.467noG5_UBBhxXaE0Hts0Q2cIQEOGpe7Kntu96au_MCkiXi7O_p4K6u8tUMfjqPzRyBH3ebmlVW2-tDuQNsG0g",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/activities",
+          "raw": "{{baseUrl}}/api/v1/bookings/253",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "api",
             "v1",
-            "activities"
+            "bookings",
+            "253"
           ]
         }
       },
       "response": []
     },
     {
-      "name": "Update Activity",
+      "name": "Endpoint Borrado Review",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlckBlamVtcGxvLmNvbSIsImlhdCI6MTc3ODE3MzcyMywiZXhwIjoxNzc4MTc3MzIzfQ.vmiG2iBIIx77QfQt1Gy1E0J2ICEHFs3ypm8tP_wlf6vyx5Ek8y0h29QzqmDaJfW0PQlCHXufml5ej_k-jKmwNg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/reviews/53",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "reviews",
+            "53"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Edicion Users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTc3NzA5LCJleHAiOjE3NzgxODEzMDl9.2_RWF7hKGmIIqeTkgq25CS-nzBpmv1y1U7FIPYIMMiVba_6XiI2gXI9lL6BaWjBvx0taIWX3D_fEogcqd_7RlA",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PUT",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\"capacity\":22,\"description\":\"Relaxing sessions for mind and body.\",\"enrolledCount\":0,\"id\":1,\"name\":\"Yoga\",\"pdfFilename\":\"Yoga.pdf\",\"schedule\":\"Mon-Thu 19:00-20:00\",\"trainer\":\"Mark Perez\"}",
+          "raw": "{\r\n    \"name\": \"Rober Actualizado\",\r\n    \"email\": \"robertito@ejemplo.com\",\r\n    \"password\": \"654321\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -107,27 +648,46 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/api/v1/activities/1",
+          "raw": "{{baseUrl}}/api/v1/users/54",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "api",
             "v1",
-            "activities",
-            "1"
+            "users",
+            "54"
           ]
         }
       },
       "response": []
     },
     {
-      "name": "Get Activity ID",
+      "name": "Endpoint Edicion Activities",
       "request": {
-        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTc3NzA5LCJleHAiOjE3NzgxODEzMDl9.2_RWF7hKGmIIqeTkgq25CS-nzBpmv1y1U7FIPYIMMiVba_6XiI2gXI9lL6BaWjBvx0taIWX3D_fEogcqd_7RlA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Crossfit Total\",\r\n    \"description\": \"New Class\",\r\n    \"trainer\": \"Rocío Gonzalez\",\r\n    \"schedule\": \"Tue-Wed 10:00-11:00\",\r\n    \"capacity\": 20\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "{{baseUrl}}/api/v1/activities/1",
+          "raw": "{{baseUrl}}/api/v1/activities/2",
           "host": [
             "{{baseUrl}}"
           ],
@@ -135,7 +695,202 @@
             "api",
             "v1",
             "activities",
-            "1"
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Edicion ImagenActivity",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "imageFile",
+              "type": "file",
+              "id": 0,
+              "fileUploadError": "",
+              "src": [
+                "c:\\Users\\rober\\OneDrive\\Imágenes\\sisisisi.webp"
+              ]
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/302/image",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "302",
+            "image"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Edicion pdfActivity",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "pdfFile",
+              "type": "file",
+              "id": 0,
+              "fileUploadError": "",
+              "src": [
+                "c:\\Users\\rober\\Downloads\\Pilates.pdf"
+              ]
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/activities/302/pdf",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "activities",
+            "302",
+            "pdf"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint Edicion ImageUser",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "imageFile",
+              "type": "file",
+              "id": 0,
+              "fileUploadError": "",
+              "src": [
+                "c:\\Users\\rober\\OneDrive\\Imágenes\\Capturas de pantalla\\Captura de pantalla 2024-10-11 114052.png"
+              ]
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users/54/image",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "54",
+            "image"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint control de acceso por dueño",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtLmdvbWV6QGFsdW1ub3MudXJqYy5lcyIsImlhdCI6MTc3ODE4MDQ4MiwiZXhwIjoxNzc4MTg0MDgyfQ.KS62JHXB6GBs-mkBmFU57k9kiSND8PxR8JaQpMmEcd3j2pTuLSd-v6-ydnf8xA69U9-Fd44wj-Vb_AfvRsnL_Q",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/reviews/102",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "reviews",
+            "102"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Endpoint error",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBmZXJydW1neW0uY29tIiwiaWF0IjoxNzc4MTgwNDU0LCJleHAiOjE3NzgxODQwNTR9.r9DbC_VXELP63Pop0Go6GabTymiemz8k7jZY5fOKGmOfmuqkJVMUii8QAQokWfArNiRjdU_xsYu7MqUGsYf8fw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/users/9999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "9999"
           ]
         }
       },

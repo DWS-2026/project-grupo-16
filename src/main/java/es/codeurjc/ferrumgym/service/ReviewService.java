@@ -56,7 +56,7 @@ public class ReviewService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
         // 3. Verificamos si es el dueño O administrador
-        if (review.getUser().equals(currentUser) || currentUser.getRoles().contains("ADMIN")) {
+        if (review.getUser().equals(currentUser) || currentUser.getRoles().contains("ROLE_ADMIN")) {
             reviewRepository.deleteById(id);
         } else {
             // Error 403 en formato JSON para la API

@@ -10,10 +10,14 @@ public interface UserMapper {
 
     // --- De Entidad a DTO (Salida) ---
     @Mapping(target = "imageUrl", expression = "java(generateImageUrl(user))")
+    // Opcional: ignoramos el password en la salida para estar seguros
+    @Mapping(target = "password", ignore = true) 
     UserResponseDTO toDTO(User user);
 
     // --- De DTO a Entidad (Entrada) ---
-    // AÑADE ESTA LÍNEA: MapStruct se encarga de crear el objeto User automáticamente
+    // ESTA ES LA LÍNEA CLAVE: 
+    // Mapeamos el campo 'password' del Record al campo 'encodedPassword' de la Entidad User
+    @Mapping(target = "encodedPassword", source = "password")
     User toEntity(UserResponseDTO dto);
 
     // Lógica para generar la URL de la imagen
