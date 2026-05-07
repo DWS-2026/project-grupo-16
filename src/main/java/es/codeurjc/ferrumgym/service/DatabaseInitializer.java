@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder; // RECUPERADO
+import org.springframework.security.crypto.password.PasswordEncoder; // RECOVERED - Dependency restored
 import org.springframework.stereotype.Component;
 
 import es.codeurjc.ferrumgym.model.*;
@@ -31,7 +31,7 @@ public class DatabaseInitializer {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // RECUPERADO
+    private PasswordEncoder passwordEncoder; // RECOVERED - Dependency restored
 
     @PostConstruct
     public void init() throws IOException {
@@ -78,11 +78,11 @@ public class DatabaseInitializer {
             spinning.setPdfFilename("Spinning.pdf");
             activityRepository.save(spinning);
 
-            // Usuarios con contraseñas encriptadas
+            // Users with encrypted passwords
             User admin = new User();
             admin.setName("Admin");
             admin.setEmail("admin@ferrumgym.com");
-            admin.setEncodedPassword(passwordEncoder.encode("adminpass")); // RECUPERADO
+            admin.setEncodedPassword(passwordEncoder.encode("adminpass")); // RECOVERED - Dependency restored
             admin.setRoles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
             admin.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(admin);
@@ -90,7 +90,7 @@ public class DatabaseInitializer {
             User user1 = new User();
             user1.setName("Juan Perez");
             user1.setEmail("j.perez@alumnos.urjc.es");
-            user1.setEncodedPassword(passwordEncoder.encode("pass1")); // RECUPERADO
+            user1.setEncodedPassword(passwordEncoder.encode("pass1")); // RECOVERED - Dependency restored
             user1.setRoles(Arrays.asList("ROLE_USER"));
             user1.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user1);
@@ -98,7 +98,7 @@ public class DatabaseInitializer {
             User user2 = new User();
             user2.setName("Marta Gomez");
             user2.setEmail("m.gomez@alumnos.urjc.es");
-            user2.setEncodedPassword(passwordEncoder.encode("pass2")); // RECUPERADO
+            user2.setEncodedPassword(passwordEncoder.encode("pass2")); // RECOVERED - Dependency restored
             user2.setRoles(Arrays.asList("ROLE_USER"));
             user2.setImage(loadImage("src/main/resources/static/assets/foto.avif"));
             userRepository.save(user2);

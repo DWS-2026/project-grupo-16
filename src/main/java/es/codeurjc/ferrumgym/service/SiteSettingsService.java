@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SiteSettingsService {
 
-    /* * DECISIÓN DE DISEÑO:
-     * La configuración del sitio se gestiona en memoria y no como un @Entity.
-     * Al ser un objeto único que no requiere operaciones de Listado, Creación múltiple 
-     * ni Borrado, excluirlo de la base de datos asegura el cumplimiento estricto 
-     * de la arquitectura de entidades del proyecto y evita CRUDs incompletos.
+    /* * DESIGN DECISION:
+     * Site configuration is managed in memory rather than as an @Entity.
+     * Being a singleton object that requires no Listing, Multiple Creation, 
+     * or Deletion operations, excluding it from the database ensures strict compliance 
+     * with the project's entity architecture and avoids incomplete CRUD operations.
      */
     private SiteSettings currentSettings = new SiteSettings();
 

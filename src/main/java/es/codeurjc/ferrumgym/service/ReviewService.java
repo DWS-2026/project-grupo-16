@@ -40,32 +40,33 @@ public class ReviewService {
     }
 
     public void saveImage(Review review, MultipartFile imageFile) throws IOException {
-    review.setImageFile(imageFile.getBytes()); // Guardamos los bytes
-    review.setHasImage(true);
-    reviewRepository.save(review);
+        // Save the image bytes and update the boolean flag
+        review.setImageFile(imageFile.getBytes()); 
+        review.setHasImage(true);
+        reviewRepository.save(review);
     }
 
     public void deleteById(Long id) {
-        // 1. Buscamos la reseña
+        // 1. Find the review by ID
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reseña no encontrada"));
 
-        // 2. Identificamos al usuario actual
+        // 2. Identify the current authenticated user
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // 3. Verificamos si es el dueño O administrador
+        // 3. Verify if the user is the owner OR an administrator (IDOR countermeasure)
         if (review.getUser().equals(currentUser) || currentUser.getRoles().contains("ROLE_ADMIN")) {
             reviewRepository.deleteById(id);
         } else {
-            // Error 403 en formato JSON para la API
+            // Return 403 Error in JSON format for the API
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para borrar esta reseña");
         }
     }
 
-	// Method to get all reviews with pagination, returning Page<Review> instead of List<Review>
-	public Page<Review> findAll(Pageable pageable) {
+    // Method to get all reviews with pagination, returning Page<Review> instead of List<Review>
+    public Page<Review> findAll(Pageable pageable) {
         return reviewRepository.findAll(pageable);
     }
 }

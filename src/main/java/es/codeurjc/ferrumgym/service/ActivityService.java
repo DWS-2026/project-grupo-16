@@ -20,7 +20,7 @@ public class ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    // --- MÉTODOS DE BÚSQUEDA ---
+    // --- SEARCH METHODS ---
 
     public List<Activity> findAll() {
         return activityRepository.findAll();
@@ -34,12 +34,12 @@ public class ActivityService {
         return activityRepository.findById(id);
     }
 
-    // Guarda la actividad. Recibe y devuelve la entidad real
+    // Saves the activity. Receives and returns the actual entity
     public Activity save(Activity activity) {
         return activityRepository.save(activity);
     }
 
-    // Borra la actividad lanzando 404 si no existe
+    // Deletes the activity, throwing a 404 error if it does not exist
     public void deleteById(Long id) {
         if (!activityRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La actividad no existe");
@@ -47,34 +47,33 @@ public class ActivityService {
         activityRepository.deleteById(id);
     }
 
-    // Gestiona la imagen de la actividad trabajando con el objeto del modelo
+    // Manages the activity image by working directly with the model object
     public void saveImage(Activity activity, MultipartFile imageFile) throws IOException {
         activity.setImage(imageFile.getBytes());
         activityRepository.save(activity);
     }
 
-    // --- MÉTODOS DE ACTUALIZACIÓN ---
+    // --- UPDATE METHODS ---
 
     public Activity update(Long id, Activity updatedActivity) {
-        // 1. Buscamos la actividad actual en la base de datos
+        // 1. Find the current activity in the database
         Activity existingActivity = activityRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. Actualizamos los campos con la nueva información
+        // 2. Update the fields with the new information
         existingActivity.setName(updatedActivity.getName());
         existingActivity.setDescription(updatedActivity.getDescription());
         existingActivity.setCapacity(updatedActivity.getCapacity());
         existingActivity.setTrainer(updatedActivity.getTrainer());
         existingActivity.setSchedule(updatedActivity.getSchedule());
 
-        // 3. PROTECCIÓN DE IMAGEN: Si la nueva entidad no trae imagen (lo normal en un
-        // JSON),
-        // mantenemos la que ya teníamos guardada para no borrarla.
+        // 3. IMAGE PROTECTION: If the new entity does not include an image (common in JSON updates),
+        // keep the existing one to prevent unintended deletion.
         if (updatedActivity.getImage() != null && updatedActivity.getImage().length > 0) {
             existingActivity.setImage(updatedActivity.getImage());
         }
 
-        // 4. Guardamos la actividad ya actualizada
+        // 4. Save the updated activity
         return activityRepository.save(existingActivity);
     }
 }

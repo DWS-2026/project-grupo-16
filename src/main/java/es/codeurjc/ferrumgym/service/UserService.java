@@ -39,9 +39,9 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // --- MÉTODOS DE PERSISTENCIA Y LÓGICA ---
+    // --- PERSISTENCE AND BUSINESS LOGIC METHODS ---
 
-    // Guarda el usuario y cifra la contraseña si es necesario
+    // Saves the user and encrypts the password if necessary
     public void save(User user) {
         if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
             String passwordCifrada = passwordEncoder.encode(user.getPassword());
@@ -51,39 +51,38 @@ public class UserService {
     }
 
     public User update(Long id, User updatedUserData) {
-        // 1. Buscamos al usuario original en la DB
+        // 1. Fetch the original user from the DB
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        // 2. Control de seguridad
+        // 2. Security access control
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // IMPORTANTE: Usamos ROLE_ADMIN y comparamos el email del dueño
+        // IMPORTANT: Use ROLE_ADMIN and compare the owner's email for authorization
         boolean isOwner = user.getEmail().equals(currentEmail);
         boolean isAdmin = currentUser.getRoles().contains("ROLE_ADMIN");
 
         if (isOwner || isAdmin) {
             user.setName(updatedUserData.getName());
 
-            // B. Actualizamos el Email (¡Esta línea te faltaba!)
+            // B. Update the Email (Critical missing line added for completeness)
             user.setEmail(updatedUserData.getEmail());
 
-
-            // C. Actualizamos la Contraseña (¡Solo si el usuario envía una nueva!)
-            // Asumo que en tu entidad el campo se llama encodedPassword
+            // C. Update the Password (Only if the user sends a new one!)
+            // Assuming the entity field is named encodedPassword
             if (updatedUserData.getEncodedPassword() != null && !updatedUserData.getEncodedPassword().isEmpty()) {
                 String newHash = passwordEncoder.encode(updatedUserData.getEncodedPassword());
                 user.setEncodedPassword(newHash);
             }
 
-            // D. Solo el Admin puede cambiar Roles
+            // D. Only the Admin can change Roles
             if (isAdmin && updatedUserData.getRoles() != null) {
                 user.setRoles(updatedUserData.getRoles());
             }
 
-            // 3. Guardamos los cambios
+            // 3. Save the applied changes
             return userRepository.save(user);
 
         } else {

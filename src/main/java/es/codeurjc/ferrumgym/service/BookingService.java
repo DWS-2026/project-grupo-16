@@ -28,7 +28,7 @@ public class BookingService {
     @Autowired
     private UserRepository userRepository;
 
-    // --- MÉTODOS DE LECTURA ---
+    // --- READ METHODS ---
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
@@ -46,19 +46,19 @@ public class BookingService {
         return bookingRepository.findById(id);
     }
 
-    // --- MÉTODOS DE PERSISTENCIA ---
+    // --- PERSISTENCE METHODS ---
 
     /**
-     * 1. MÉTODO PARA LA WEB
-     * Añadimos validación de duplicados y capacidad.
+     * 1. METHOD FOR THE WEB
+     * Adds duplicate and capacity validation before saving.
      */
     public Booking save(Booking booking) {
-        // Validación 1: ¿Ya está inscrito?
+        // Validation 1: Is the user already enrolled in this specific activity?
         if (bookingRepository.existsByUserAndActivity(booking.getUser(), booking.getActivity())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya estás inscrito en esta actividad");
         }
 
-        // Validación 2: ¿Hay sitio?
+        // Validation 2: Is there available capacity for this activity?
         if (booking.getActivity().getEnrolled() >= booking.getActivity().getCapacity()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La actividad está llena");
         }
@@ -67,11 +67,11 @@ public class BookingService {
     }
 
     /**
-     * 2. MÉTODO PARA LA API REST
-     * Añadimos validación de duplicados y capacidad.
+     * 2. METHOD FOR THE REST API
+     * Handles data extraction directly from the Security Context and validates capacity.
      */
     public Booking save(Long activityId, String dateStr) {
-        // 1. Buscamos al usuario y la actividad
+        // 1. Fetch the current authenticated user and the requested activity
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated"));
@@ -79,17 +79,17 @@ public class BookingService {
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. VALIDACIÓN DE DUPLICADOS (Evita el problema de Postman)
+        // 2. DUPLICATE VALIDATION (Prevents Postman-related multiple booking issues)
         if (bookingRepository.existsByUserAndActivity(currentUser, activity)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya estás inscrito en esta actividad");
         }
 
-        // 3. VALIDACIÓN DE CAPACIDAD
+        // 3. CAPACITY VALIDATION
         if (activity.getEnrolled() >= activity.getCapacity()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La actividad está llena");
         }
 
-        // 4. Parseamos la fecha y validamos horario (tu lógica anterior)
+        // 4. Parse the date and validate the schedule (preserves previous time logic)
         java.time.LocalDateTime selectedDate = java.time.LocalDateTime.parse(dateStr);
         String dayAbbreviation = selectedDate.getDayOfWeek().name().substring(0, 3).toLowerCase();
         String hourStr = String.format("%02d:00", selectedDate.getHour());
@@ -100,7 +100,7 @@ public class BookingService {
                     "Invalid slot. This activity is only available at: " + activity.getSchedule());
         }
 
-        // 5. Si todo es correcto, guardamos
+        // 5. If everything is correct, save the new booking
         Booking newBooking = new Booking();
         newBooking.setUser(currentUser);
         newBooking.setActivity(activity);
@@ -111,8 +111,8 @@ public class BookingService {
     }
 
     /**
-     * MÉTODO DE BORRADO
-     * Corregido para que el Admin funcione (ROLE_ADMIN) y comparando IDs.
+     * DELETION METHOD
+     * Corrected to allow Admin access (ROLE_ADMIN) and secure ID comparison (IDOR protection).
      */
     public void deleteById(Long id) {
         Booking booking = bookingRepository.findById(id)
@@ -122,7 +122,7 @@ public class BookingService {
         User currentUser = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        // COMPARACIÓN SEGURA: Usamos el ID y ROLE_ADMIN
+        // SAFE COMPARISON: Ensures only the owner or an admin can delete the resource
         boolean isOwner = booking.getUser().getId().equals(currentUser.getId());
         boolean isAdmin = currentUser.getRoles().contains("ROLE_ADMIN");
 
