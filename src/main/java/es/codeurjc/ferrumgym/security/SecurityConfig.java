@@ -79,13 +79,13 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json");
-                            response.getWriter().write("{\"error\": \"No estas autenticado\"}");
+                            response.getWriter().write("{\"error\": \"You are not authenticated\"}");
                         })
                         // Si está logueado pero no es ADMIN -> 403
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json");
-                            response.getWriter().write("{\"error\": \"No tienes permisos de administrador\"}");
+                            response.getWriter().write("{\"error\": \"You do not have administrator privileges\"}");
                         }))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
