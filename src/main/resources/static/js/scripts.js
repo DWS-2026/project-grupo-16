@@ -91,3 +91,39 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
+document.addEventListener("DOMContentLoaded", function() {
+
+    // --- LÓGICA DE QUILL.JS PARA ACTIVIDADES ---
+    var editorContainer = document.getElementById('editor-container');
+
+    if (editorContainer) {
+        // Inicializamos el editor con los botones deseados
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: 'Write the activity description here...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['clean']
+                ]
+            }
+        });
+
+        var form = document.getElementById('activityForm');
+        var hiddenDescription = document.getElementById('hiddenDescription');
+
+        // Si hay texto guardado (al editar), lo cargamos en el editor
+        if (hiddenDescription && hiddenDescription.value) {
+            quill.root.innerHTML = hiddenDescription.value;
+        }
+
+        // Al enviar el formulario, volcamos el HTML seguro del editor al textarea
+        if(form) {
+            form.onsubmit = function() {
+                hiddenDescription.value = quill.root.innerHTML;
+            };
+        }
+    }
+});
+

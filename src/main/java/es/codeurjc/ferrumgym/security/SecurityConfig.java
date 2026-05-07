@@ -107,17 +107,18 @@ public class SecurityConfig {
                 // SECURITY FIX: Add Content Security Policy (CSP) header
                 // SECURITY FIX: Add Strict Content Security Policy (CSP) header
                 // SECURITY FIX: Add Strict Content Security Policy (CSP) header
-                .headers(headers -> headers
-                    .contentSecurityPolicy(csp -> csp
-                        .policyDirectives("default-src 'self'; " +
-                                          "script-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
-                                          "style-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
-                                          "img-src 'self' data: blob:; " +
-                                          "font-src 'self' https://cdn.jsdelivr.net data:; " +
-                                          "frame-ancestors 'self'; " +
-                                          "form-action 'self';")
-                    )
-                )
+				.headers(headers -> headers
+									.contentSecurityPolicy(csp -> csp
+										.policyDirectives("default-src 'self'; " +
+														"script-src 'self' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
+														// Añadido 'unsafe-inline' solo a los estilos para que Quill pueda dibujarse
+														"style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.quilljs.com; " +
+														"img-src 'self' data: blob:; " +
+														"font-src 'self' https://cdn.jsdelivr.net data:; " +
+														"frame-ancestors 'self'; " +
+														"form-action 'self';")
+									)
+								)
                 // --- End of CSP header ---
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()

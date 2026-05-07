@@ -10848,4 +10848,11 @@ textarea.form-control-lg {
 .input-rating {
     max-width: 120px;
 }
+
+#editor-container {
+    height: 250px;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 }
