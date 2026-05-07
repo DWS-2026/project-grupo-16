@@ -121,7 +121,7 @@ public class SecurityConfig {
                 // --- End of CSP header ---
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/docs/**").permitAll()
-                        .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**").hasRole("ADMIN")
+                        .requestMatchers("/admin-dashboard/**", "/admin-class/**", "/admin-users/**", "/site-settings/**", "/activity/edit/**", "/activity/new/**", "/admin/user/edit/**").hasRole("ADMIN")
                         .requestMatchers("/", "/login", "/register", "/prices").permitAll()
                         .requestMatchers(HttpMethod.GET, "/activity/**").permitAll()
                         .anyRequest().authenticated())
