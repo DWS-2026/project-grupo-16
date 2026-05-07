@@ -74,7 +74,7 @@ public class ReviewController {
     @GetMapping("/review/{id}/image")
     public ResponseEntity<Object> downloadReviewImage(@PathVariable long id) {
         Optional<Review> review = reviewService.findById(id);
-        if (review.isPresent() && review.get().getHasImage() && review.get().getImageFile() != null) {
+        if (review.isPresent() && review.get().isHasImage() && review.get().getImageFile() != null) {
             return ResponseEntity.ok()
                     .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "image/jpeg")
                     .body(review.get().getImageFile());

@@ -54,8 +54,6 @@ public class ActivityRestController {
     @Operation(summary = "Update an existing activity")
     @PutMapping("/{id}")
     public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody ActivityDTO activityDto) {
-        Activity existingActivity = activityService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
         Activity updatedDetails = activityMapper.toEntity(activityDto);
         

@@ -74,7 +74,7 @@ public class Review {
         this.activity = activity;
     }
 
-    public boolean getHasImage() {
+    public boolean isHasImage() {
         return hasImage;
     }
 
