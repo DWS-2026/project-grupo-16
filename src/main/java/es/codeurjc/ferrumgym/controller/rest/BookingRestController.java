@@ -30,21 +30,21 @@ public class BookingRestController {
     @GetMapping
     public ResponseEntity<Page<BookingDTO>> getAllBookings(@PageableDefault(size = 10) Pageable pageable) {
         Page<Booking> bookings = bookingService.findAll(pageable);
-        // El Mapper transforma la Entidad en el Record de respuesta
+        // The Mapper transforms the Entity into the Response Record
         return ResponseEntity.ok(bookings.map(bookingMapper::toDTO));
     }
 
     @Operation(summary = "Create a new booking with specific date and time")
     @PostMapping
     public ResponseEntity<BookingDTO> createBooking(@RequestBody java.util.Map<String, Object> request) {
-        // 1. Extraemos los datos del JSON de Postman
+        // 1. We extract the data from the Postman JSON.
         Long activityId = Long.valueOf(request.get("activityId").toString());
-        String bookingDateStr = (String) request.get("bookingDate"); // Ejemplo: "2026-05-12T19:00:00"
+        String bookingDateStr = (String) request.get("bookingDate"); // Example: "2026-05-12T19:00:00"
 
-        // 2. Llamamos al servicio para validar y guardar
+        // 2. We call the service to validate and save
         Booking newBooking = bookingService.save(activityId, bookingDateStr);
 
-        // 3. Devolvemos el DTO de la reserva creada
+        // 3. We return the DTO of the created reservation
         return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED)
                 .body(bookingMapper.toDTO(newBooking));
     }
@@ -71,7 +71,7 @@ public class BookingRestController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelBooking(@PathVariable Long id) {
-        // El servicio gestiona la lógica de seguridad y el borrado físico
+        // The service manages the security logic and physical deletion
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

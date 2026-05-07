@@ -131,7 +131,7 @@ public class AdminController {
         settings.setWeekendsHours(weekendsHours);
 
         if (principal != null) {
-            // Guardamos el nombre del admin directamente como String
+            // We save the admin's name directly as a string
             settings.setUpdatedBy(principal.getName());
         }
 
@@ -282,7 +282,7 @@ public class AdminController {
     // Edit users (GET Method)
     @GetMapping("/admin/user/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        // Cambiado a userService
+        // Changed to userService
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 

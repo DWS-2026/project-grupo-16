@@ -243,6 +243,7 @@ public class MainController {
                            @RequestParam String password,
                            @RequestParam("formFile") MultipartFile imageFile) throws IOException {
 
+        // 1. Verify if the email is already registered to prevent duplicates
         if (userService.findByEmail(email).isPresent()) {
             return "redirect:/register?error=user_exists";
         }
@@ -258,26 +259,28 @@ public class MainController {
             newUser.setImage(imageFile.getBytes());
         }
 
+        // 5. Persist the user and redirect to the login page
         userService.save(newUser);
         return "redirect:/login";
     }
 
     @GetMapping("/forgot-password")
     public String forgotPassword() {
-        return "forgot-password";
+        return "forgot-password"; // Loads the forgot-password.html template
     }
 
     @PostMapping("/forgot-password")
     public String processRecovery(@RequestParam String email, Model model) {
 
-        // 1. Buscamos en la base de datos
+        // 1. Check if the provided email exists in the database
         boolean userExists = userService.findByEmail(email).isPresent();
 
         if (userExists) {
+            // Displays a success message to the user
             model.addAttribute("success", true);
             model.addAttribute("message", "A password reset link has been sent to " + email);
         } else {
-            // Mensaje de error apropiado
+            // Displays an appropriate error message if the account is not found
             model.addAttribute("error", true);
             model.addAttribute("message", "We couldn't find an account with that email address.");
         }

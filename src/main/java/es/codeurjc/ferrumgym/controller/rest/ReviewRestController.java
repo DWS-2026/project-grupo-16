@@ -41,7 +41,7 @@ public class ReviewRestController {
     @GetMapping
     public ResponseEntity<Page<ReviewDTO>> getAllReviews(@PageableDefault(size = 10) Pageable pageable) {
         Page<Review> reviews = reviewService.findAll(pageable);
-        // Transformación de Entidad a Record en la salida
+        // Transformation of Entity to Record on the output
         return ResponseEntity.ok(reviews.map(reviewMapper::toDTO));
     }
 
@@ -53,23 +53,23 @@ public class ReviewRestController {
             @RequestParam int rating,
             @RequestParam(required = false) MultipartFile imageFile) throws java.io.IOException {
         
-        // 1. Identificar al usuario actual por el Token
+        // 1. Identify the current user by the Token
         String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userService.findByEmail(email)
                 .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED));
 
-        // 2. Buscar la actividad
+        // 2. Search the activity
         Activity activity = activityService.findById(activityId)
                 .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 3. Crear la entidad Review
+        // 3. Create the entity Review
         Review review = new Review();
         review.setComment(comment);
         review.setRating(rating);
         review.setUser(currentUser);
         review.setActivity(activity);
 
-        // 4. Gestionar la imagen si existe
+        // 4. Manage the image if it exists
         if (imageFile != null && !imageFile.isEmpty()) {
             review.setImageFile(imageFile.getBytes());
             review.setHasImage(true);
@@ -113,7 +113,7 @@ public class ReviewRestController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        reviewService.deleteById(id); // El servicio lanza 403 o 404 si corresponde
+        reviewService.deleteById(id); // The service returns a 403 or 404 error if applicable.
         return ResponseEntity.noContent().build();
     }
 }

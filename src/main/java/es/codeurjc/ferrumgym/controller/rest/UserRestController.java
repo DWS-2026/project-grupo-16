@@ -37,8 +37,8 @@ public class UserRestController {
     @Operation(summary = "Get a list of all users paginated")
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUsers(@PageableDefault(size = 10) Pageable pageable) {
+        // Paginated list that converts Entities to UserResponseDTOs to hide sensitive data
         Page<User> users = userService.findAll(pageable);
-        // Service return entities, controller mapper to DTO
         return ResponseEntity.ok(users.map(userMapper::toDTO));
     }
 
@@ -85,50 +85,50 @@ public class UserRestController {
         return ResponseEntity.created(location).body(userMapper.toDTO(newUser));
     }
 
-    // --- NUEVO: MÉTODO PARA SUBIR/EDITAR LA IMAGEN ---
+    // --- NEW: IMAGE UPLOAD/EDIT METHOD ---
     @Operation(summary = "Upload or update a profile image for a user")
     @PutMapping("/{id}/image") 
     public ResponseEntity<Void> updateUserImage(@PathVariable Long id, @RequestParam MultipartFile imageFile) throws java.io.IOException {
         
-        // 1. Buscamos si el usuario existe
+        // 1. We check if the user exists
         User user = userService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         
-        // 2. Extraemos los bytes de la imagen y los guardamos en la entidad
+        // 2. We extract the bytes from the image and store them in the entity
         if (!imageFile.isEmpty()) {
             user.setImage(imageFile.getBytes());
-            userService.save(user); // Guardamos el usuario con su nueva foto
+            userService.save(user); // We saved the user with their new photo
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The image file is empty");
         }
         
-        // 3. Devolvemos 204 (No Content) porque todo ha ido bien
+        // 3. We return 204 (No Content) because everything went well
         return ResponseEntity.noContent().build();
     }
     
     @Operation(summary = "Update an existing user profile")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User updated successfully"),
+        @ApiResponse(responseCode = "200", description = "User updated"),
         @ApiResponse(responseCode = "403", description = "Forbidden: Not the owner or admin"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
-        // 1. We use the mapper to convert the input Record to an Entity
+        // 1. We use the mapper to convert the input DTO Record into a domain Entity
         User userDetails = userMapper.toEntity(userDto);
         
-        // 2. The service now receives and returns a pure Entity
+        // 2. The service receives the entity and enforces IDOR security logic
         User updatedUser = userService.update(id, userDetails);
         
-        // 3. We map the resulting entity back to the Response Record
+        // 3. We map the resulting entity back to the Response DTO for safe client consumption
         return ResponseEntity.ok(userMapper.toDTO(updatedUser));
     }
 
     @Operation(summary = "Delete a user by id")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // Strict enforcement: Only the admin should be able to fully delete users
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        // The service layer handles throwing a 404 Exception if the user does not exist
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -139,7 +139,7 @@ public class UserRestController {
         return userService.findById(id)
                 .filter(user -> user.getImage() != null)
                 .map(user -> ResponseEntity.ok()
-                        .header("Content-Type", "image/jpeg")
+                        .header("Content-Type", "image/jpeg") // Adjust MIME type if necessary
                         .body(user.getImage()))
                 .orElse(ResponseEntity.notFound().build());
     }
