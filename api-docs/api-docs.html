@@ -904,6 +904,14 @@ ul.nav-tabs {
     }
   }
 };
+    defs["createReview_request"] = {
+  "properties" : {
+    "imageFile" : {
+      "type" : "string",
+      "format" : "binary"
+    }
+  }
+};
     defs["LoginRequest"] = {
   "properties" : {
     "username" : {
@@ -916,13 +924,13 @@ ul.nav-tabs {
 };
     defs["PageActivityDTO"] = {
   "properties" : {
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
+    },
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
     },
     "size" : {
       "type" : "integer",
@@ -938,6 +946,9 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "first" : {
       "type" : "boolean"
     },
@@ -951,9 +962,6 @@ ul.nav-tabs {
     "pageable" : {
       "$ref" : "#/components/schemas/PageableObject"
     },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
-    },
     "empty" : {
       "type" : "boolean"
     }
@@ -961,13 +969,13 @@ ul.nav-tabs {
 };
     defs["PageBookingDTO"] = {
   "properties" : {
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
+    },
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
     },
     "size" : {
       "type" : "integer",
@@ -983,6 +991,9 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "first" : {
       "type" : "boolean"
     },
@@ -996,9 +1007,6 @@ ul.nav-tabs {
     "pageable" : {
       "$ref" : "#/components/schemas/PageableObject"
     },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
-    },
     "empty" : {
       "type" : "boolean"
     }
@@ -1006,13 +1014,13 @@ ul.nav-tabs {
 };
     defs["PageReviewDTO"] = {
   "properties" : {
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
+    },
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
     },
     "size" : {
       "type" : "integer",
@@ -1028,6 +1036,9 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "first" : {
       "type" : "boolean"
     },
@@ -1041,9 +1052,6 @@ ul.nav-tabs {
     "pageable" : {
       "$ref" : "#/components/schemas/PageableObject"
     },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
-    },
     "empty" : {
       "type" : "boolean"
     }
@@ -1051,13 +1059,13 @@ ul.nav-tabs {
 };
     defs["PageUserResponseDTO"] = {
   "properties" : {
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
+    },
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
     },
     "size" : {
       "type" : "integer",
@@ -1073,6 +1081,9 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "first" : {
       "type" : "boolean"
     },
@@ -1085,9 +1096,6 @@ ul.nav-tabs {
     },
     "pageable" : {
       "$ref" : "#/components/schemas/PageableObject"
-    },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
     },
     "empty" : {
       "type" : "boolean"
@@ -1120,21 +1128,21 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int64"
     },
-    "unpaged" : {
-      "type" : "boolean"
-    },
-    "pageNumber" : {
-      "type" : "integer",
-      "format" : "int32"
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
     },
     "pageSize" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
+    "pageNumber" : {
+      "type" : "integer",
+      "format" : "int32"
     },
     "paged" : {
+      "type" : "boolean"
+    },
+    "unpaged" : {
       "type" : "boolean"
     }
   }
@@ -1176,6 +1184,24 @@ ul.nav-tabs {
     }
   }
 };
+    defs["updateActivityPdf_request"] = {
+  "required" : [ "pdfFile" ],
+  "properties" : {
+    "pdfFile" : {
+      "type" : "string",
+      "format" : "binary"
+    }
+  }
+};
+    defs["updateUserImage_request"] = {
+  "required" : [ "imageFile" ],
+  "properties" : {
+    "imageFile" : {
+      "type" : "string",
+      "format" : "binary"
+    }
+  }
+};
     defs["UserResponseDTO"] = {
   "properties" : {
     "id" : {
@@ -1196,6 +1222,10 @@ ul.nav-tabs {
     },
     "imageUrl" : {
       "type" : "string"
+    },
+    "password" : {
+      "type" : "string",
+      "writeOnly" : true
     }
   }
 };
@@ -1219,14 +1249,32 @@ ul.nav-tabs {
             <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
 
                   <li class="nav-header" data-group="ActivityRestController"><a href="#api-ActivityRestController">API Methods - ActivityRestController</a></li>
+                    <li data-group="ActivityRestController" data-name="createActivity" class="">
+                      <a href="#api-ActivityRestController-createActivity">createActivity</a>
+                    </li>
+                    <li data-group="ActivityRestController" data-name="deleteActivity" class="">
+                      <a href="#api-ActivityRestController-deleteActivity">deleteActivity</a>
+                    </li>
                     <li data-group="ActivityRestController" data-name="getActivityById" class="">
                       <a href="#api-ActivityRestController-getActivityById">getActivityById</a>
                     </li>
                     <li data-group="ActivityRestController" data-name="getActivityImage" class="">
                       <a href="#api-ActivityRestController-getActivityImage">getActivityImage</a>
                     </li>
+                    <li data-group="ActivityRestController" data-name="getActivityPdf" class="">
+                      <a href="#api-ActivityRestController-getActivityPdf">getActivityPdf</a>
+                    </li>
                     <li data-group="ActivityRestController" data-name="getAllActivities" class="">
                       <a href="#api-ActivityRestController-getAllActivities">getAllActivities</a>
+                    </li>
+                    <li data-group="ActivityRestController" data-name="updateActivity" class="">
+                      <a href="#api-ActivityRestController-updateActivity">updateActivity</a>
+                    </li>
+                    <li data-group="ActivityRestController" data-name="updateActivityImage" class="">
+                      <a href="#api-ActivityRestController-updateActivityImage">updateActivityImage</a>
+                    </li>
+                    <li data-group="ActivityRestController" data-name="updateActivityPdf" class="">
+                      <a href="#api-ActivityRestController-updateActivityPdf">updateActivityPdf</a>
                     </li>
                   <li class="nav-header" data-group="ApiErrorController"><a href="#api-ApiErrorController">API Methods - ApiErrorController</a></li>
                     <li data-group="ApiErrorController" data-name="handleApiNotFound" class="">
@@ -1258,6 +1306,9 @@ ul.nav-tabs {
                     <li data-group="BookingRestController" data-name="cancelBooking" class="">
                       <a href="#api-BookingRestController-cancelBooking">cancelBooking</a>
                     </li>
+                    <li data-group="BookingRestController" data-name="createBooking" class="">
+                      <a href="#api-BookingRestController-createBooking">createBooking</a>
+                    </li>
                     <li data-group="BookingRestController" data-name="getAllBookings" class="">
                       <a href="#api-BookingRestController-getAllBookings">getAllBookings</a>
                     </li>
@@ -1265,6 +1316,9 @@ ul.nav-tabs {
                       <a href="#api-BookingRestController-getBookingById">getBookingById</a>
                     </li>
                   <li class="nav-header" data-group="ReviewRestController"><a href="#api-ReviewRestController">API Methods - ReviewRestController</a></li>
+                    <li data-group="ReviewRestController" data-name="createReview" class="">
+                      <a href="#api-ReviewRestController-createReview">createReview</a>
+                    </li>
                     <li data-group="ReviewRestController" data-name="deleteReview" class="">
                       <a href="#api-ReviewRestController-deleteReview">deleteReview</a>
                     </li>
@@ -1296,6 +1350,9 @@ ul.nav-tabs {
                     <li data-group="UserRestController" data-name="updateUser" class="">
                       <a href="#api-UserRestController-updateUser">updateUser</a>
                     </li>
+                    <li data-group="UserRestController" data-name="updateUserImage" class="">
+                      <a href="#api-UserRestController-updateUserImage">updateUserImage</a>
+                    </li>
           </ul>
         </nav>
       </div>
@@ -1319,6 +1376,752 @@ ul.nav-tabs {
         <div id="sections">
                 <section id="api-ActivityRestController">
                   <h1>ActivityRestController</h1>
+                    <div id="api-ActivityRestController-createActivity">
+                      <article id="api-ActivityRestController-createActivity-0" data-group="User" data-name="createActivity" data-version="0">
+                        <div class="pull-left">
+                          <h1>createActivity</h1>
+                          <p>Create a new activity (Text data only)</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/activities</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-createActivity-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-createActivity-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-createActivity-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-createActivity-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-createActivity-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: */*" \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/activities" \
+ -d '{
+  &quot;schedule&quot; : &quot;schedule&quot;,
+  &quot;trainer&quot; : &quot;trainer&quot;,
+  &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+  &quot;name&quot; : &quot;name&quot;,
+  &quot;enrolledCount&quot; : 1,
+  &quot;pdfFilename&quot; : &quot;pdfFilename&quot;,
+  &quot;description&quot; : &quot;description&quot;,
+  &quot;id&quot; : 0,
+  &quot;capacity&quot; : 6
+}'
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        ActivityDTO activityDTO = ; // ActivityDTO | 
+
+        try {
+            ActivityDTO result = apiInstance.createActivity(activityDTO);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#createActivity");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final ActivityDTO activityDTO = new ActivityDTO(); // ActivityDTO | 
+
+try {
+    final result = await api_instance.createActivity(activityDTO);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->createActivity: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        ActivityDTO activityDTO = ; // ActivityDTO | 
+
+        try {
+            ActivityDTO result = apiInstance.createActivity(activityDTO);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#createActivity");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+ActivityDTO *activityDTO = ; // 
+
+// Create a new activity (Text data only)
+[apiInstance createActivityWith:activityDTO
+              completionHandler: ^(ActivityDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var activityDTO = ; // {ActivityDTO} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.createActivity(activityDTO, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-createActivity-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class createActivityExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var activityDTO = new ActivityDTO(); // ActivityDTO | 
+
+            try {
+                // Create a new activity (Text data only)
+                ActivityDTO result = apiInstance.createActivity(activityDTO);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.createActivity: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$activityDTO = ; // ActivityDTO | 
+
+try {
+    $result = $api_instance->createActivity($activityDTO);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->createActivity: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $activityDTO = WWW::OPenAPIClient::Object::ActivityDTO->new(); # ActivityDTO | 
+
+eval {
+    my $result = $api_instance->createActivity(activityDTO => $activityDTO);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->createActivity: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+activityDTO =  # ActivityDTO | 
+
+try:
+    # Create a new activity (Text data only)
+    api_response = api_instance.create_activity(activityDTO)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->createActivity: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-createActivity-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let activityDTO = ; // ActivityDTO
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.createActivity(activityDTO, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">activityDTO <span style="color:red;">*</span></td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ActivityDTO"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_createActivity_activityDTO');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_createActivity_activityDTO"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-createActivity-title-200"></h3>
+                            <p id="examples-ActivityRestController-createActivity-description-200" class="marked"></p>
+                            <script>
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-createActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description);
+                              } else {
+                                $("#examples-ActivityRestController-createActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-createActivity-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ActivityRestController-createActivity-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ActivityRestController-createActivity-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ActivityRestController-createActivity-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-createActivity-200-schema">
+                                <div id="responses-ActivityRestController-createActivity-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ActivityDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ActivityRestController-createActivity-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-createActivity-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ActivityRestController-createActivity-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-ActivityRestController-deleteActivity">
+                      <article id="api-ActivityRestController-deleteActivity-0" data-group="User" data-name="deleteActivity" data-version="0">
+                        <div class="pull-left">
+                          <h1>deleteActivity</h1>
+                          <p>Delete an activity</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/api/v1/activities/{id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-deleteActivity-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-deleteActivity-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-deleteActivity-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-deleteActivity-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-deleteActivity-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
+ "https://localhost:8443/api/v1/activities/{id}"
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            apiInstance.deleteActivity(id);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#deleteActivity");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+
+try {
+    final result = await api_instance.deleteActivity(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->deleteActivity: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            apiInstance.deleteActivity(id);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#deleteActivity");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+
+// Delete an activity
+[apiInstance deleteActivityWith:id
+              completionHandler: ^(NSError* error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var id = 789; // {Long} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.deleteActivity(id, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class deleteActivityExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+
+            try {
+                // Delete an activity
+                apiInstance.deleteActivity(id);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.deleteActivity: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$id = 789; // Long | 
+
+try {
+    $api_instance->deleteActivity($id);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->deleteActivity: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $id = 789; # Long | 
+
+eval {
+    $api_instance->deleteActivity(id => $id);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->deleteActivity: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+id = 789 # Long |  (default to null)
+
+try:
+    # Delete an activity
+    api_instance.delete_activity(id)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->deleteActivity: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-deleteActivity-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.deleteActivity(id, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_deleteActivity_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-deleteActivity-title-200"></h3>
+                            <p id="examples-ActivityRestController-deleteActivity-description-200" class="marked"></p>
+                            <script>
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-deleteActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description);
+                              } else {
+                                $("#examples-ActivityRestController-deleteActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-deleteActivity-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ActivityRestController-deleteActivity-200" class="nav nav-tabs nav-tabs-examples" >
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ActivityRestController-deleteActivity-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-deleteActivity-200-schema">
+                                <div id="responses-ActivityRestController-deleteActivity-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ActivityRestController-deleteActivity-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-deleteActivity-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ActivityRestController-deleteActivity-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-ActivityRestController-getActivityById">
                       <article id="api-ActivityRestController-getActivityById-0" data-group="User" data-name="getActivityById" data-version="0">
                         <div class="pull-left">
@@ -1354,7 +2157,7 @@ ul.nav-tabs {
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-ActivityRestController-getActivityById-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
- -H "Accept: application/json" \
+ -H "Accept: */*" \
  "https://localhost:8443/api/v1/activities/{id}"
 </code></pre>
                           </div>
@@ -1612,7 +2415,7 @@ pub fn main() {
                             <h3 id="examples-ActivityRestController-getActivityById-title-200"></h3>
                             <p id="examples-ActivityRestController-getActivityById-description-200" class="marked"></p>
                             <script>
-                              var responseActivityRestController200_description = `Activity found`;
+                              var responseActivityRestController200_description = `OK`;
                               var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
                               if (responseActivityRestController200_description_break == -1) {
                                 $("#examples-ActivityRestController-getActivityById-title-200").text("Status: 200 - " + responseActivityRestController200_description);
@@ -1640,9 +2443,9 @@ pub fn main() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Activity found",
+  "description" : "OK",
   "content" : {
-    "application/json" : {
+    "*/*" : {
       "schema" : {
         "$ref" : "#/components/schemas/ActivityDTO"
       }
@@ -1685,70 +2488,6 @@ pub fn main() {
                                 <input id='responses-ActivityRestController-getActivityById-200-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
-                            <h3 id="examples-ActivityRestController-getActivityById-title-404"></h3>
-                            <p id="examples-ActivityRestController-getActivityById-description-404" class="marked"></p>
-                            <script>
-                              var responseActivityRestController404_description = `Activity not found`;
-                              var responseActivityRestController404_description_break = responseActivityRestController404_description.indexOf('\n');
-                              if (responseActivityRestController404_description_break == -1) {
-                                $("#examples-ActivityRestController-getActivityById-title-404").text("Status: 404 - " + responseActivityRestController404_description);
-                              } else {
-                                $("#examples-ActivityRestController-getActivityById-title-404").text("Status: 404 - " + responseActivityRestController404_description.substring(0, responseActivityRestController404_description_break));
-                                $("#examples-ActivityRestController-getActivityById-description-404").html(responseActivityRestController404_description.substring(responseActivityRestController404_description_break));
-                              }
-                            </script>
-
-
-                            <ul id="responses-detail-ActivityRestController-getActivityById-404" class="nav nav-tabs nav-tabs-examples" >
-
-
-                            </ul>
-
-
-                            <div class="tab-content" id="responses-ActivityRestController-getActivityById-404-wrapper" style='margin-bottom: 10px;'>
-                              <div class="tab-pane active" id="responses-ActivityRestController-getActivityById-404-schema">
-                                <div id="responses-ActivityRestController-getActivityById-schema-404" class="exampleStyle">
-                                  <script>
-                                    $(document).ready(function() {
-                                      var schemaWrapper = {
-  "description" : "Activity not found"
-};
-                                      var schema = findNode('schema',schemaWrapper).schema;
-                                      if (!schema) {
-                                        schema = schemaWrapper.schema;
-                                      }
-                                      if (schema == null) {
-                                        return;
-                                      }
-                                      if (schema.$ref != null) {
-                                        schema = defsParser.$refs.get(schema.$ref);
-                                        if (schema.properties != null) {
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        }
-                                      } else if (schema.items != null && schema.items.$ref != null) {
-                                        schema.items = defsParser.$refs.get(schema.items.$ref);
-                                      } else {
-                                        schemaWrapper.definitions = Object.assign({}, defs);
-                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                          console.log(err);
-                                        });
-                                      }
-
-                                      var view = new JSONSchemaView(schema, 3);
-                                      $('#responses-ActivityRestController-getActivityById-404-schema-data').val(JSON.stringify(schema));
-                                      var result = $('#responses-ActivityRestController-getActivityById-schema-404');
-                                      result.empty();
-                                      result.append(view.render());
-                                    });
-                                  </script>
-                                </div>
-                                <input id='responses-ActivityRestController-getActivityById-404-schema-data' type='hidden' value=''></input>
-                              </div>
-                            </div>
                         </article>
                       </div>
                       <hr>
@@ -1787,6 +2526,7 @@ pub fn main() {
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-ActivityRestController-getActivityImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
+ -H "Accept: */*" \
  "https://localhost:8443/api/v1/activities/{id}/image"
 </code></pre>
                           </div>
@@ -1807,7 +2547,8 @@ public class ActivityRestControllerApiExample {
         Long id = 789; // Long | 
 
         try {
-            apiInstance.getActivityImage(id);
+            byte[] result = apiInstance.getActivityImage(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ActivityRestControllerApi#getActivityImage");
             e.printStackTrace();
@@ -1843,7 +2584,8 @@ public class ActivityRestControllerApiExample {
         Long id = 789; // Long | 
 
         try {
-            apiInstance.getActivityImage(id);
+            byte[] result = apiInstance.getActivityImage(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ActivityRestControllerApi#getActivityImage");
             e.printStackTrace();
@@ -1864,7 +2606,10 @@ Long *id = 789; //  (default to null)
 
 // Get the image of an activity
 [apiInstance getActivityImageWith:id
-              completionHandler: ^(NSError* error) {
+              completionHandler: ^(byte[] output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
     if (error) {
         NSLog(@"Error: %@", error);
     }
@@ -1883,7 +2628,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.getActivityImage(id, callback);
@@ -1913,7 +2658,8 @@ namespace Example
 
             try {
                 // Get the image of an activity
-                apiInstance.getActivityImage(id);
+                byte[] result = apiInstance.getActivityImage(id);
+                Debug.WriteLine(result);
             } catch (Exception e) {
                 Debug.Print("Exception when calling ActivityRestControllerApi.getActivityImage: " + e.Message );
             }
@@ -1932,7 +2678,8 @@ $api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
 $id = 789; // Long | 
 
 try {
-    $api_instance->getActivityImage($id);
+    $result = $api_instance->getActivityImage($id);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ActivityRestControllerApi->getActivityImage: ', $e->getMessage(), PHP_EOL;
 }
@@ -1949,7 +2696,8 @@ my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
 my $id = 789; # Long | 
 
 eval {
-    $api_instance->getActivityImage(id => $id);
+    my $result = $api_instance->getActivityImage(id => $id);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling ActivityRestControllerApi->getActivityImage: $@\n";
@@ -1969,7 +2717,8 @@ id = 789 # Long |  (default to null)
 
 try:
     # Get the image of an activity
-    api_instance.get_activity_image(id)
+    api_response = api_instance.get_activity_image(id)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling ActivityRestControllerApi->getActivityImage: %s\n" % e)</code></pre>
                             </div>
@@ -2035,7 +2784,7 @@ pub fn main() {
                             <h3 id="examples-ActivityRestController-getActivityImage-title-200"></h3>
                             <p id="examples-ActivityRestController-getActivityImage-description-200" class="marked"></p>
                             <script>
-                              var responseActivityRestController200_description = `Image found`;
+                              var responseActivityRestController200_description = `OK`;
                               var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
                               if (responseActivityRestController200_description_break == -1) {
                                 $("#examples-ActivityRestController-getActivityImage-title-200").text("Status: 200 - " + responseActivityRestController200_description);
@@ -2047,6 +2796,11 @@ pub fn main() {
 
 
                             <ul id="responses-detail-ActivityRestController-getActivityImage-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ActivityRestController-getActivityImage-200-schema">Schema</a>
+                                </li>
+
+
 
 
                             </ul>
@@ -2058,7 +2812,15 @@ pub fn main() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Image found"
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "type" : "string",
+        "format" : "byte"
+      }
+    }
+  }
 };
                                       var schema = findNode('schema',schemaWrapper).schema;
                                       if (!schema) {
@@ -2096,33 +2858,339 @@ pub fn main() {
                                 <input id='responses-ActivityRestController-getActivityImage-200-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
-                            <h3 id="examples-ActivityRestController-getActivityImage-title-404"></h3>
-                            <p id="examples-ActivityRestController-getActivityImage-description-404" class="marked"></p>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-ActivityRestController-getActivityPdf">
+                      <article id="api-ActivityRestController-getActivityPdf-0" data-group="User" data-name="getActivityPdf" data-version="0">
+                        <div class="pull-left">
+                          <h1>getActivityPdf</h1>
+                          <p>Download the information PDF of an activity</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/api/v1/activities/{id}/pdf</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-getActivityPdf-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-getActivityPdf-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-getActivityPdf-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET \
+ -H "Accept: */*" \
+ "https://localhost:8443/api/v1/activities/{id}/pdf"
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            File result = apiInstance.getActivityPdf(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#getActivityPdf");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+
+try {
+    final result = await api_instance.getActivityPdf(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->getActivityPdf: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            File result = apiInstance.getActivityPdf(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#getActivityPdf");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+
+// Download the information PDF of an activity
+[apiInstance getActivityPdfWith:id
+              completionHandler: ^(File output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var id = 789; // {Long} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getActivityPdf(id, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class getActivityPdfExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+
+            try {
+                // Download the information PDF of an activity
+                File result = apiInstance.getActivityPdf(id);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.getActivityPdf: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$id = 789; // Long | 
+
+try {
+    $result = $api_instance->getActivityPdf($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->getActivityPdf: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $id = 789; # Long | 
+
+eval {
+    my $result = $api_instance->getActivityPdf(id => $id);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->getActivityPdf: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+id = 789 # Long |  (default to null)
+
+try:
+    # Download the information PDF of an activity
+    api_response = api_instance.get_activity_pdf(id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->getActivityPdf: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-getActivityPdf-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.getActivityPdf(id, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_getActivityPdf_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-getActivityPdf-title-200"></h3>
+                            <p id="examples-ActivityRestController-getActivityPdf-description-200" class="marked"></p>
                             <script>
-                              var responseActivityRestController404_description = `Image or Activity not found`;
-                              var responseActivityRestController404_description_break = responseActivityRestController404_description.indexOf('\n');
-                              if (responseActivityRestController404_description_break == -1) {
-                                $("#examples-ActivityRestController-getActivityImage-title-404").text("Status: 404 - " + responseActivityRestController404_description);
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-getActivityPdf-title-200").text("Status: 200 - " + responseActivityRestController200_description);
                               } else {
-                                $("#examples-ActivityRestController-getActivityImage-title-404").text("Status: 404 - " + responseActivityRestController404_description.substring(0, responseActivityRestController404_description_break));
-                                $("#examples-ActivityRestController-getActivityImage-description-404").html(responseActivityRestController404_description.substring(responseActivityRestController404_description_break));
+                                $("#examples-ActivityRestController-getActivityPdf-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-getActivityPdf-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
                               }
                             </script>
 
 
-                            <ul id="responses-detail-ActivityRestController-getActivityImage-404" class="nav nav-tabs nav-tabs-examples" >
+                            <ul id="responses-detail-ActivityRestController-getActivityPdf-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ActivityRestController-getActivityPdf-200-schema">Schema</a>
+                                </li>
+
+
 
 
                             </ul>
 
 
-                            <div class="tab-content" id="responses-ActivityRestController-getActivityImage-404-wrapper" style='margin-bottom: 10px;'>
-                              <div class="tab-pane active" id="responses-ActivityRestController-getActivityImage-404-schema">
-                                <div id="responses-ActivityRestController-getActivityImage-schema-404" class="exampleStyle">
+                            <div class="tab-content" id="responses-ActivityRestController-getActivityPdf-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-getActivityPdf-200-schema">
+                                <div id="responses-ActivityRestController-getActivityPdf-schema-200" class="exampleStyle">
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Image or Activity not found"
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "type" : "string",
+        "format" : "binary"
+      }
+    }
+  }
 };
                                       var schema = findNode('schema',schemaWrapper).schema;
                                       if (!schema) {
@@ -2150,14 +3218,14 @@ pub fn main() {
                                       }
 
                                       var view = new JSONSchemaView(schema, 3);
-                                      $('#responses-ActivityRestController-getActivityImage-404-schema-data').val(JSON.stringify(schema));
-                                      var result = $('#responses-ActivityRestController-getActivityImage-schema-404');
+                                      $('#responses-ActivityRestController-getActivityPdf-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-getActivityPdf-schema-200');
                                       result.empty();
                                       result.append(view.render());
                                     });
                                   </script>
                                 </div>
-                                <input id='responses-ActivityRestController-getActivityImage-404-schema-data' type='hidden' value=''></input>
+                                <input id='responses-ActivityRestController-getActivityPdf-200-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
                         </article>
@@ -2524,6 +3592,1264 @@ pub fn main() {
                                   </script>
                                 </div>
                                 <input id='responses-ActivityRestController-getAllActivities-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-ActivityRestController-updateActivity">
+                      <article id="api-ActivityRestController-updateActivity-0" data-group="User" data-name="updateActivity" data-version="0">
+                        <div class="pull-left">
+                          <h1>updateActivity</h1>
+                          <p>Update an existing activity (Text data only)</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/api/v1/activities/{id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-updateActivity-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivity-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivity-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivity-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-updateActivity-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
+ -H "Accept: */*" \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/activities/{id}" \
+ -d '{
+  &quot;schedule&quot; : &quot;schedule&quot;,
+  &quot;trainer&quot; : &quot;trainer&quot;,
+  &quot;imageUrl&quot; : &quot;imageUrl&quot;,
+  &quot;name&quot; : &quot;name&quot;,
+  &quot;enrolledCount&quot; : 1,
+  &quot;pdfFilename&quot; : &quot;pdfFilename&quot;,
+  &quot;description&quot; : &quot;description&quot;,
+  &quot;id&quot; : 0,
+  &quot;capacity&quot; : 6
+}'
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        ActivityDTO activityDTO = ; // ActivityDTO | 
+
+        try {
+            ActivityDTO result = apiInstance.updateActivity(id, activityDTO);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivity");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+final ActivityDTO activityDTO = new ActivityDTO(); // ActivityDTO | 
+
+try {
+    final result = await api_instance.updateActivity(id, activityDTO);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->updateActivity: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        ActivityDTO activityDTO = ; // ActivityDTO | 
+
+        try {
+            ActivityDTO result = apiInstance.updateActivity(id, activityDTO);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivity");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+ActivityDTO *activityDTO = ; // 
+
+// Update an existing activity (Text data only)
+[apiInstance updateActivityWith:id
+    activityDTO:activityDTO
+              completionHandler: ^(ActivityDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var id = 789; // {Long} 
+var activityDTO = ; // {ActivityDTO} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.updateActivity(id, activityDTO, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class updateActivityExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+            var activityDTO = new ActivityDTO(); // ActivityDTO | 
+
+            try {
+                // Update an existing activity (Text data only)
+                ActivityDTO result = apiInstance.updateActivity(id, activityDTO);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.updateActivity: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$id = 789; // Long | 
+$activityDTO = ; // ActivityDTO | 
+
+try {
+    $result = $api_instance->updateActivity($id, $activityDTO);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->updateActivity: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $id = 789; # Long | 
+my $activityDTO = WWW::OPenAPIClient::Object::ActivityDTO->new(); # ActivityDTO | 
+
+eval {
+    my $result = $api_instance->updateActivity(id => $id, activityDTO => $activityDTO);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->updateActivity: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+id = 789 # Long |  (default to null)
+activityDTO =  # ActivityDTO | 
+
+try:
+    # Update an existing activity (Text data only)
+    api_response = api_instance.update_activity(id, activityDTO)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->updateActivity: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivity-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+    let activityDTO = ; // ActivityDTO
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.updateActivity(id, activityDTO, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_updateActivity_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">activityDTO <span style="color:red;">*</span></td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ActivityDTO"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_updateActivity_activityDTO');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_updateActivity_activityDTO"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-updateActivity-title-200"></h3>
+                            <p id="examples-ActivityRestController-updateActivity-description-200" class="marked"></p>
+                            <script>
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-updateActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description);
+                              } else {
+                                $("#examples-ActivityRestController-updateActivity-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-updateActivity-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ActivityRestController-updateActivity-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ActivityRestController-updateActivity-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ActivityRestController-updateActivity-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-updateActivity-200-schema">
+                                <div id="responses-ActivityRestController-updateActivity-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ActivityDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ActivityRestController-updateActivity-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-updateActivity-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ActivityRestController-updateActivity-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-ActivityRestController-updateActivityImage">
+                      <article id="api-ActivityRestController-updateActivityImage-0" data-group="User" data-name="updateActivityImage" data-version="0">
+                        <div class="pull-left">
+                          <h1>updateActivityImage</h1>
+                          <p>Update the image of an activity</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/api/v1/activities/{id}/image</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-updateActivityImage-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityImage-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-updateActivityImage-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/activities/{id}/image" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateUserImageRequest updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+        try {
+            apiInstance.updateActivityImage(id, updateUserImageRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivityImage");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+final UpdateUserImageRequest updateUserImageRequest = new UpdateUserImageRequest(); // UpdateUserImageRequest | 
+
+try {
+    final result = await api_instance.updateActivityImage(id, updateUserImageRequest);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->updateActivityImage: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateUserImageRequest updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+        try {
+            apiInstance.updateActivityImage(id, updateUserImageRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivityImage");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+UpdateUserImageRequest *updateUserImageRequest = ; //  (optional)
+
+// Update the image of an activity
+[apiInstance updateActivityImageWith:id
+    updateUserImageRequest:updateUserImageRequest
+              completionHandler: ^(NSError* error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var id = 789; // {Long} 
+var opts = {
+  'updateUserImageRequest':  // {UpdateUserImageRequest} 
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.updateActivityImage(id, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class updateActivityImageExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+            var updateUserImageRequest = new UpdateUserImageRequest(); // UpdateUserImageRequest |  (optional) 
+
+            try {
+                // Update the image of an activity
+                apiInstance.updateActivityImage(id, updateUserImageRequest);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.updateActivityImage: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$id = 789; // Long | 
+$updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+try {
+    $api_instance->updateActivityImage($id, $updateUserImageRequest);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->updateActivityImage: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $id = 789; # Long | 
+my $updateUserImageRequest = WWW::OPenAPIClient::Object::UpdateUserImageRequest->new(); # UpdateUserImageRequest | 
+
+eval {
+    $api_instance->updateActivityImage(id => $id, updateUserImageRequest => $updateUserImageRequest);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->updateActivityImage: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+id = 789 # Long |  (default to null)
+updateUserImageRequest =  # UpdateUserImageRequest |  (optional)
+
+try:
+    # Update the image of an activity
+    api_instance.update_activity_image(id, updateUserImageRequest=updateUserImageRequest)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->updateActivityImage: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityImage-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+    let updateUserImageRequest = ; // UpdateUserImageRequest
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.updateActivityImage(id, updateUserImageRequest, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_updateActivityImage_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">updateUserImageRequest </td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/updateUserImage_request"
+      }
+    }
+  }
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_updateActivityImage_updateUserImageRequest');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_updateActivityImage_updateUserImageRequest"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-updateActivityImage-title-200"></h3>
+                            <p id="examples-ActivityRestController-updateActivityImage-description-200" class="marked"></p>
+                            <script>
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-updateActivityImage-title-200").text("Status: 200 - " + responseActivityRestController200_description);
+                              } else {
+                                $("#examples-ActivityRestController-updateActivityImage-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-updateActivityImage-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ActivityRestController-updateActivityImage-200" class="nav nav-tabs nav-tabs-examples" >
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ActivityRestController-updateActivityImage-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-updateActivityImage-200-schema">
+                                <div id="responses-ActivityRestController-updateActivityImage-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ActivityRestController-updateActivityImage-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-updateActivityImage-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ActivityRestController-updateActivityImage-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-ActivityRestController-updateActivityPdf">
+                      <article id="api-ActivityRestController-updateActivityPdf-0" data-group="User" data-name="updateActivityPdf" data-version="0">
+                        <div class="pull-left">
+                          <h1>updateActivityPdf</h1>
+                          <p>Update the information PDF of an activity</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/api/v1/activities/{id}/pdf</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ActivityRestController-updateActivityPdf-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ActivityRestController-updateActivityPdf-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ActivityRestController-updateActivityPdf-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/activities/{id}/pdf" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ActivityRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateActivityPdfRequest updateActivityPdfRequest = ; // UpdateActivityPdfRequest | 
+
+        try {
+            apiInstance.updateActivityPdf(id, updateActivityPdfRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivityPdf");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+final UpdateActivityPdfRequest updateActivityPdfRequest = new UpdateActivityPdfRequest(); // UpdateActivityPdfRequest | 
+
+try {
+    final result = await api_instance.updateActivityPdf(id, updateActivityPdfRequest);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->updateActivityPdf: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ActivityRestControllerApi;
+
+public class ActivityRestControllerApiExample {
+    public static void main(String[] args) {
+        ActivityRestControllerApi apiInstance = new ActivityRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateActivityPdfRequest updateActivityPdfRequest = ; // UpdateActivityPdfRequest | 
+
+        try {
+            apiInstance.updateActivityPdf(id, updateActivityPdfRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ActivityRestControllerApi#updateActivityPdf");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ActivityRestControllerApi *apiInstance = [[ActivityRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+UpdateActivityPdfRequest *updateActivityPdfRequest = ; //  (optional)
+
+// Update the information PDF of an activity
+[apiInstance updateActivityPdfWith:id
+    updateActivityPdfRequest:updateActivityPdfRequest
+              completionHandler: ^(NSError* error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ActivityRestControllerApi()
+var id = 789; // {Long} 
+var opts = {
+  'updateActivityPdfRequest':  // {UpdateActivityPdfRequest} 
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.updateActivityPdf(id, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class updateActivityPdfExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ActivityRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+            var updateActivityPdfRequest = new UpdateActivityPdfRequest(); // UpdateActivityPdfRequest |  (optional) 
+
+            try {
+                // Update the information PDF of an activity
+                apiInstance.updateActivityPdf(id, updateActivityPdfRequest);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ActivityRestControllerApi.updateActivityPdf: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ActivityRestControllerApi();
+$id = 789; // Long | 
+$updateActivityPdfRequest = ; // UpdateActivityPdfRequest | 
+
+try {
+    $api_instance->updateActivityPdf($id, $updateActivityPdfRequest);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivityRestControllerApi->updateActivityPdf: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ActivityRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ActivityRestControllerApi->new();
+my $id = 789; # Long | 
+my $updateActivityPdfRequest = WWW::OPenAPIClient::Object::UpdateActivityPdfRequest->new(); # UpdateActivityPdfRequest | 
+
+eval {
+    $api_instance->updateActivityPdf(id => $id, updateActivityPdfRequest => $updateActivityPdfRequest);
+};
+if ($@) {
+    warn "Exception when calling ActivityRestControllerApi->updateActivityPdf: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ActivityRestControllerApi()
+id = 789 # Long |  (default to null)
+updateActivityPdfRequest =  # UpdateActivityPdfRequest |  (optional)
+
+try:
+    # Update the information PDF of an activity
+    api_instance.update_activity_pdf(id, updateActivityPdfRequest=updateActivityPdfRequest)
+except ApiException as e:
+    print("Exception when calling ActivityRestControllerApi->updateActivityPdf: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ActivityRestController-updateActivityPdf-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ActivityRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+    let updateActivityPdfRequest = ; // UpdateActivityPdfRequest
+
+    let mut context = ActivityRestControllerApi::Context::default();
+    let result = client.updateActivityPdf(id, updateActivityPdfRequest, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_updateActivityPdf_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">updateActivityPdfRequest </td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/updateActivityPdf_request"
+      }
+    }
+  }
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_updateActivityPdf_updateActivityPdfRequest');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_updateActivityPdf_updateActivityPdfRequest"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ActivityRestController-updateActivityPdf-title-200"></h3>
+                            <p id="examples-ActivityRestController-updateActivityPdf-description-200" class="marked"></p>
+                            <script>
+                              var responseActivityRestController200_description = `OK`;
+                              var responseActivityRestController200_description_break = responseActivityRestController200_description.indexOf('\n');
+                              if (responseActivityRestController200_description_break == -1) {
+                                $("#examples-ActivityRestController-updateActivityPdf-title-200").text("Status: 200 - " + responseActivityRestController200_description);
+                              } else {
+                                $("#examples-ActivityRestController-updateActivityPdf-title-200").text("Status: 200 - " + responseActivityRestController200_description.substring(0, responseActivityRestController200_description_break));
+                                $("#examples-ActivityRestController-updateActivityPdf-description-200").html(responseActivityRestController200_description.substring(responseActivityRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ActivityRestController-updateActivityPdf-200" class="nav nav-tabs nav-tabs-examples" >
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ActivityRestController-updateActivityPdf-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ActivityRestController-updateActivityPdf-200-schema">
+                                <div id="responses-ActivityRestController-updateActivityPdf-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ActivityRestController-updateActivityPdf-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ActivityRestController-updateActivityPdf-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ActivityRestController-updateActivityPdf-200-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
                         </article>
@@ -5679,6 +8005,395 @@ pub fn main() {
                         </article>
                       </div>
                       <hr>
+                    <div id="api-BookingRestController-createBooking">
+                      <article id="api-BookingRestController-createBooking-0" data-group="User" data-name="createBooking" data-version="0">
+                        <div class="pull-left">
+                          <h1>createBooking</h1>
+                          <p>Create a new booking with specific date and time</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/bookings</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-BookingRestController-createBooking-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-java">Java</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-BookingRestController-createBooking-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-BookingRestController-createBooking-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-python">Python</a></li>
+                          <li class=""><a href="#examples-BookingRestController-createBooking-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-BookingRestController-createBooking-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: */*" \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/bookings" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-BookingRestController-createBooking-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.BookingRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class BookingRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        BookingRestControllerApi apiInstance = new BookingRestControllerApi();
+        map[String, oas_any_type_not_mapped] requestBody = Object; // map[String, oas_any_type_not_mapped] | 
+
+        try {
+            BookingDTO result = apiInstance.createBooking(requestBody);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BookingRestControllerApi#createBooking");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-BookingRestController-createBooking-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final map[String, oas_any_type_not_mapped] requestBody = new map[String, oas_any_type_not_mapped](); // map[String, oas_any_type_not_mapped] | 
+
+try {
+    final result = await api_instance.createBooking(requestBody);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->createBooking: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-BookingRestController-createBooking-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.BookingRestControllerApi;
+
+public class BookingRestControllerApiExample {
+    public static void main(String[] args) {
+        BookingRestControllerApi apiInstance = new BookingRestControllerApi();
+        map[String, oas_any_type_not_mapped] requestBody = Object; // map[String, oas_any_type_not_mapped] | 
+
+        try {
+            BookingDTO result = apiInstance.createBooking(requestBody);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling BookingRestControllerApi#createBooking");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-BookingRestController-createBooking-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+BookingRestControllerApi *apiInstance = [[BookingRestControllerApi alloc] init];
+map[String, oas_any_type_not_mapped] *requestBody = Object; // 
+
+// Create a new booking with specific date and time
+[apiInstance createBookingWith:requestBody
+              completionHandler: ^(BookingDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.BookingRestControllerApi()
+var requestBody = Object; // {map[String, oas_any_type_not_mapped]} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.createBooking(requestBody, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-BookingRestController-createBooking-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class createBookingExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new BookingRestControllerApi();
+            var requestBody = new map[String, oas_any_type_not_mapped](); // map[String, oas_any_type_not_mapped] | 
+
+            try {
+                // Create a new booking with specific date and time
+                BookingDTO result = apiInstance.createBooking(requestBody);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling BookingRestControllerApi.createBooking: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\BookingRestControllerApi();
+$requestBody = Object; // map[String, oas_any_type_not_mapped] | 
+
+try {
+    $result = $api_instance->createBooking($requestBody);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling BookingRestControllerApi->createBooking: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::BookingRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::BookingRestControllerApi->new();
+my $requestBody = WWW::OPenAPIClient::Object::map[String, oas_any_type_not_mapped]->new(); # map[String, oas_any_type_not_mapped] | 
+
+eval {
+    my $result = $api_instance->createBooking(requestBody => $requestBody);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling BookingRestControllerApi->createBooking: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.BookingRestControllerApi()
+requestBody = Object # map[String, oas_any_type_not_mapped] | 
+
+try:
+    # Create a new booking with specific date and time
+    api_response = api_instance.create_booking(requestBody)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling BookingRestControllerApi->createBooking: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-BookingRestController-createBooking-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate BookingRestControllerApi;
+
+pub fn main() {
+    let requestBody = Object; // map[String, oas_any_type_not_mapped]
+
+    let mut context = BookingRestControllerApi::Context::default();
+    let result = client.createBooking(requestBody, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">requestBody <span style="color:red;">*</span></td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "additionalProperties" : { }
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_createBooking_requestBody');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_createBooking_requestBody"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-BookingRestController-createBooking-title-200"></h3>
+                            <p id="examples-BookingRestController-createBooking-description-200" class="marked"></p>
+                            <script>
+                              var responseBookingRestController200_description = `OK`;
+                              var responseBookingRestController200_description_break = responseBookingRestController200_description.indexOf('\n');
+                              if (responseBookingRestController200_description_break == -1) {
+                                $("#examples-BookingRestController-createBooking-title-200").text("Status: 200 - " + responseBookingRestController200_description);
+                              } else {
+                                $("#examples-BookingRestController-createBooking-title-200").text("Status: 200 - " + responseBookingRestController200_description.substring(0, responseBookingRestController200_description_break));
+                                $("#examples-BookingRestController-createBooking-description-200").html(responseBookingRestController200_description.substring(responseBookingRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-BookingRestController-createBooking-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-BookingRestController-createBooking-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-BookingRestController-createBooking-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-BookingRestController-createBooking-200-schema">
+                                <div id="responses-BookingRestController-createBooking-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/BookingDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-BookingRestController-createBooking-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-BookingRestController-createBooking-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-BookingRestController-createBooking-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-BookingRestController-getAllBookings">
                       <article id="api-BookingRestController-getAllBookings-0" data-group="User" data-name="getAllBookings" data-version="0">
                         <div class="pull-left">
@@ -6481,6 +9196,509 @@ pub fn main() {
                   </section>
                 <section id="api-ReviewRestController">
                   <h1>ReviewRestController</h1>
+                    <div id="api-ReviewRestController-createReview">
+                      <article id="api-ReviewRestController-createReview-0" data-group="User" data-name="createReview" data-version="0">
+                        <div class="pull-left">
+                          <h1>createReview</h1>
+                          <p>Create a new review for an activity</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/reviews/activity/{activityId}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ReviewRestController-createReview-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ReviewRestController-createReview-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ReviewRestController-createReview-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ReviewRestController-createReview-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ReviewRestController-createReview-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: */*" \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/reviews/activity/{activityId}?comment=comment_example&rating=56" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ReviewRestController-createReview-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ReviewRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ReviewRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ReviewRestControllerApi apiInstance = new ReviewRestControllerApi();
+        Long activityId = 789; // Long | 
+        String comment = comment_example; // String | 
+        Integer rating = 56; // Integer | 
+        CreateReviewRequest createReviewRequest = ; // CreateReviewRequest | 
+
+        try {
+            ReviewDTO result = apiInstance.createReview(activityId, comment, rating, createReviewRequest);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ReviewRestControllerApi#createReview");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ReviewRestController-createReview-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long activityId = new Long(); // Long | 
+final String comment = new String(); // String | 
+final Integer rating = new Integer(); // Integer | 
+final CreateReviewRequest createReviewRequest = new CreateReviewRequest(); // CreateReviewRequest | 
+
+try {
+    final result = await api_instance.createReview(activityId, comment, rating, createReviewRequest);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->createReview: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ReviewRestController-createReview-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ReviewRestControllerApi;
+
+public class ReviewRestControllerApiExample {
+    public static void main(String[] args) {
+        ReviewRestControllerApi apiInstance = new ReviewRestControllerApi();
+        Long activityId = 789; // Long | 
+        String comment = comment_example; // String | 
+        Integer rating = 56; // Integer | 
+        CreateReviewRequest createReviewRequest = ; // CreateReviewRequest | 
+
+        try {
+            ReviewDTO result = apiInstance.createReview(activityId, comment, rating, createReviewRequest);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ReviewRestControllerApi#createReview");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ReviewRestController-createReview-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ReviewRestControllerApi *apiInstance = [[ReviewRestControllerApi alloc] init];
+Long *activityId = 789; //  (default to null)
+String *comment = comment_example; //  (default to null)
+Integer *rating = 56; //  (default to null)
+CreateReviewRequest *createReviewRequest = ; //  (optional)
+
+// Create a new review for an activity
+[apiInstance createReviewWith:activityId
+    comment:comment
+    rating:rating
+    createReviewRequest:createReviewRequest
+              completionHandler: ^(ReviewDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.ReviewRestControllerApi()
+var activityId = 789; // {Long} 
+var comment = comment_example; // {String} 
+var rating = 56; // {Integer} 
+var opts = {
+  'createReviewRequest':  // {CreateReviewRequest} 
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.createReview(activityId, comment, rating, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ReviewRestController-createReview-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class createReviewExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ReviewRestControllerApi();
+            var activityId = 789;  // Long |  (default to null)
+            var comment = comment_example;  // String |  (default to null)
+            var rating = 56;  // Integer |  (default to null)
+            var createReviewRequest = new CreateReviewRequest(); // CreateReviewRequest |  (optional) 
+
+            try {
+                // Create a new review for an activity
+                ReviewDTO result = apiInstance.createReview(activityId, comment, rating, createReviewRequest);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ReviewRestControllerApi.createReview: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ReviewRestControllerApi();
+$activityId = 789; // Long | 
+$comment = comment_example; // String | 
+$rating = 56; // Integer | 
+$createReviewRequest = ; // CreateReviewRequest | 
+
+try {
+    $result = $api_instance->createReview($activityId, $comment, $rating, $createReviewRequest);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ReviewRestControllerApi->createReview: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ReviewRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ReviewRestControllerApi->new();
+my $activityId = 789; # Long | 
+my $comment = comment_example; # String | 
+my $rating = 56; # Integer | 
+my $createReviewRequest = WWW::OPenAPIClient::Object::CreateReviewRequest->new(); # CreateReviewRequest | 
+
+eval {
+    my $result = $api_instance->createReview(activityId => $activityId, comment => $comment, rating => $rating, createReviewRequest => $createReviewRequest);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ReviewRestControllerApi->createReview: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ReviewRestControllerApi()
+activityId = 789 # Long |  (default to null)
+comment = comment_example # String |  (default to null)
+rating = 56 # Integer |  (default to null)
+createReviewRequest =  # CreateReviewRequest |  (optional)
+
+try:
+    # Create a new review for an activity
+    api_response = api_instance.create_review(activityId, comment, rating, createReviewRequest=createReviewRequest)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ReviewRestControllerApi->createReview: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ReviewRestController-createReview-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ReviewRestControllerApi;
+
+pub fn main() {
+    let activityId = 789; // Long
+    let comment = comment_example; // String
+    let rating = 56; // Integer
+    let createReviewRequest = ; // CreateReviewRequest
+
+    let mut context = ReviewRestControllerApi::Context::default();
+    let result = client.createReview(activityId, comment, rating, createReviewRequest, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">activityId*</td>
+<td>
+
+
+    <div id="d2e199_createReview_activityId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">createReviewRequest </td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/createReview_request"
+      }
+    }
+  }
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_createReview_createReviewRequest');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_createReview_createReviewRequest"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">comment*</td>
+<td>
+
+
+    <div id="d2e199_createReview_comment">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                <tr><td style="width:150px;">rating*</td>
+<td>
+
+
+    <div id="d2e199_createReview_rating">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+                    <span class="format">
+                        (int32)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ReviewRestController-createReview-title-200"></h3>
+                            <p id="examples-ReviewRestController-createReview-description-200" class="marked"></p>
+                            <script>
+                              var responseReviewRestController200_description = `OK`;
+                              var responseReviewRestController200_description_break = responseReviewRestController200_description.indexOf('\n');
+                              if (responseReviewRestController200_description_break == -1) {
+                                $("#examples-ReviewRestController-createReview-title-200").text("Status: 200 - " + responseReviewRestController200_description);
+                              } else {
+                                $("#examples-ReviewRestController-createReview-title-200").text("Status: 200 - " + responseReviewRestController200_description.substring(0, responseReviewRestController200_description_break));
+                                $("#examples-ReviewRestController-createReview-description-200").html(responseReviewRestController200_description.substring(responseReviewRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ReviewRestController-createReview-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ReviewRestController-createReview-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ReviewRestController-createReview-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-ReviewRestController-createReview-200-schema">
+                                <div id="responses-ReviewRestController-createReview-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ReviewDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-ReviewRestController-createReview-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-ReviewRestController-createReview-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-ReviewRestController-createReview-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-ReviewRestController-deleteReview">
                       <article id="api-ReviewRestController-deleteReview-0" data-group="User" data-name="deleteReview" data-version="0">
                         <div class="pull-left">
@@ -10074,6 +13292,7 @@ pub fn main() {
  -H "Content-Type: application/json" \
  "https://localhost:8443/api/v1/users/{id}" \
  -d '{
+  &quot;password&quot; : &quot;password&quot;,
   &quot;roles&quot; : [ &quot;roles&quot;, &quot;roles&quot; ],
   &quot;imageUrl&quot; : &quot;imageUrl&quot;,
   &quot;name&quot; : &quot;name&quot;,
@@ -10618,6 +13837,415 @@ $(document).ready(function() {
                                   </script>
                                 </div>
                                 <input id='responses-UserRestController-updateUser-404-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-UserRestController-updateUserImage">
+                      <article id="api-UserRestController-updateUserImage-0" data-group="User" data-name="updateUserImage" data-version="0">
+                        <div class="pull-left">
+                          <h1>updateUserImage</h1>
+                          <p>Upload or update a profile image for a user</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/api/v1/users/{id}/image</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-UserRestController-updateUserImage-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-java">Java</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-UserRestController-updateUserImage-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-UserRestController-updateUserImage-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-python">Python</a></li>
+                          <li class=""><a href="#examples-UserRestController-updateUserImage-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-UserRestController-updateUserImage-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
+ -H "Content-Type: application/json" \
+ "https://localhost:8443/api/v1/users/{id}/image" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class UserRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        UserRestControllerApi apiInstance = new UserRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateUserImageRequest updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+        try {
+            apiInstance.updateUserImage(id, updateUserImageRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserRestControllerApi#updateUserImage");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+final UpdateUserImageRequest updateUserImageRequest = new UpdateUserImageRequest(); // UpdateUserImageRequest | 
+
+try {
+    final result = await api_instance.updateUserImage(id, updateUserImageRequest);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->updateUserImage: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserRestControllerApi;
+
+public class UserRestControllerApiExample {
+    public static void main(String[] args) {
+        UserRestControllerApi apiInstance = new UserRestControllerApi();
+        Long id = 789; // Long | 
+        UpdateUserImageRequest updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+        try {
+            apiInstance.updateUserImage(id, updateUserImageRequest);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserRestControllerApi#updateUserImage");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+UserRestControllerApi *apiInstance = [[UserRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+UpdateUserImageRequest *updateUserImageRequest = ; //  (optional)
+
+// Upload or update a profile image for a user
+[apiInstance updateUserImageWith:id
+    updateUserImageRequest:updateUserImageRequest
+              completionHandler: ^(NSError* error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.UserRestControllerApi()
+var id = 789; // {Long} 
+var opts = {
+  'updateUserImageRequest':  // {UpdateUserImageRequest} 
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.updateUserImage(id, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-UserRestController-updateUserImage-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class updateUserImageExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new UserRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+            var updateUserImageRequest = new UpdateUserImageRequest(); // UpdateUserImageRequest |  (optional) 
+
+            try {
+                // Upload or update a profile image for a user
+                apiInstance.updateUserImage(id, updateUserImageRequest);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling UserRestControllerApi.updateUserImage: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\UserRestControllerApi();
+$id = 789; // Long | 
+$updateUserImageRequest = ; // UpdateUserImageRequest | 
+
+try {
+    $api_instance->updateUserImage($id, $updateUserImageRequest);
+} catch (Exception $e) {
+    echo 'Exception when calling UserRestControllerApi->updateUserImage: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::UserRestControllerApi->new();
+my $id = 789; # Long | 
+my $updateUserImageRequest = WWW::OPenAPIClient::Object::UpdateUserImageRequest->new(); # UpdateUserImageRequest | 
+
+eval {
+    $api_instance->updateUserImage(id => $id, updateUserImageRequest => $updateUserImageRequest);
+};
+if ($@) {
+    warn "Exception when calling UserRestControllerApi->updateUserImage: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.UserRestControllerApi()
+id = 789 # Long |  (default to null)
+updateUserImageRequest =  # UpdateUserImageRequest |  (optional)
+
+try:
+    # Upload or update a profile image for a user
+    api_instance.update_user_image(id, updateUserImageRequest=updateUserImageRequest)
+except ApiException as e:
+    print("Exception when calling UserRestControllerApi->updateUserImage: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-UserRestController-updateUserImage-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate UserRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+    let updateUserImageRequest = ; // UpdateUserImageRequest
+
+    let mut context = UserRestControllerApi::Context::default();
+    let result = client.updateUserImage(id, updateUserImageRequest, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_updateUserImage_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">updateUserImageRequest </td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/updateUserImage_request"
+      }
+    }
+  }
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_updateUserImage_updateUserImageRequest');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_updateUserImage_updateUserImageRequest"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-UserRestController-updateUserImage-title-200"></h3>
+                            <p id="examples-UserRestController-updateUserImage-description-200" class="marked"></p>
+                            <script>
+                              var responseUserRestController200_description = `OK`;
+                              var responseUserRestController200_description_break = responseUserRestController200_description.indexOf('\n');
+                              if (responseUserRestController200_description_break == -1) {
+                                $("#examples-UserRestController-updateUserImage-title-200").text("Status: 200 - " + responseUserRestController200_description);
+                              } else {
+                                $("#examples-UserRestController-updateUserImage-title-200").text("Status: 200 - " + responseUserRestController200_description.substring(0, responseUserRestController200_description_break));
+                                $("#examples-UserRestController-updateUserImage-description-200").html(responseUserRestController200_description.substring(responseUserRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-UserRestController-updateUserImage-200" class="nav nav-tabs nav-tabs-examples" >
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-UserRestController-updateUserImage-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-UserRestController-updateUserImage-200-schema">
+                                <div id="responses-UserRestController-updateUserImage-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-UserRestController-updateUserImage-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-UserRestController-updateUserImage-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-UserRestController-updateUserImage-200-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
                         </article>

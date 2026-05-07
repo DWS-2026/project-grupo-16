@@ -1,5 +1,6 @@
 package es.codeurjc.ferrumgym.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record UserResponseDTO(
@@ -7,5 +8,8 @@ public record UserResponseDTO(
     String name,
     String email,
     List<String> roles,
-    String imageUrl
+    String imageUrl,
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) 
+    String password
 ) {}
