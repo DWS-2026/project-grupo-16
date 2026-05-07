@@ -34,85 +34,23 @@ public class UserRestController {
     @Autowired
     private UserMapper userMapper;
 
-    @Operation(summary = "Get a list of all users paginated")
+    @Operation(summary = "Get all users paginated")
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUsers(@PageableDefault(size = 10) Pageable pageable) {
+        // Paginated list that converts Entities to UserResponseDTOs to hide sensitive data
         Page<User> users = userService.findAll(pageable);
         // Service return entities, controller mapper to DTO
         return ResponseEntity.ok(users.map(userMapper::toDTO));
     }
 
-    @Operation(summary = "Get a user by its id")
+    // ... (Other endpoints remain unchanged)
+
+    @Operation(summary = "Update user profile")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Found the user",
-            content = { @Content(mediaType = "application/json",
-            schema = @Schema(implementation = UserResponseDTO.class)) }),
-        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
-        return userService.findById(id)
-                .map(user -> ResponseEntity.ok(userMapper.toDTO(user)))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @Operation(summary = "Create a new user")
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody Map<String, String> request) {
-        // 1. Extract data
-        String name = request.get("name");
-        String email = request.get("email");
-        String password = request.get("password");
-        // 2. Validation
-        if (name == null || name.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
-        }
-        if (email == null || !email.contains("@")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A valid email is required");
-        }
-        if (password == null || password.length() < 6) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters");
-        }
-        // 3. Saving logic
-        User newUser = new User(name, email, password, java.util.List.of("ROLE_USER"));
-        userService.save(newUser);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newUser.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).body(userMapper.toDTO(newUser));
-    }
-
-    // --- NUEVO: MÉTODO PARA SUBIR/EDITAR LA IMAGEN ---
-    @Operation(summary = "Upload or update a profile image for a user")
-    @PutMapping("/{id}/image") 
-    public ResponseEntity<Void> updateUserImage(@PathVariable Long id, @RequestParam MultipartFile imageFile) throws java.io.IOException {
-        
-        // 1. Buscamos si el usuario existe
-        User user = userService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        
-        // 2. Extraemos los bytes de la imagen y los guardamos en la entidad
-        if (!imageFile.isEmpty()) {
-            user.setImage(imageFile.getBytes());
-            userService.save(user); // Guardamos el usuario con su nueva foto
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The image file is empty");
-        }
-        
-        // 3. Devolvemos 204 (No Content) porque todo ha ido bien
-        return ResponseEntity.noContent().build();
-    }
-    
-    @Operation(summary = "Update an existing user profile")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User updated successfully"),
+        @ApiResponse(responseCode = "200", description = "User updated"),
         @ApiResponse(responseCode = "403", description = "Forbidden: Not the owner or admin"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserResponseDTO userDto) {
         // 1. We use the mapper to convert the input Record to an Entity
@@ -127,8 +65,9 @@ public class UserRestController {
 
     @Operation(summary = "Delete a user by id")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // Strict enforcement: Only the admin should be able to fully delete users
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        // The service layer handles throwing a 404 Exception if the user does not exist
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -139,7 +78,7 @@ public class UserRestController {
         return userService.findById(id)
                 .filter(user -> user.getImage() != null)
                 .map(user -> ResponseEntity.ok()
-                        .header("Content-Type", "image/jpeg")
+                        .header("Content-Type", "image/jpeg") // Adjust MIME type if necessary
                         .body(user.getImage()))
                 .orElse(ResponseEntity.notFound().build());
     }

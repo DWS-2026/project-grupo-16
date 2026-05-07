@@ -293,13 +293,11 @@ public class AdminController {
 
     // Edit users (POST Method)
     @PostMapping("/admin/user/edit/{id}")
-    public String updateUser(
-            @PathVariable("id") Long id,
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String role,
-            @RequestParam("userAvatar") MultipartFile imageField) throws IOException {
-
+    public String editUser(@PathVariable Long id, 
+                           @RequestParam String name, 
+                           @RequestParam String email,
+                           @RequestParam String role, 
+                           @RequestParam("imageField") MultipartFile imageField) throws IOException {
         
         User existingUser = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
@@ -313,6 +311,7 @@ public class AdminController {
             existingUser.setImage(imageField.getBytes());
         }
 
+        // Delegates the update operation to the UserService
         userService.save(existingUser);
 
         return "redirect:/admin-users";
@@ -332,6 +331,7 @@ public class AdminController {
             @RequestParam Long activityId,
             @RequestParam(required = false) List<Long> attendedBookingIds) {
 
+        // Retrieves all bookings for the specified activity
         List<Booking> bookings = bookingService.findByActivityId(activityId);
 
         for (Booking booking : bookings) {
@@ -341,6 +341,7 @@ public class AdminController {
                 booking.setAttended(false);
             }
 
+            // Delegates the save operation to the BookingService
             bookingService.save(booking);
         }
 
