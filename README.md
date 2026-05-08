@@ -424,7 +424,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 #### **Alumno 2 - Elena González Rodríguez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Implementación de la transición a arquitectura REST con seguridad JWT y cifrado BCrypt. Diseño de DTO Records y MapStruct. Gestión de la persistencia de imágenes (BLOB) y la descarga segura de archivos, optimizando el entorno Maven.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
