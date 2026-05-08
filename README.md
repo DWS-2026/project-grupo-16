@@ -414,11 +414,11 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Update SecurityConfig: Configure hybrid security for Web and REST API](https://github.com/DWS-2026/project-grupo-16/commit/c02dafd548ad2d7285e7ba1ae7e0089738488c64)  | [SecurityConfig.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java)   |
+|2| [Complete REST API implementation and security refactor for all entities](https://github.com/DWS-2026/project-grupo-16/commit/a32a001428cd3468c92d9dea43a43cab5ef5ff77)  | [User.java](src/main/java/es/codeurjc/ferrumgym/model/User.java) <br> [UserRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.java) <br>[ActivityService.java](src/main/java/es/codeurjc/ferrumgym/service/ActivityService.java) <br> [UserService.java](src/main/java/es/codeurjc/ferrumgym/service/UserService.java)   |
+|3| [Implement secure Activity REST API with full CRUD and Postman collection](URLhttps://github.com/DWS-2026/project-grupo-16/commit/285ce304d543a6f47ac2e4097faaf8f6e6c4f2d3_commit_3)  | [ActivityRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/ActivityRestControllsrc/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.javaer.java) <br> [SecurityConfig.java](src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java) <br>[ActivityService.java](src/main/java/es/codeurjc/ferrumgym/service/ActivityService.java)   |
+|4| [Add all enpoints and update .json collection](https://github.com/DWS-2026/project-grupo-16/commit/114e358d33355da953fe6fb74e3518e10803103a)  | [ActivityRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/ActivityRestController.java) <br> [UserRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.java) <br>[UserMapper.java](src/main/java/es/codeurjc/ferrumgym/dto/UserMapper.java) <br>[UserResponseDTO.java](src/main/java/es/codeurjc/ferrumgym/dto/UserResponseDTO.java) <br>[ReviewService.java](src/main/java/es/codeurjc/ferrumgym/service/ReviewService.java) <br>[BookingService.java](src/main/java/es/codeurjc/ferrumgym/service/BookingService.java) <br> [UserService.java](src/main/java/es/codeurjc/ferrumgym/service/UserService.java) <br> [SecurityConfig.java](src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java) |
+|5| [Test JSON with tocken](https://github.com/DWS-2026/project-grupo-16/commit/181a11aae07da733203483cfdd4a7cbdd4548f89)  | [ActivityRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/ActivityRestController.java) <br> [ReviewRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/ReviewRestController.java) <br> [BookingRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/BookingRestController.java) <br> [UserRestController.java](src/main/java/es/codeurjc/ferrumgym/controller/rest/UserRestController.java) <br>[AdminController.java](src/main/java/es/codeurjc/ferrumgym/controller/AdminController.java) <br>[MainController.java](src/main/java/es/codeurjc/ferrumgym/controller/MainController.java) <br>[ReviewController.java](src/main/java/es/codeurjc/ferrumgym/controller/ReviewController.java) <br>[ActivityService.java](src/main/java/es/codeurjc/ferrumgym/service/ActivityService.java) <br>[BookingService.java](src/main/java/es/codeurjc/ferrumgym/service/BookingService.java) <br> [AuthRestController.java](src/main/java/es/codeurjc/ferrumgym/security/jwt/AuthRestController.java) |
 
 ---
 
@@ -428,8 +428,8 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
+|1| [Update SecurityConfig: Configure hybrid security for Web and REST API](https://github.com/DWS-2026/project-grupo-16/commit/c02dafd548ad2d7285e7ba1ae7e0089738488c64)  | [SecurityConfig.java](https://github.com/DWS-2026/project-grupo-16/blob/main/src/main/java/es/codeurjc/ferrumgym/security/SecurityConfig.java)   |
+|2| [Complete REST API implementation and security refactor for all entities](https://github.com/DWS-2026/project-grupo-16/commit/a32a001428cd3468c92d9dea43a43cab5ef5ff77)  | [Archivo2](URL_archivo_2)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
