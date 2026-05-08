@@ -410,7 +410,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 #### **Alumno 1 - Roberto Acebes Moran**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Implementar el sistema de autenticación (Web y JWT) y el control de acceso por roles. Desarrollar el CRUD completo de todas las entidades empleando DTOs y Mappers para garantizar la seguridad de los datos y el cumplimiento de las buenas prácticas. Además, me encargué de la gestión de la autenticación y de validar todos los endpoints mediante una colección de Postman, asegurando que la API responda correctamente en formato JSON.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
