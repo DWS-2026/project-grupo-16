@@ -68,7 +68,7 @@ public Activity update(Long id, Activity updatedActivity) {
         Activity existingActivity = activityRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. Update the fields with the new information (APLICANDO PROTECCIÓN XSS)
+        // 2. Update the fields with the new information (XSS protection to the description)
         existingActivity.setName(updatedActivity.getName());
 
         // --- XSS PROTECTION ---

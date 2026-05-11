@@ -101,7 +101,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Evitar XSS -->
+		<!-- XSS Protection dependency -->
 		<dependency>
     		<groupId>org.jsoup</groupId>
     		<artifactId>jsoup</artifactId>
