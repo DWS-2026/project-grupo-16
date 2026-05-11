@@ -14,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
+
 import java.util.List;
 import java.util.Optional;
 import java.io.IOException;
@@ -35,13 +38,20 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public Review save(Review review) {
+	public Review save(Review review) {
+        // --- PROTECCIÓN XSS (Sanitización del comentario) ---
+        if (review.getComment() != null) {
+            // Using Jsoup to clean the comment, allowing only simple text (no HTML tags) since it's a plain comment without Quill.
+            String safeComment = Jsoup.clean(review.getComment(), Safelist.simpleText());
+            review.setComment(safeComment);
+        }
+
         return reviewRepository.save(review);
     }
 
     public void saveImage(Review review, MultipartFile imageFile) throws IOException {
         // Save the image bytes and update the boolean flag
-        review.setImageFile(imageFile.getBytes()); 
+        review.setImageFile(imageFile.getBytes());
         review.setHasImage(true);
         reviewRepository.save(review);
     }

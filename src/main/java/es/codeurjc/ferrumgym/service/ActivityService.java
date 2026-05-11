@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 @Service
 public class ActivityService {
@@ -36,6 +38,12 @@ public class ActivityService {
 
     // Saves the activity. Receives and returns the actual entity
     public Activity save(Activity activity) {
+        // --- XSS PROTECTION ---
+        if (activity.getDescription() != null) {
+            String safeDescription = Jsoup.clean(activity.getDescription(), Safelist.basic());
+            activity.setDescription(safeDescription);
+        }
+
         return activityRepository.save(activity);
     }
 
@@ -55,14 +63,22 @@ public class ActivityService {
 
     // --- UPDATE METHODS ---
 
-    public Activity update(Long id, Activity updatedActivity) {
+public Activity update(Long id, Activity updatedActivity) {
         // 1. Find the current activity in the database
         Activity existingActivity = activityRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. Update the fields with the new information
+        // 2. Update the fields with the new information (APLICANDO PROTECCIÓN XSS)
         existingActivity.setName(updatedActivity.getName());
-        existingActivity.setDescription(updatedActivity.getDescription());
+
+        // --- XSS PROTECTION ---
+        if (updatedActivity.getDescription() != null) {
+            String safeDescription = Jsoup.clean(updatedActivity.getDescription(), Safelist.basic());
+            existingActivity.setDescription(safeDescription);
+        } else {
+            existingActivity.setDescription(null);
+        }
+
         existingActivity.setCapacity(updatedActivity.getCapacity());
         existingActivity.setTrainer(updatedActivity.getTrainer());
         existingActivity.setSchedule(updatedActivity.getSchedule());
