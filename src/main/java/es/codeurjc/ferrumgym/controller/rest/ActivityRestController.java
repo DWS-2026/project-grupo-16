@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -83,25 +84,37 @@ public class ActivityRestController {
 
     @Operation(summary = "Update the information PDF of an activity")
     @PutMapping("/{id}/pdf")
+    @PreAuthorize("hasRole('ADMIN')") 
     public ResponseEntity<Void> updateActivityPdf(@PathVariable Long id, @RequestParam MultipartFile pdfFile)
             throws IOException {
 
-        // 1. Search the activity
         Activity activity = activityService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found"));
 
-        // 2. Basic validation
-        if (pdfFile.isEmpty() || !pdfFile.getContentType().equals("application/pdf")) {
+        if (pdfFile.isEmpty() || pdfFile.getContentType() == null || !pdfFile.getContentType().equals("application/pdf")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File must be a valid PDF");
         }
 
         String originalName = pdfFile.getOriginalFilename();
-        Path path = Paths.get("uploads/docs/").resolve(originalName);
+        if (originalName == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid filename");
+        }
 
-        Files.createDirectories(path.getParent());
-        Files.copy(pdfFile.getInputStream(), path, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        String baseName = Paths.get(originalName).getFileName().toString();
+        String safeFilename = baseName.replaceAll("[^a-zA-Z0-9._-]", "_");
 
-        activity.setPdfFilename(originalName);
+        Path uploadPath = Paths.get("uploads/docs/").toAbsolutePath();
+        Files.createDirectories(uploadPath);
+
+        Path filePath = uploadPath.resolve(safeFilename).normalize();
+
+        if (!filePath.startsWith(uploadPath)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Path Traversal attempt detected");
+        }
+
+        Files.copy(pdfFile.getInputStream(), filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+        activity.setPdfFilename(safeFilename);
         activityService.save(activity); 
 
         return ResponseEntity.noContent().build();
@@ -137,7 +150,12 @@ public class ActivityRestController {
             return ResponseEntity.notFound().build();
         }
 
-        Path filePath = Paths.get("uploads/docs/").resolve(fileName);
+        Path rootPath = Paths.get("uploads/docs/").toAbsolutePath();
+        Path filePath = rootPath.resolve(fileName).normalize();
+
+        if (!filePath.startsWith(rootPath)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid file path");
+        }
         org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
 
         if (!pdf.exists() || !pdf.isReadable()) {

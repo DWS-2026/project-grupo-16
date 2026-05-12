@@ -171,26 +171,25 @@ public class AdminController {
 
         if (pdfFile != null && !pdfFile.isEmpty()) {
             String originalFilename = pdfFile.getOriginalFilename();
-            String contentType = pdfFile.getContentType();
-
-            // SECURITY FIX: Validate MIME type and file extension to prevent Unrestricted File Upload attacks
-            if (originalFilename == null || !originalFilename.toLowerCase().endsWith(".pdf") ||
-                contentType == null || !contentType.equals("application/pdf")) {
-                throw new IllegalArgumentException("Security Alert: Only PDF files are allowed.");
-            }
-
-            // SECURITY FIX: Sanitize the filename to prevent Path Traversal attacks (e.g., ../../../virus.exe)
-            String safeFilename = Paths.get(originalFilename).getFileName().toString();
+            
+            String baseName = Paths.get(originalFilename).getFileName().toString();
+            String safeFilename = baseName.replaceAll("[^a-zA-Z0-9._-]", "_");
+            
             newActivity.setPdfFilename(safeFilename);
 
             String uploadDir = "uploads/docs/";
-            Path uploadPath = Paths.get(uploadDir);
+            Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            Path filePath = uploadPath.resolve(safeFilename);
+            Path filePath = uploadPath.resolve(safeFilename).normalize();
+
+            if (!filePath.startsWith(uploadPath)) {
+                throw new IllegalArgumentException("Security Alert: Path Traversal attempt detected.");
+            }
+
             Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
@@ -246,24 +245,27 @@ public class AdminController {
                 String originalFilename = pdfFile.getOriginalFilename();
                 String contentType = pdfFile.getContentType();
 
-                // SECURITY FIX: Validate MIME type and file extension to prevent Unrestricted File Upload attacks
                 if (originalFilename == null || !originalFilename.toLowerCase().endsWith(".pdf") ||
                     contentType == null || !contentType.equals("application/pdf")) {
                     throw new IllegalArgumentException("Security Alert: Only PDF files are allowed.");
                 }
 
-                // SECURITY FIX: Sanitize the filename to prevent Path Traversal attacks
-                String safeFilename = Paths.get(originalFilename).getFileName().toString();
-                existingActivity.setPdfFilename(safeFilename);
-
+                String baseName = Paths.get(originalFilename).getFileName().toString();
+                String safeFilename = baseName.replaceAll("[^a-zA-Z0-9._-]", "_");
+                
                 String uploadDir = "uploads/docs/";
-                Path uploadPath = Paths.get(uploadDir);
+                Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
 
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                Path filePath = uploadPath.resolve(safeFilename);
+                Path filePath = uploadPath.resolve(safeFilename).normalize();
+                if (!filePath.startsWith(uploadPath)) {
+                    throw new IllegalArgumentException("Security Alert: Path Traversal attempt detected.");
+                }
+
+                existingActivity.setPdfFilename(safeFilename);
                 Files.copy(pdfFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             }
             activityService.save(existingActivity);

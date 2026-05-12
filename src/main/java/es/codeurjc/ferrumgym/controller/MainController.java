@@ -82,22 +82,31 @@ public class MainController {
 
     @GetMapping("/activity/{id}/pdf")
     public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id) throws java.net.MalformedURLException {
-    
-    Activity activity = activityService.findById(id).orElseThrow();
-    String fileName = activity.getPdfFilename();
+        
+        Activity activity = activityService.findById(id).orElseThrow();
+        String fileName = activity.getPdfFilename();
 
-    if (fileName == null || fileName.isEmpty()) {
-        return ResponseEntity.notFound().build();
+        if (fileName == null || fileName.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Path rootPath = Paths.get("uploads/docs/").toAbsolutePath();
+        Path filePath = rootPath.resolve(fileName).normalize(); 
+
+        if (!filePath.startsWith(rootPath)) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN).build();
+        }
+
+        org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
+
+        if (pdf.exists() && pdf.isReadable()) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
+                    .body(pdf);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-
-    
-    Path filePath = Paths.get("uploads/docs/").resolve(fileName);
-    org.springframework.core.io.Resource pdf = new org.springframework.core.io.UrlResource(filePath.toUri());
-
-    return ResponseEntity.ok()
-            .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
-            .body(pdf);
-}
 
 // Booking Controller POST method
     @PostMapping("/activity/{id}/book")
@@ -291,10 +300,21 @@ public class MainController {
     @GetMapping("/download/pdf/{fileName}")
     public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable String fileName) {
         try {
-            Path path = Paths.get("uploads/docs/").resolve(fileName);
-            org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(path.toUri());
+            if (fileName.contains("..") || fileName.contains("/") || fileName.contains("\\")) {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN).build();
+            }
 
-            if (resource.exists()) {
+            Path rootPath = Paths.get("uploads/docs/").toAbsolutePath();
+            
+            Path filePath = rootPath.resolve(fileName).normalize();
+
+            if (!filePath.startsWith(rootPath)) {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN).build();
+            }
+
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
                 return ResponseEntity.ok()
                         .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/pdf")
                         .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
