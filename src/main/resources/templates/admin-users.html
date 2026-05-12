@@ -58,9 +58,13 @@
                                         <a href="/admin/user/edit/{{id}}" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Edit
                                         </a>
-                                        <button class="btn btn-sm btn-outline-danger btn-delete-user" data-name="{{name}}" data-id="{{id}}">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
+                                        
+                                        <form action="/admin/user/delete/{{id}}" method="POST" style="display:inline;">
+                                            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete user?')">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

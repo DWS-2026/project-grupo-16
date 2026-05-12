@@ -65,7 +65,7 @@ public class ReviewController {
     }
 
     // Delete review (Admin only)
-   @GetMapping("/review/delete/{id}")
+   @PostMapping("/review/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
         reviewService.deleteById(id);
         return "redirect:/admin-dashboard";

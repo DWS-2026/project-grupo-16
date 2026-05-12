@@ -94,7 +94,7 @@ public class AdminController {
         return "admin-class";
     }
 
-    @GetMapping("/admin-class/booking/delete/{bookingId}")
+    @PostMapping("/admin-class/booking/delete/{bookingId}")
     public String deleteBooking(@PathVariable Long bookingId, @RequestParam Long activityId) {
 
         bookingService.deleteById(bookingId);
@@ -198,7 +198,7 @@ public class AdminController {
         return "redirect:/admin-dashboard";
     }
 
-    @GetMapping("/activity/delete/{id}")
+    @PostMapping("/activity/delete/{id}")
     public String deleteActivity(@PathVariable Long id) {
         activityService.deleteById(id);
         return "redirect:/admin-dashboard";
@@ -273,7 +273,7 @@ public class AdminController {
     }
 
     // Delete users
-    @GetMapping("/admin/user/delete/{id}")
+    @PostMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
         return "redirect:/admin-users";
