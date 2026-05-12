@@ -82,7 +82,7 @@ public class MainController {
 
     @GetMapping("/activity/{id}/pdf")
     public ResponseEntity<org.springframework.core.io.Resource> downloadPdf(@PathVariable long id) throws java.net.MalformedURLException {
-        
+
         Activity activity = activityService.findById(id).orElseThrow();
         String fileName = activity.getPdfFilename();
 
@@ -91,7 +91,7 @@ public class MainController {
         }
 
         Path rootPath = Paths.get("uploads/docs/").toAbsolutePath();
-        Path filePath = rootPath.resolve(fileName).normalize(); 
+        Path filePath = rootPath.resolve(fileName).normalize();
 
         if (!filePath.startsWith(rootPath)) {
             return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN).build();
@@ -173,9 +173,9 @@ public class MainController {
 
     @GetMapping("/edit-profile")
     public String editProfile(Model model, Principal principal) {
-    
+
         String email = principal.getName();
-        
+
         User currentUser = userService.findByEmail(email).orElseThrow();
 
         model.addAttribute("user", currentUser);
@@ -203,7 +203,7 @@ public class MainController {
         return "redirect:/user-profile";
     }
 
-@GetMapping("/booking/cancel/{id}")
+@PostMapping("/booking/cancel/{id}")
     public String cancelBooking(@PathVariable Long id, Principal principal) {
 
         Optional<Booking> bookingOpt = bookingService.findById(id);
@@ -245,7 +245,7 @@ public class MainController {
             return "register";
     }
 
-   
+
     @PostMapping("/register")
     public String registerUser(@RequestParam String name,
                            @RequestParam String email,
@@ -257,10 +257,10 @@ public class MainController {
             return "redirect:/register?error=user_exists";
         }
 
-       
+
         String encodedPassword = passwordEncoder.encode(password);
 
-    
+
         User newUser = new User(name, email, encodedPassword, List.of("ROLE_USER"));
 
 
@@ -305,7 +305,7 @@ public class MainController {
             }
 
             Path rootPath = Paths.get("uploads/docs/").toAbsolutePath();
-            
+
             Path filePath = rootPath.resolve(fileName).normalize();
 
             if (!filePath.startsWith(rootPath)) {

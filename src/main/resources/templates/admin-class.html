@@ -88,17 +88,12 @@
                                     <td><span class="badge bg-primary">Member</span></td>
                                     <td><span class="text-muted small">{{user.email}}</span></td>
                                     <td class="text-end pe-4">
-
                                         <input type="checkbox" class="btn-check" id="btn-check-{{id}}" name="attendedBookingIds" value="{{id}}" {{#attended}}checked{{/attended}}>
                                         <label class="btn btn-outline-success btn-sm" for="btn-check-{{id}}">Present</label>
 
-                                        <form action="/admin-class/booking/delete/{{id}}" method="POST" style="display:inline;">
-                                            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-                                            <input type="hidden" name="activityId" value="{{selectedActivity.id}}">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger ms-2" title="Remove Booking" onclick="return confirm('Delete booking?')">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button type="submit" formaction="/admin-class/booking/delete/{{id}}" class="btn btn-sm btn-outline-danger ms-2" title="Delete Booking">
+                                            <i class="bi bi-trash"></i> Cancel
+                                        </button>
                                     </td>
                                 </tr>
                                 {{/bookings}}
